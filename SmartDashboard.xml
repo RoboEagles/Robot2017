@@ -1,0 +1,42 @@
+<xml version="1.0">
+<dashboard>
+	<widget field="Elevation:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="433" y="153"/>
+	</widget>
+	<widget field="Bearing:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="440" y="124"/>
+	</widget>
+	<widget field="Range:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="444" y="95"/>
+	</widget>
+	<widget field="Camera Initialized:" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="390" y="17"/>
+	</widget>
+	<widget field="Grabbing Images:" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="394" y="42"/>
+	</widget>
+	<widget field="Tracking:" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="435" y="69"/>
+		<width>163</width>
+	</widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
+		<location x="849" y="10"/>
+		<property name="Text" value="Connection:"/>
+	</static-widget>
+	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
+		<location x="913" y="8"/>
+		<height>16</height>
+	</static-widget>
+	<widget field="Default Drive" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="34"/>
+	</widget>
+	<widget field="Autonomous Command" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="0" y="0"/>
+	</widget>
+</dashboard>
+<live-window>
+</live-window>
+	<hidden field="Bearing :"/>
+	<hidden field="Vision Active:"/>
+	<hidden field="Range   :"/>
+</xml>

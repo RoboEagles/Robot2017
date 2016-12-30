@@ -1,0 +1,201 @@
+<grip:Pipeline>
+  <sources>
+    <grip:MultiImageFile>
+      <property name="path[26]" value="C:\Users\Jon\Desktop\Pics\48_10.13.31.951_C0.jpg"/>
+      <property name="path[75]" value="C:\Users\Jon\Desktop\Pics\97_10.13.44.712_C12052.jpg"/>
+      <property name="path[10]" value="C:\Users\Jon\Desktop\Pics\32_10.13.27.873_C3548.jpg"/>
+      <property name="path[16]" value="C:\Users\Jon\Desktop\Pics\38_10.13.29.372_C4444.jpg"/>
+      <property name="path[65]" value="C:\Users\Jon\Desktop\Pics\87_10.13.42.092_C10871.jpg"/>
+      <property name="path[5]" value="C:\Users\Jon\Desktop\Pics\27_10.13.26.471_C2943.jpg"/>
+      <property name="path[55]" value="C:\Users\Jon\Desktop\Pics\77_10.13.39.492_C9625.jpg"/>
+      <property name="path[45]" value="C:\Users\Jon\Desktop\Pics\67_10.13.36.892_C8329.jpg"/>
+      <property name="path[94]" value="C:\Users\Jon\Desktop\Pics\116_10.13.49.642_C14551.jpg"/>
+      <property name="path[35]" value="C:\Users\Jon\Desktop\Pics\57_10.13.34.292_C6984.jpg"/>
+      <property name="path[84]" value="C:\Users\Jon\Desktop\Pics\106_10.13.47.037_C13266.jpg"/>
+      <property name="path[25]" value="C:\Users\Jon\Desktop\Pics\47_10.13.31.692_C0.jpg"/>
+      <property name="path[74]" value="C:\Users\Jon\Desktop\Pics\96_10.13.44.433_C11986.jpg"/>
+      <property name="path[15]" value="C:\Users\Jon\Desktop\Pics\37_10.13.29.132_C4242.jpg"/>
+      <property name="path[64]" value="C:\Users\Jon\Desktop\Pics\86_10.13.41.834_C10755.jpg"/>
+      <property name="path[4]" value="C:\Users\Jon\Desktop\Pics\26_10.13.26.252_C2837.jpg"/>
+      <property name="path[54]" value="C:\Users\Jon\Desktop\Pics\76_10.13.39.232_C9503.jpg"/>
+      <property name="path[44]" value="C:\Users\Jon\Desktop\Pics\66_10.13.36.632_C8114.jpg"/>
+      <property name="path[93]" value="C:\Users\Jon\Desktop\Pics\115_10.13.49.372_C14422.jpg"/>
+      <property name="path[34]" value="C:\Users\Jon\Desktop\Pics\56_10.13.34.032_C6860.jpg"/>
+      <property name="path[83]" value="C:\Users\Jon\Desktop\Pics\105_10.13.46.772_C13130.jpg"/>
+      <property name="path[89]" value="C:\Users\Jon\Desktop\Pics\111_10.13.48.333_C13909.jpg"/>
+      <property name="path[24]" value="C:\Users\Jon\Desktop\Pics\46_10.13.31.451_C0.jpg"/>
+      <property name="path[73]" value="C:\Users\Jon\Desktop\Pics\95_10.13.44.172_C11854.jpg"/>
+      <property name="path[79]" value="C:\Users\Jon\Desktop\Pics\101_10.13.45.753_C12618.jpg"/>
+      <property name="path[14]" value="C:\Users\Jon\Desktop\Pics\36_10.13.28.852_C4113.jpg"/>
+      <property name="path[63]" value="C:\Users\Jon\Desktop\Pics\85_10.13.41.572_C10625.jpg"/>
+      <property name="path[3]" value="C:\Users\Jon\Desktop\Pics\25_10.13.26.012_C2726.jpg"/>
+      <property name="path[69]" value="C:\Users\Jon\Desktop\Pics\91_10.13.43.131_C11364.jpg"/>
+      <property name="path[53]" value="C:\Users\Jon\Desktop\Pics\75_10.13.39.012_C9374.jpg"/>
+      <property name="path[9]" value="C:\Users\Jon\Desktop\Pics\31_10.13.27.637_C3433.jpg"/>
+      <property name="path[59]" value="C:\Users\Jon\Desktop\Pics\81_10.13.40.531_C10128.jpg"/>
+      <property name="path[43]" value="C:\Users\Jon\Desktop\Pics\65_10.13.36.372_C8054.jpg"/>
+      <property name="path[92]" value="C:\Users\Jon\Desktop\Pics\114_10.13.49.112_C14219.jpg"/>
+      <property name="path[49]" value="C:\Users\Jon\Desktop\Pics\71_10.13.37.932_C8845.jpg"/>
+      <property name="path[33]" value="C:\Users\Jon\Desktop\Pics\55_10.13.33.771_C6750.jpg"/>
+      <property name="path[82]" value="C:\Users\Jon\Desktop\Pics\104_10.13.46.512_C13003.jpg"/>
+      <property name="path[39]" value="C:\Users\Jon\Desktop\Pics\61_10.13.35.371_C7451.jpg"/>
+      <property name="path[88]" value="C:\Users\Jon\Desktop\Pics\110_10.13.48.092_C13785.jpg"/>
+      <property name="path[23]" value="C:\Users\Jon\Desktop\Pics\45_10.13.31.171_C0.jpg"/>
+      <property name="path[72]" value="C:\Users\Jon\Desktop\Pics\94_10.13.43.912_C11729.jpg"/>
+      <property name="path[29]" value="C:\Users\Jon\Desktop\Pics\51_10.13.32.731_C0.jpg"/>
+      <property name="path[78]" value="C:\Users\Jon\Desktop\Pics\100_10.13.45.472_C12492.jpg"/>
+      <property name="path[13]" value="C:\Users\Jon\Desktop\Pics\35_10.13.28.624_C3953.jpg"/>
+      <property name="path[62]" value="C:\Users\Jon\Desktop\Pics\84_10.13.41.332_C10509.jpg"/>
+      <property name="path[2]" value="C:\Users\Jon\Desktop\Pics\24_10.13.25.692_C2610.jpg"/>
+      <property name="path[19]" value="C:\Users\Jon\Desktop\Pics\41_10.13.30.132_C4912.jpg"/>
+      <property name="path[68]" value="C:\Users\Jon\Desktop\Pics\90_10.13.42.892_C11245.jpg"/>
+      <property name="path[52]" value="C:\Users\Jon\Desktop\Pics\74_10.13.38.732_C9237.jpg"/>
+      <property name="path[8]" value="C:\Users\Jon\Desktop\Pics\30_10.13.27.251_C3305.jpg"/>
+      <property name="path[58]" value="C:\Users\Jon\Desktop\Pics\80_10.13.40.272_C10004.jpg"/>
+      <property name="path[42]" value="C:\Users\Jon\Desktop\Pics\64_10.13.36.112_C7918.jpg"/>
+      <property name="path[91]" value="C:\Users\Jon\Desktop\Pics\113_10.13.48.872_C14165.jpg"/>
+      <property name="path[48]" value="C:\Users\Jon\Desktop\Pics\70_10.13.37.692_C8721.jpg"/>
+      <property name="path[97]" value="C:\Users\Jon\Desktop\Pics\119_10.13.50.412_C14926.jpg"/>
+      <property name="path[32]" value="C:\Users\Jon\Desktop\Pics\54_10.13.33.511_C6628.jpg"/>
+      <property name="path[81]" value="C:\Users\Jon\Desktop\Pics\103_10.13.46.252_C12881.jpg"/>
+      <property name="path[38]" value="C:\Users\Jon\Desktop\Pics\60_10.13.35.072_C7402.jpg"/>
+      <property name="path[87]" value="C:\Users\Jon\Desktop\Pics\109_10.13.47.837_C13657.jpg"/>
+      <property name="path[22]" value="C:\Users\Jon\Desktop\Pics\44_10.13.30.932_C0.jpg"/>
+      <property name="path[71]" value="C:\Users\Jon\Desktop\Pics\93_10.13.43.652_C11618.jpg"/>
+      <property name="path[28]" value="C:\Users\Jon\Desktop\Pics\50_10.13.32.471_C0.jpg"/>
+      <property name="path[77]" value="C:\Users\Jon\Desktop\Pics\99_10.13.45.211_C12367.jpg"/>
+      <property name="path[12]" value="C:\Users\Jon\Desktop\Pics\34_10.13.28.312_C3800.jpg"/>
+      <property name="path[61]" value="C:\Users\Jon\Desktop\Pics\83_10.13.41.172_C10388.jpg"/>
+      <property name="path[1]" value="C:\Users\Jon\Desktop\Pics\23_10.13.25.432_C2481.jpg"/>
+      <property name="path[18]" value="C:\Users\Jon\Desktop\Pics\40_10.13.29.872_C4739.jpg"/>
+      <property name="path[67]" value="C:\Users\Jon\Desktop\Pics\89_10.13.42.612_C11116.jpg"/>
+      <property name="path[51]" value="C:\Users\Jon\Desktop\Pics\73_10.13.38.471_C9104.jpg"/>
+      <property name="path[7]" value="C:\Users\Jon\Desktop\Pics\29_10.13.27.012_C3178.jpg"/>
+      <property name="path[57]" value="C:\Users\Jon\Desktop\Pics\79_10.13.40.011_C9882.jpg"/>
+      <property name="path[41]" value="C:\Users\Jon\Desktop\Pics\63_10.13.35.872_C7794.jpg"/>
+      <property name="path[90]" value="C:\Users\Jon\Desktop\Pics\112_10.13.48.593_C14037.jpg"/>
+      <property name="path[47]" value="C:\Users\Jon\Desktop\Pics\69_10.13.37.411_C8600.jpg"/>
+      <property name="path[96]" value="C:\Users\Jon\Desktop\Pics\118_10.13.50.172_C14797.jpg"/>
+      <property name="path[31]" value="C:\Users\Jon\Desktop\Pics\53_10.13.33.272_C0.jpg"/>
+      <property name="path[80]" value="C:\Users\Jon\Desktop\Pics\102_10.13.45.992_C12749.jpg"/>
+      <property name="path[37]" value="C:\Users\Jon\Desktop\Pics\59_10.13.34.812_C7239.jpg"/>
+      <property name="path[86]" value="C:\Users\Jon\Desktop\Pics\108_10.13.47.552_C13458.jpg"/>
+      <property name="path[21]" value="C:\Users\Jon\Desktop\Pics\43_10.13.30.671_C5274.jpg"/>
+      <property name="path[70]" value="C:\Users\Jon\Desktop\Pics\92_10.13.43.411_C11488.jpg"/>
+      <property name="path[27]" value="C:\Users\Jon\Desktop\Pics\49_10.13.32.233_C0.jpg"/>
+      <property name="path[76]" value="C:\Users\Jon\Desktop\Pics\98_10.13.44.953_C12245.jpg"/>
+      <property name="path[11]" value="C:\Users\Jon\Desktop\Pics\33_10.13.28.071_C3664.jpg"/>
+      <property name="path[60]" value="C:\Users\Jon\Desktop\Pics\82_10.13.40.792_C10255.jpg"/>
+      <property name="numImages" value="98"/>
+      <property name="path[0]" value="C:\Users\Jon\Desktop\Pics\22_10.13.25.172_C2357.jpg"/>
+      <property name="path[17]" value="C:\Users\Jon\Desktop\Pics\39_10.13.29.621_C4605.jpg"/>
+      <property name="path[66]" value="C:\Users\Jon\Desktop\Pics\88_10.13.42.352_C10991.jpg"/>
+      <property name="path[50]" value="C:\Users\Jon\Desktop\Pics\72_10.13.38.192_C8978.jpg"/>
+      <property name="path[6]" value="C:\Users\Jon\Desktop\Pics\28_10.13.26.732_C3061.jpg"/>
+      <property name="index" value="11"/>
+      <property name="path[56]" value="C:\Users\Jon\Desktop\Pics\78_10.13.39.754_C9748.jpg"/>
+      <property name="path[40]" value="C:\Users\Jon\Desktop\Pics\62_10.13.35.592_C7659.jpg"/>
+      <property name="path[46]" value="C:\Users\Jon\Desktop\Pics\68_10.13.37.191_C8395.jpg"/>
+      <property name="path[95]" value="C:\Users\Jon\Desktop\Pics\117_10.13.49.892_C14610.jpg"/>
+      <property name="path[30]" value="C:\Users\Jon\Desktop\Pics\52_10.13.32.994_C0.jpg"/>
+      <property name="path[36]" value="C:\Users\Jon\Desktop\Pics\58_10.13.34.552_C7119.jpg"/>
+      <property name="path[85]" value="C:\Users\Jon\Desktop\Pics\107_10.13.47.292_C13398.jpg"/>
+      <property name="path[20]" value="C:\Users\Jon\Desktop\Pics\42_10.13.30.392_C0.jpg"/>
+    </grip:MultiImageFile>
+  </sources>
+  <steps>
+    <grip:Step name="HSV Threshold">
+      <grip:Input step="0" socket="0"/>
+      <grip:Input step="0" socket="1">
+        <value>
+          <double>0.0</double>
+          <double>180.0</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="0" socket="2">
+        <value>
+          <double>0.0</double>
+          <double>33.0716723549488</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="0" socket="3">
+        <value>
+          <double>243.07553956834533</double>
+          <double>255.0</double>
+        </value>
+      </grip:Input>
+      <grip:Output step="0" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="Find Contours">
+      <grip:Input step="1" socket="0"/>
+      <grip:Input step="1" socket="1">
+        <value>false</value>
+      </grip:Input>
+      <grip:Output step="1" socket="0" previewed="true"/>
+    </grip:Step>
+    <grip:Step name="Filter Contours">
+      <grip:Input step="2" socket="0"/>
+      <grip:Input step="2" socket="1">
+        <value>200.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="2">
+        <value>200.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="3">
+        <value>30.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="4">
+        <value>300.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="5">
+        <value>20.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="6">
+        <value>200.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="7">
+        <value>
+          <double>37.76978417266187</double>
+          <double>55.63139931740615</double>
+        </value>
+      </grip:Input>
+      <grip:Input step="2" socket="8">
+        <value>100.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="9">
+        <value>8.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="10">
+        <value>0.0</value>
+      </grip:Input>
+      <grip:Input step="2" socket="11">
+        <value>1000.0</value>
+      </grip:Input>
+      <grip:Output step="2" socket="0" previewed="true"/>
+    </grip:Step>
+  </steps>
+  <connections>
+    <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="true"/>
+      <grip:Input step="0" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="1" socket="0" previewed="true"/>
+      <grip:Input step="2" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="0" socket="0" previewed="true"/>
+      <grip:Input step="1" socket="0"/>
+    </grip:Connection>
+  </connections>
+  <settings>
+    <teamNumber>4579</teamNumber>
+    <publishAddress>roboRIO-4579-FRC.local</publishAddress>
+    <deployAddress>roboRIO-4579-FRC.local</deployAddress>
+    <deployDir>/home/lvuser</deployDir>
+    <deployUser>lvuser</deployUser>
+    <deployJavaHome>/usr/local/frc/JRE/</deployJavaHome>
+    <deployJvmOptions>-Xmx50m -XX:-OmitStackTraceInFastThrow -XX:+HeapDumpOnOutOfMemoryError</deployJvmOptions>
+    <serverPort>8080</serverPort>
+  </settings>
+</grip:Pipeline>
