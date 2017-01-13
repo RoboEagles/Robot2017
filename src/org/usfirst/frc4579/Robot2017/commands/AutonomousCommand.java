@@ -13,7 +13,6 @@ package org.usfirst.frc4579.Robot2017.commands;
 
 import org.usfirst.frc4579.Robot2017.Robot;
 import org.usfirst.frc4579.instrumentation.EventLogging;
-import org.usfirst.frc4579.vision.Vision;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -48,12 +47,7 @@ public class AutonomousCommand extends Command {
     	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Autonomous");
     	
-    	Vision.TargetStatus castleTowerGoalData = Vision.findCastleTowerGoal();
-    	
-    	if (castleTowerGoalData.validity == Vision.TARGETVALIDITY.VALID)
-    	{
-    		// Add steering commands here.
-    	}
+    	// Add Autonoumous code here.
     	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "Autonomous");
     }
