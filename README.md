@@ -22,7 +22,10 @@ Here are some 2017 software tasks:
        * Delete the processing related to the BaseDataDir feature and update the class header comments accordingly.  
      * Update the EventLogging class as follow:  
        * Delete "extends Instrumentation" from the class declaration.  
-       * Delete the constructor and static block.         
+       * Delete the constructor and static block.  
+     * Update the FRCSmartDashboard class as follows:  
+       * Delete all but the setCameraIntialized method.  
+       * Add other methods to send debug data to the Dashboard as needed.  
      * Update the Camera class as follows:  
        * Delete the constants that define some colors.  
        * Create an initialize method that initializes the camera in the same way that the FrameGrabber class does.   
