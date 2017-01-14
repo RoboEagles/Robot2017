@@ -13,23 +13,8 @@ public class FRCSmartDashboard {
 		SmartDashboard.putBoolean ("Camera Initialized:", value);
 	}
 	
-	public static void setGrabbingImages (boolean value) {
-		SmartDashboard.putBoolean ("Grabbing Images:", value);
-	}
-	
-	public static void setTracking ( String value) {
-		SmartDashboard.putString ("Tracking:", value);
-	}
-	
-	public static void setRange (double value) {
-		SmartDashboard.putNumber ("Range:", value);
-	}
-	
-	public static void setBearing (double value) {
-		SmartDashboard.putNumber ("Bearing:", value);
-	}
-	
-	public static void setElevation (double value) {
-		SmartDashboard.putNumber ("Elevation:", value);
+	public static void setDistances(double leftDist, double rightDist) {
+		SmartDashboard.putNumber("Left distance:", leftDist);
+		SmartDashboard.putNumber("Right distance:", rightDist);
 	}
 }
