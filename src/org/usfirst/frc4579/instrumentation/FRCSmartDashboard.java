@@ -13,28 +13,23 @@ public class FRCSmartDashboard {
 		SmartDashboard.putBoolean ("Camera Initialized:", value);
 	}
 	
-	public static void setLeftAnalogValue (int value) {
-		SmartDashboard.putNumber ("Left Ultra Value:", value);
+	public static void setGrabbingImages (boolean value) {
+		SmartDashboard.putBoolean ("Grabbing Images:", value);
 	}
 	
-	public static void setLeftAnalogVoltage (double value) {
-		SmartDashboard.putNumber ("Left Ultra Voltage:", value);
+	public static void setTracking ( String value) {
+		SmartDashboard.putString ("Tracking:", value);
 	}
 	
-	public static void setLeftAnalogValueAvg (int value) {
-		SmartDashboard.putNumber ("Left Ultra Value Avg:", value);
+	public static void setRange (double value) {
+		SmartDashboard.putNumber ("Range:", value);
 	}
 	
-	public static void setLeftAnalogVoltageAvg (double value) {
-		SmartDashboard.putNumber ("Left Ultra Voltage Avg:", value);
+	public static void setBearing (double value) {
+		SmartDashboard.putNumber ("Bearing:", value);
 	}
 	
-	public static void setRightAnalogValue (int value) {
-		SmartDashboard.putNumber ("Right Ultra Value:", value);
+	public static void setElevation (double value) {
+		SmartDashboard.putNumber ("Elevation:", value);
 	}
-	
-	public static void setRightAnalogVoltage (double value) {
-		SmartDashboard.putNumber ("Right Ultra Voltage:", value);
-	}
-	
 }

@@ -160,7 +160,7 @@ public class Camera extends Subsystem {
 			// Grab frames from the camera.
 			while (true) {
 				
-			   // FRCSmartDashboard.setGrabbingImages(grabImages);
+			    FRCSmartDashboard.setGrabbingImages(grabImages);
 
 			    if (grabImages) {
 
