@@ -4,6 +4,9 @@ This repository holds the 2017 RoboEagles robot code.  New this year are some in
 
 Here are some 2017 software tasks:  
 
+* Java Resources  
+  * http://docs.oracle.com/javase/tutorial/java/  Read through Classes and Objects.  
+  * https://github.com/RoboEagles/Resources/tree/master/Java%20Lesson
 * Software Updates  
   * Install the FRC 2017 update suite (all laptops).  https://wpilib.screenstepslive.com/s/4485/m/13810/l/599669-installing-the-frc-2017-update-suite-all-languages  
   * Update Eclipse FRC plug-ins.  See "Installing the development plugins" in https://wpilib.screenstepslive.com/s/4485/m/13503/l/599679-installing-eclipse-c-java  
