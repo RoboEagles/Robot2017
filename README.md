@@ -4,6 +4,9 @@ This repository holds the 2017 RoboEagles robot code.  New this year are some in
 
 Here are some 2017 software tasks:  
 
+* Java Resources  
+  * http://docs.oracle.com/javase/tutorial/java/  Read through Classes and Objects.  
+  * https://github.com/RoboEagles/Resources/tree/master/Java%20Lesson
 * Software Updates  
   * Install the FRC 2017 update suite (all laptops).  https://wpilib.screenstepslive.com/s/4485/m/13810/l/599669-installing-the-frc-2017-update-suite-all-languages  
   * Update Eclipse FRC plug-ins.  See "Installing the development plugins" in https://wpilib.screenstepslive.com/s/4485/m/13503/l/599679-installing-eclipse-c-java  
@@ -27,12 +30,13 @@ Here are some 2017 software tasks:
        * Delete all but the setCameraIntialized method.  
        * Add other methods to send debug data to the Dashboard as needed.  
      * Update the Camera class as follows:  
-       * Delete the constants that define some colors.  
        * Create an initialize method that initializes the camera in the same way that the FrameGrabber class does.   
        * Delete the FrameGrabber class and any methods or variables that reference it.  
        * Delete methods related to getting images.  
        * Delete methods related to controlling a light.  
-       * Add processing to send camera images to the Dashboard (see ScreenStepsLive).  
+       * Add processing to send camera images to the Dashboard.  
+         * https://wpilib.screenstepslive.com/s/4485/m/24194/l/669166-using-the-camera-server-on-the-roborio-2017  
+         * https://wpilib.screenstepslive.com/s/4485/m/24194/l/682778-read-and-process-video-cameraserver-class  
 
 ## Installing This Repository and Initial Eclipse Setup  
 
