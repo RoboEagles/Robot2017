@@ -12,6 +12,7 @@
 package org.usfirst.frc4579.Robot2017.commands;
 
 import org.usfirst.frc4579.Robot2017.Robot;
+import org.usfirst.frc4579.Robot2017.RobotMap;
 import org.usfirst.frc4579.instrumentation.EventLogging;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -44,8 +45,13 @@ public class DefaultDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drive();
-
+    	
+    	if (oi.Joystick.getRawButton(2)) {
+    		Robot.driveTrain.drive(0.25);
+        } else {
+        	Robot.driveTrain.drive(1);
+        }
+    	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "DefaultDrive");
     	
     	// Add code here.
