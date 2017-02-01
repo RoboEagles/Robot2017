@@ -50,7 +50,7 @@ public class UltrasonicSensor extends Subsystem {
 		 * double leftVoltage = ultraLeft.getVoltage(); double rightVoltage =
 		 * ultraRight.getVoltage();
 		 */
-		// System.out.println("Getting distances!");
+		System.out.println("Getting distances!");
 		double leftDist = ultraLeft.getRangeInches();
 		double rightDist = ultraRight.getRangeInches();
 

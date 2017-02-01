@@ -46,8 +46,6 @@ public class Switches extends Subsystem {
     	}
     	else if(rightSwitch.get()){
     		return 3;
-    	} else {
-    		return 0;
     	}
     }
     
