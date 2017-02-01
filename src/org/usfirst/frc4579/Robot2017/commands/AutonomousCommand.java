@@ -43,27 +43,23 @@ public class AutonomousCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Autonomous");
-    	
     	// Add Autonoumous code here.
     	if(Robot.Switches.getMode() == 1){
-    		System.out.Println("Running the middle drive program")
-    		Robot.Switches.mAutoDrive();
+    		System.out.println("Running the middle drive program");
+    		Robot.switches.mAutoDrive();
     	}
     	else if(Robot.Switches.getMode() == 2){
-    		System.out.Println("Running the left drive program")
-    		Robot.Switches.lAutoDrive();
+    		System.out.println("Running the left drive program");
+    		Robot.switches.lAutoDrive();
     	}
     	else if(Robot.Switches.getMode() == 3){
-    		System.out.Println("Running the right drive program")
-    		Robot.Switches.rAutoDrive();
+    		System.out.println("Running the right drive program");
+    		Robot.switches.rAutoDrive();
     	}
-    	else(){
-    		System.out.Println("Didn't recieve a valid input from switches")
+    	else{
+    		System.out.println("Didn't recieve a valid input from switches");
     		Robot.DriveTrain.stop();
     	}
-    	
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "Autonomous");
     }
 
     // Make this return true when this Command no longer needs to run execute()
