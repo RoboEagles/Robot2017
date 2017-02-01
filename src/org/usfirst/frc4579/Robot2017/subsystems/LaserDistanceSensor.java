@@ -39,16 +39,17 @@ public class LaserDistanceSensor extends Subsystem {
 	private I2C Laser;
 	private byte [] rawDistance = new byte[8];
 	
-	public VL53L0X_I2C(byte deviceAdress){
-		Laser = new I2C(I2C.Port.kOnboard, REGISTER_LASER);
+	public void VL53L0X_I2C(byte deviceAdress){
+		//Laser = new I2C(I2C.Port.kOnboard, REGISTER_LASER);
 	}
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public void init(){
+		/*
 		byte[] registerConfig = new byte[1];
 		Laser.read(REGISTER_CONFIG, registerConfig.length, registerConfig);
-		
+		*/
 	}
 	
 	public double getDistance(){
