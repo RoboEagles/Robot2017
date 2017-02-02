@@ -44,7 +44,11 @@ public class DefaultDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.drive();
+    	if (Robot.oi.joystick.getRawButton(2)) {
+    		Robot.driveTrain.drive(0.25);
+        } else {
+        	Robot.driveTrain.drive(1);
+        }
 
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "DefaultDrive");
     	

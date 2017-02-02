@@ -43,6 +43,7 @@ public class AutonomousCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
+<<<<<<< HEAD
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Autonomous");
 
     	// Showing the state of the Switches 
@@ -68,9 +69,25 @@ public class AutonomousCommand extends Command {
     	else(){
     		System.out.Println("Didn't recieve a valid input from switches");
     		Robot.DriveTrain.stop();
+=======
+    	// Add Autonoumous code here.
+    	if(Robot.switches.getMode() == 1){
+    		System.out.println("Running the middle drive program");
+    		Robot.switches.mAutoDrive();
     	}
-    	
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "Autonomous");
+    	else if(Robot.switches.getMode() == 2){
+    		System.out.println("Running the left drive program");
+    		Robot.switches.lAutoDrive();
+    	}
+    	else if(Robot.switches.getMode() == 3){
+    		System.out.println("Running the right drive program");
+    		Robot.switches.rAutoDrive();
+    	}
+    	else{
+    		System.out.println("Didn't recieve a valid input from switches");
+    		Robot.driveTrain.stop();
+>>>>>>> origin/master
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -80,7 +97,7 @@ public class AutonomousCommand extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.DriveTrain.stop();
+    	Robot.driveTrain.stop();
     }
 
     // Called when another command which requires one or more of the same
