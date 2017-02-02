@@ -44,22 +44,29 @@ public class AutonomousCommand extends Command {
     protected void execute() {
     	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Autonomous");
+
+    	// Showing the state of the Switches 
+    	SmartDashboard.putBoolean("Middle Switch", Robot.Switches.middle);
+    	SmartDashboard.putBoolean("Right Switch", Robot.Switches.rightSwitch);
+    	SmartDashboard.putBoolean("Left Switch", Robot.Switches.leftSwitch);
     	
     	// Add Autonoumous code here.
+    	
+    	// Runs a method according to what button is switched
     	if(Robot.Switches.getMode() == 1){
-    		System.out.Println("Running the middle drive program")
+    		System.out.Println("Running the middle drive program");
     		Robot.Switches.mAutoDrive();
     	}
     	else if(Robot.Switches.getMode() == 2){
-    		System.out.Println("Running the left drive program")
+    		System.out.Println("Running the left drive program");
     		Robot.Switches.lAutoDrive();
     	}
     	else if(Robot.Switches.getMode() == 3){
-    		System.out.Println("Running the right drive program")
+    		System.out.Println("Running the right drive program");
     		Robot.Switches.rAutoDrive();
     	}
     	else(){
-    		System.out.Println("Didn't recieve a valid input from switches")
+    		System.out.Println("Didn't recieve a valid input from switches");
     		Robot.DriveTrain.stop();
     	}
     	
