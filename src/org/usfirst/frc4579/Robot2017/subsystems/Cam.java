@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.util.List;
+import java.util.ArrayList; //I DONT KNOW WHY WE NEED TWO PACKAGES TO GET ONE THING BUT OOOOOOK
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -49,16 +50,17 @@ public class Cam extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void getCurrentContours(){
-    	Mat still;
-    	Mat blurOutput;
-    	Mat hsvOutput;
-    	List<MatOfPoint> contours;
+    	Mat still = new Mat();
+    	Mat blurOutput = new Mat();
+    	Mat hsvOutput = new Mat();
+    	Mat hie = new Mat();
+    	List<MatOfPoint> contours = new ArrayList<>();
     	
-    	//cvSink.grabFrame(still);
-    	//Imgproc.blur(still, blurOutput, new Size(5,5));
-    	//Imgproc.cvtColor(blurOutput, hsvOutput, Imgproc.COLOR_BGR2HSV);
+    	cvSink.grabFrame(still);
+    	Imgproc.blur(still, blurOutput, new Size(5,5));
+    	Imgproc.cvtColor(blurOutput, hsvOutput, Imgproc.COLOR_BGR2HSV);
     	
-    	//Imgproc.findContours(hsvoutput, contours, hierarchy, mode, method);
+    	Imgproc.findContours(hsvOutput, contours, hie, 2, 2); //cv_retr_ccomp AND chain_approx_simple
     	/* IMAGE PROCESSING PROCEDURE
     	 * 1. Blur image
     	 * 2. Convert image to HSV
@@ -77,11 +79,12 @@ public class Cam extends Subsystem {
     }
     public void initCamera() {
     	if (!isStarted) {
+    		System.out.println("Starting the camera!");
     		isStarted = true;
     		//Starts the camera. THIS SHOULD BE CALLED EVEN IN AUTONOMOUS. getVideo() will NOT work without startAutomaticCapture or addServer().
         	camObject = CameraServer.getInstance().startAutomaticCapture();
-        	camObject.setResolution(320, 240);
-        	camObject.setFPS(15);
+        	camObject.setResolution(160, 120);
+        	camObject.setFPS(10); // just because you set it at a fps doesn't mean it will run at that fps
         	cvSink = CameraServer.getInstance().getVideo();
     	}
     }
