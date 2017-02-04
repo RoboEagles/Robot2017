@@ -54,38 +54,25 @@ public class Cam extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void getCurrentContours(){
-    	/*
-    	Mat still = new Mat();
-    	Mat blurOutput = new Mat();
-    	Mat hsvOutput = new Mat();
-    	Mat hie = new Mat();
-    	List<MatOfPoint> contours = new ArrayList<>();
-    	
-    	cvSink.grabFrame(still);
-    	
-    	Imgproc.blur(still, blurOutput, new Size(5,5));
-    	Imgproc.cvtColor(blurOutput, hsvOutput, Imgproc.COLOR_BGR2HSV);
-    	Imgproc.findContours(hsvOutput, contours, hie, 2, 2); //cv_retr_ccomp AND chain_approx_simple
-    	cvSource.putFrame(hsvOutput);
     	/* IMAGE PROCESSING PROCEDURE
     	 * 1. Blur image
     	 * 2. Convert image to HSV
     	 * 		a. Possibly modify HSV values based on proximity to a wall? Ultrasonic sensors?
     	 */
+    	Mat rawImage = new Mat();
     	Mat input = new Mat();
     	Mat output = new Mat();
-    	Mat bgrOutput = new Mat();
-    	
     	ArrayList<MatOfPoint> contourList = new ArrayList<>();
     	
-    	cvSink.grabFrame(input);
+    	cvSink.grabFrame(rawImage);
+    	rawImage.copyTo(input);
     	myGripPipeline.process(input);
-    	output = myGripPipeline.hsvThresholdOutput();
-    	Imgproc.cvtColor(output, bgrOutput, Imgproc.COLOR_HSV2BGR_FULL);
-    	//contourList = myGripPipeline.filterContoursOutput();
-    	//Imgproc.drawContours(still, contourList, 1, new Scalar(0,0,0));
-    	cvSource.putFrame(bgrOutput);
+    	output = myGripPipeline.hsvThresholdOutputPure();
     	
+    	contourList = myGripPipeline.filterContoursOutput();
+    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(0,255,0,255));
+    	System.out.println("There are "+contourList.size()+" contours.");
+    	cvSource.putFrame(rawImage);
     }
     public void getRectangle(){
     	
@@ -103,12 +90,13 @@ public class Cam extends Subsystem {
     		isStarted = true;
     		//Starts the camera. THIS SHOULD BE CALLED EVEN IN AUTONOMOUS. getVideo() will NOT work without startAutomaticCapture or addServer().
         	camObject = CameraServer.getInstance().startAutomaticCapture();
-        	camObject.setResolution(320, 240);
-        	camObject.setFPS(6); // just because you set it at a fps doesn't mean it will run at that fps
-        	camObject.setBrightness(0);
-        	camObject.setExposureManual(20);
+        	camObject.setResolution(640, 480);
+        	camObject.setFPS(3); // just because you set it at a fps doesn't mean it will run at that fps
+        	//camObject.setBrightness(0);
+        	camObject.setWhiteBalanceManual(0);
+        	camObject.setExposureManual(0);
         	cvSink = CameraServer.getInstance().getVideo();
-        	cvSource = CameraServer.getInstance().putVideo("Blur", 320, 240);
+        	cvSource = CameraServer.getInstance().putVideo("Blur", 640, 480);
     	}
     }
     public void initDefaultCommand() {

@@ -29,6 +29,7 @@ public class GripPipeline {
 	//Outputs
 	private Mat blurOutput = new Mat();
 	private Mat hsvThresholdOutput = new Mat();
+	private Mat hsvThresholdOutputPure = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
@@ -52,7 +53,8 @@ public class GripPipeline {
 		double[] hsvThresholdSaturation = {61.915467625899275, 255.0};
 		double[] hsvThresholdValue = {45.70254372004857, 155.3425799344499};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
-
+		hsvThresholdOutput.copyTo(hsvThresholdOutputPure);
+		
 		// Step Find_Contours0:
 		Mat findContoursInput = hsvThresholdOutput;
 		boolean findContoursExternalOnly = false;
@@ -90,7 +92,9 @@ public class GripPipeline {
 	public Mat hsvThresholdOutput() {
 		return hsvThresholdOutput;
 	}
-
+	public Mat hsvThresholdOutputPure() {
+		return hsvThresholdOutputPure;
+	}
 	/**
 	 * This method is a generated getter for the output of a Find_Contours.
 	 * @return ArrayList<MatOfPoint> output from Find_Contours.
