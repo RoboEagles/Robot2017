@@ -12,7 +12,7 @@
 package org.usfirst.frc4579.Robot2017.subsystems;
 
 import org.usfirst.frc4579.Robot2017.RobotMap;
-import org.usfirst.frc4579.Robot2017.Vision.MyGripPipeline;
+import org.usfirst.frc4579.Vision.GripPipeline;
 import org.usfirst.frc4579.Robot2017.commands.*;
 import edu.wpi.first.wpilibj.Relay;
 
@@ -73,7 +73,7 @@ public class Cam extends Subsystem {
     	 * 		a. Possibly modify HSV values based on proximity to a wall? Ultrasonic sensors?
     	 */
     	Mat still = new Mat();
-    	ArrayList<MatOfPoint> countourList = new ArrayList<>();
+    	ArrayList<MatOfPoint> contourList = new ArrayList<>();
     	
     	cvSink.grabFrame(still);
     	contourList = myGripPipeline.filterContoursOutput();

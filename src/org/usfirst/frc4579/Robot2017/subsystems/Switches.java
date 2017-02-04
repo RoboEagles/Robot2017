@@ -58,7 +58,7 @@ public class Switches extends Subsystem {
     }
     
     public void mAutoDrive(){
-    	Robot.LaserDistanceSensor.readLaser();
+    	//Robot.LaserDistanceSensor.readLaser();
     }
     
     public void lAutoDrive(){
