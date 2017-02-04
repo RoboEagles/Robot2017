@@ -48,17 +48,12 @@ public class Switches extends Subsystem {
     	
     	if(middle.get() || leftSwitch.get() && rightSwitch.get()){
     		return 1;
-    	}
-    	else if(leftSwitch.get()){
+    	} else if(leftSwitch.get()){
     		return 2;
-    	}
-    	else if(rightSwitch.get()){
+    	} else if(rightSwitch.get()){
     		return 3;
     	} else {
     		return 0;
-    	}
-    	else{
-    		System.out.Println("Got back something weird")
     	}
     }
     
