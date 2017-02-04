@@ -55,14 +55,14 @@ public class LaserDistanceSensor extends Subsystem {
 		return x;
 	}
 	
-	public readLaser(){
+	public void readLaser(){
 		Laser.read(REGISTER_LASER, 8, rawDistance);
 		mmdistance = (int)(rawDistance);
 		inchesdistance = mmtoinches(mmdistance);
 		System.out.Println("The raw distance is " + distance);
 	}
 	
-	public writeLaser(){
+	public void writeLaser(){
 		Laser.write(REGISTER_LASER, 32);
 	}
 	public void init(){
