@@ -72,12 +72,19 @@ public class Cam extends Subsystem {
     	 * 2. Convert image to HSV
     	 * 		a. Possibly modify HSV values based on proximity to a wall? Ultrasonic sensors?
     	 */
-    	Mat still = new Mat();
+    	Mat input = new Mat();
+    	Mat output = new Mat();
+    	Mat bgrOutput = new Mat();
+    	
     	ArrayList<MatOfPoint> contourList = new ArrayList<>();
     	
-    	cvSink.grabFrame(still);
-    	contourList = myGripPipeline.filterContoursOutput();
-    	Imgproc.drawContours(still, contourList, 1, new Scalar(0,0,0));
+    	cvSink.grabFrame(input);
+    	myGripPipeline.process(input);
+    	output = myGripPipeline.hsvThresholdOutput();
+    	Imgproc.cvtColor(output, bgrOutput, Imgproc.COLOR_HSV2BGR_FULL);
+    	//contourList = myGripPipeline.filterContoursOutput();
+    	//Imgproc.drawContours(still, contourList, 1, new Scalar(0,0,0));
+    	cvSource.putFrame(bgrOutput);
     	
     }
     public void getRectangle(){
@@ -96,11 +103,12 @@ public class Cam extends Subsystem {
     		isStarted = true;
     		//Starts the camera. THIS SHOULD BE CALLED EVEN IN AUTONOMOUS. getVideo() will NOT work without startAutomaticCapture or addServer().
         	camObject = CameraServer.getInstance().startAutomaticCapture();
-        	camObject.setResolution(160, 120);
-        	camObject.setFPS(10); // just because you set it at a fps doesn't mean it will run at that fps
+        	camObject.setResolution(320, 240);
+        	camObject.setFPS(6); // just because you set it at a fps doesn't mean it will run at that fps
+        	camObject.setBrightness(0);
+        	camObject.setExposureManual(20);
         	cvSink = CameraServer.getInstance().getVideo();
-        	//cvSource = CameraServer.getInstance().putVideo("Blur", 320, 240);
-        	
+        	cvSource = CameraServer.getInstance().putVideo("Blur", 320, 240);
     	}
     }
     public void initDefaultCommand() {
