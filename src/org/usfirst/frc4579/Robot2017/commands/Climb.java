@@ -45,7 +45,7 @@ public class Climb extends Command {
     protected void execute() {
     	Robot.lifter.climb();
     	
-    	// Getting the speed of the motor and printing it out
+    	// Getting information about the condition of the motor and printing it out
     	double liftSpeed = Robot.PDPCurrent.getSpeed(5700, 22, 0);
     	SmartDashboard.putNumber("Lift Speed", liftSpeed);
 		SmartDashboard.putBoolean("Spike", Robot.PDPCurrent.getSpike);

@@ -46,10 +46,10 @@ public class PDPCurrent extends Subsystem {
 	
 	
 	public double getSpeed(double maxSpeed, double stallCurrent, double minCurrent){
-		double mSpeed = maxSpeed;
-		double sCurrent = stallCurrent;
-		double mCurrent = minCurrent;
-		double current = robotPDP.getCurrent();
+		double mSpeed = maxSpeed,
+				sCurrent = stallCurrent,
+				mCurrent = minCurrent, 
+				current = robotPDP.getCurrent();
 		
 		// Don't think the formula below works			
 		return -1*(mSpeed / (sCurrent - mCurrent)) * current + ((mSpeed) / (sCurrent - mCurrent) * mCurrent); 
