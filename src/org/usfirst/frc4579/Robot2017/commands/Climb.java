@@ -11,6 +11,8 @@
 
 package org.usfirst.frc4579.Robot2017.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import org.usfirst.frc4579.Robot2017.Robot;
 
 /**
@@ -42,6 +44,11 @@ public class Climb extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.lifter.climb();
+    	
+    	// Getting the speed of the motor and printing it out
+    	double liftSpeed = Robot.PDPCurrent.getSpeed(5700, 22, 0);
+    	SmartDashboard.putNumber("Lift Speed", liftSpeed);
+		SmartDashboard.putBoolean("Spike", Robot.PDPCurrent.getSpike);
     }
 
     // Make this return true when this Command no longer needs to run execute()
