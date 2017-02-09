@@ -37,19 +37,26 @@ public class PDPCurrent extends Subsystem {
 	
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    
-    // The method below is sort of useless
-	public double getCurrent() {
-		return robotPDP.getCurrent(liftPDPChannel);
-	}
+	
+	/*
+	This is the motor we are currently using for the lifter:
+	RS775-5 Motor For PG71 and PG188 Gearbox (am-2161)
+	
+	*/
+	
 	
 	public double getSpeed(double maxSpeed, double stallCurrent, double minCurrent){
 		double mSpeed = maxSpeed;
 		double sCurrent = stallCurrent;
 		double mCurrent = minCurrent;
 		double current = robotPDP.getCurrent();
-					
+		
+		// Don't think the formula below works			
 		return -1*(mSpeed / (sCurrent - mCurrent)) * current + ((mSpeed) / (sCurrent - mCurrent) * mCurrent); 
+	}
+	public double getTorque(){
+		double ratio = 22/35;
+		return ratio * robotPDP.getCurrent(0);
 	}
 	
 	// A method of checking the current by checking if the current drawn is more than other cases
