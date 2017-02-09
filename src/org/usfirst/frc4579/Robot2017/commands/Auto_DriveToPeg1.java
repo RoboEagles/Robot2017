@@ -37,12 +37,12 @@ public class Auto_DriveToPeg1 extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.cam.initCamera();
+    	Robot.cam.getCurrentContours();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//System.out.println("Calling getCurrentContours");
-    	Robot.cam.getCurrentContours();
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -49,9 +49,9 @@ public class GripPipeline {
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {59.33128841972066, 107.66953335340008};
-		double[] hsvThresholdSaturation = {61.915467625899275, 255.0};
-		double[] hsvThresholdValue = {45.70254372004857, 155.3425799344499};
+		double[] hsvThresholdHue = {36, 95};
+		double[] hsvThresholdSaturation = {0, 143};
+		double[] hsvThresholdValue = {165, 255};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 		hsvThresholdOutput.copyTo(hsvThresholdOutputPure);
 		
