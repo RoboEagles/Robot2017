@@ -42,7 +42,9 @@ public class AutonomousCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Autonomous");
+
     	// Add Autonoumous code here.
     	if(Robot.switches.getMode() == 1){
     		//System.out.println("Running the middle drive program");
@@ -61,6 +63,9 @@ public class AutonomousCommand extends Command {
     		Robot.driveTrain.stop();
     	}
     	Robot.switches.printSwitches();
+    	
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.STOP_EXECUTE_COMMAND, "Autonomous");
+
     }
 
     // Make this return true when this Command no longer needs to run execute()

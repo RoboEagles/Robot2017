@@ -43,7 +43,7 @@ public class DriveTrain extends Subsystem {
     	final double x = Robot.oi.joystick.getX();
     	final double y = Robot.oi.joystick.getY();
     	final double z = Robot.oi.joystick.getZ();
-    	robotDrive.arcadeDrive(-y*sensitivity, x*sensitivity);
+    	robotDrive.arcadeDrive(x*sensitivity, y*sensitivity);
     }
     public void stop(){
     	controllerLeft.stopMotor();

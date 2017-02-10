@@ -90,12 +90,11 @@ public class Robot extends IterativeRobot {
     public void disabledInit(){
     	
     	// This method can be called at startup when the DS connects and is in Disable state.
-    	/* if (!firstDICall) {
-    	    camera.disableImageGrabbing();
+        if (!firstDICall) {
     	    EventLogging.saveEventLog();
     	}
     	firstDICall = false;
-    	*/
+    	
     }
 
     public void disabledPeriodic() {

@@ -43,6 +43,9 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Climb");
+
     	Robot.lifter.climb();
     	
     	// Getting information about the condition of the motor and printing it out
@@ -50,6 +53,9 @@ public class Climb extends Command {
     	SmartDashboard.putNumber("Lift Speed", liftSpeed);
 		//SmartDashboard.putBoolean("Spike", Robot.pDPCurrent.getSpike);
 		SmartDashboard.putNumber("Lift Torque", Robot.pDPCurrent.getTorque());
+		
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.STOP_EXECUTE_COMMAND, "Climb");
+		
     }
 
     // Make this return true when this Command no longer needs to run execute()
