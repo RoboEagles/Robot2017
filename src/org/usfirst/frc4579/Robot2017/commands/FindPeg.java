@@ -42,15 +42,11 @@ public class FindPeg extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.cam.initCamera();
+    	Robot.cam.startProcessing();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	try {
-    		Thread.sleep(5);
-    	} catch (InterruptedException e) {
-    	}
-    	Robot.cam.updateContours();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -83,10 +79,12 @@ public class FindPeg extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.cam.endProcessing();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
