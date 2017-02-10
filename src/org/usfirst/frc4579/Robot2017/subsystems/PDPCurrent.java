@@ -48,11 +48,11 @@ public class PDPCurrent extends Subsystem {
 	public double getSpeed(double maxSpeed, double stallCurrent, double minCurrent){
 		double mSpeed = maxSpeed,
 				sCurrent = stallCurrent,
-				mCurrent = minCurrent, 
-				current = robotPDP.getCurrent();
+				mCurrent = minCurrent;
+				//current = robotPDP.getCurrent();
 		
 		// Don't think the formula below works			
-		return -1*(mSpeed / (sCurrent - mCurrent)) * current + ((mSpeed) / (sCurrent - mCurrent) * mCurrent); 
+		return 1337; //-1*(mSpeed / (sCurrent - mCurrent)) * current + ((mSpeed) / (sCurrent - mCurrent) * mCurrent); 
 	}
 	public double getTorque(){
 		double ratio = 22/35;
@@ -63,7 +63,7 @@ public class PDPCurrent extends Subsystem {
 	public boolean checkSpike(){
 
 		double averageCurrent = 0;
-		double current = robotPDP.getCurrent(0)
+		double current = robotPDP.getCurrent(0);
 		if (count > 100){
 			averageCurrent = (averageCurrent + current) / 2;
 			count += 1;
@@ -71,8 +71,11 @@ public class PDPCurrent extends Subsystem {
 		else{
 			// Gets how far off the current is compared to the average
 			double difference  = current - averageCurrent;
-			if ()
+			if (true) {
+				return true;
+			}
 		}
+		return false;
 	}
 	
 	// A method of detecting a spike by checking if it passes the expected current

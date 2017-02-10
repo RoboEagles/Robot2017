@@ -46,10 +46,10 @@ public class Climb extends Command {
     	Robot.lifter.climb();
     	
     	// Getting information about the condition of the motor and printing it out
-    	double liftSpeed = Robot.PDPCurrent.getSpeed(5700, 22, 0);
+    	double liftSpeed = Robot.pDPCurrent.getSpeed(5700, 22, 0);
     	SmartDashboard.putNumber("Lift Speed", liftSpeed);
-		SmartDashboard.putBoolean("Spike", Robot.PDPCurrent.getSpike);
-		SmartDashboard.putNumber("Lift Torque", Robot.PDPCurrent.getTorque());
+		//SmartDashboard.putBoolean("Spike", Robot.pDPCurrent.getSpike);
+		SmartDashboard.putNumber("Lift Torque", Robot.pDPCurrent.getTorque());
     }
 
     // Make this return true when this Command no longer needs to run execute()
