@@ -16,6 +16,7 @@ import org.opencv.core.*;
 
 import java.util.List;
 import java.util.ArrayList; //I DONT KNOW WHY WE NEED TWO PACKAGES TO GET ONE THING BUT OOOOOOK
+import java.util.Date;
 
 /**
  *
@@ -45,6 +46,10 @@ public class FindPeg extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	try {
+    		Thread.sleep(5);
+    	} catch (InterruptedException e) {
+    	}
     	Robot.cam.updateContours();
     }
 
@@ -56,7 +61,7 @@ public class FindPeg extends Command {
     		 *  At this point, if the two tapes are found, then the command ends and no more frames are updated.
     		 *  The next command will handle processing the tape.
     		 */
-    		System.out.println("Found two tapes");
+    		System.out.println("FOUND TWO TAPES!!!");
     		
     		return true;
     	} else if (contours.size() == 1) {
