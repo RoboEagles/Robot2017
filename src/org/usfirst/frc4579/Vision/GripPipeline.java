@@ -32,6 +32,7 @@ public class GripPipeline {
 	private Mat hsvThresholdOutputPure = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
+	private ArrayList<Rect> filterContoursRect = new ArrayList<Rect>();
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -73,7 +74,7 @@ public class GripPipeline {
 		double filterContoursMinVertices = 0;
 		double filterContoursMinRatio = 0.4;
 		double filterContoursMaxRatio = 0.9;
-		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
+		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, filterContoursRect);
 
 	}
 
@@ -110,7 +111,9 @@ public class GripPipeline {
 	public ArrayList<MatOfPoint> filterContoursOutput() {
 		return filterContoursOutput;
 	}
-
+	public ArrayList<Rect> filterContoursRect() {
+		return filterContoursRect;
+	}
 
 	/**
 	 * An indication of which type of filter to use for a blur.
@@ -235,9 +238,10 @@ public class GripPipeline {
 	private void filterContours(List<MatOfPoint> inputContours, double minArea,
 		double minPerimeter, double minWidth, double maxWidth, double minHeight, double
 		maxHeight, double[] solidity, double maxVertexCount, double minVertexCount, double
-		minRatio, double maxRatio, List<MatOfPoint> output) {
+		minRatio, double maxRatio, List<MatOfPoint> output,List<Rect>routput) {
 		final MatOfInt hull = new MatOfInt();
 		output.clear();
+		routput.clear();
 		//operation
 		for (int i = 0; i < inputContours.size(); i++) {
 			final MatOfPoint contour = inputContours.get(i);
@@ -261,6 +265,7 @@ public class GripPipeline {
 			final double ratio = bb.width / (double)bb.height;
 			if (ratio < minRatio || ratio > maxRatio) continue;
 			output.add(contour);
+			routput.add(bb);
 		}
 	}
 
