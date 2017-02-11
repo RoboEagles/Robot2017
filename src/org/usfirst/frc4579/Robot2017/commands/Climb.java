@@ -10,6 +10,7 @@
 
 
 package org.usfirst.frc4579.Robot2017.commands;
+import org.usfirst.frc4579.instrumentation.EventLogging;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -44,7 +45,7 @@ public class Climb extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Climb");
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND, "Climb");
 
     	Robot.lifter.climb();
     	
@@ -54,7 +55,7 @@ public class Climb extends Command {
 		//SmartDashboard.putBoolean("Spike", Robot.pDPCurrent.getSpike);
 		SmartDashboard.putNumber("Lift Torque", Robot.pDPCurrent.getTorque());
 		
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.STOP_EXECUTE_COMMAND, "Climb");
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND, "Climb");
 		
     }
 

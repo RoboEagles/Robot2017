@@ -22,7 +22,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import java.util.List;
 import java.util.ArrayList; //I DONT KNOW WHY WE NEED TWO PACKAGES TO GET ONE THING BUT OOOOOOK
 import java.util.Date;
+import java.lang.Math;
+
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -51,14 +55,17 @@ public class Cam extends Subsystem {
     private CvSink cvSink;
     private CvSource cvSource;
     private GripPipeline myGripPipeline = new GripPipeline();
-    private boolean isStarted = false;
-    private boolean isProcessing = false;
-    private ArrayList<MatOfPoint> contourList;
+    private ArrayList<MatOfPoint> contourList = new ArrayList<>();
     private ArrayList<Rect> rectList = new ArrayList<>();
-    
     private ArrayList<MatOfPoint> primaryContourList = new ArrayList<>();
 	
     private Thread t;
+    
+    private boolean isStarted = false;
+    private boolean isProcessing = false;
+    private int RESOLUTION_X = 640;
+    private int RESOLUTION_Y = 480;
+    private double PIX_TO_DEG = (RESOLUTION_X / 51);
     
     private Mat rawImage = new Mat();
 	private Mat input = new Mat();
@@ -88,12 +95,7 @@ public class Cam extends Subsystem {
 	        	}
 	        	double end = timer.get();
 	        	double elapsed = (end-start);
-	        	//System.out.println("Elapsed time: "+elapsed);
-	        	try {
-	        		Thread.sleep(5);
-	        	} catch (InterruptedException e) {
-	        		return;
-	        	}
+	        	System.out.println("Elapsed time: "+elapsed);
         	}
     	});
     	t.start();
@@ -103,6 +105,11 @@ public class Cam extends Subsystem {
     	if (t.getState() == Thread.State.RUNNABLE) {
     		t.interrupt();
     	}
+    	System.out.println("Removing camera and server");
+    	CameraServer.getInstance().removeServer("serve_ContourVideo");
+    	CameraServer.getInstance().removeServer("serve_Usb Camera 0");
+    	CameraServer.getInstance().removeCamera("ContourVideo");
+    	CameraServer.getInstance().removeCamera("Usb Camera 0");
     }
     public void lightOn() {
     	lightController.set(1);
@@ -114,20 +121,35 @@ public class Cam extends Subsystem {
     	}
     	camObject.setFPS(framerate);
     }
+    public double getDistanceFromCenter(Rect leftRect, Rect rightRect) {
+    	double leftBotRight = leftRect.br().x;
+    	double rectGap = rightRect.tl().x - leftBotRight;
+    	double pegPosition = leftBotRight + (rectGap/2);
+    	
+    	//if the pegPosition is left, then num is positive, if right then negative
+    	double errorInPixels = (RESOLUTION_X/2) - pegPosition;
+    	double errorInDegrees = errorInPixels / PIX_TO_DEG;
+    	return errorInDegrees;
+    }
     public void initCamera() {
     	if (!isStarted) {
     		System.out.println("Starting the camera!");
     		isStarted = true;
     		//Starts the camera. THIS SHOULD BE CALLED EVEN IN AUTONOMOUS. getVideo() will NOT work without startAutomaticCapture or addServer().
         	camObject = CameraServer.getInstance().startAutomaticCapture();
-        	camObject.setResolution(640, 480);
+        	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
         	camObject.setFPS(24); // just because you set it at a fps doesn't mean it will run at that fps
-        	//camObject.setBrightness(0);
+        	camObject.setBrightness(-10);
         	camObject.setWhiteBalanceManual(0);
         	camObject.setExposureManual(-10);
         	cvSink = CameraServer.getInstance().getVideo();
-        	cvSource = CameraServer.getInstance().putVideo("ContourVideo", 320, 240); //Only the streaming res is low
+        	//cvSource = CameraServer.getInstance().putVideo("ContourVideo", 320, 240); //Only the streaming res is low
+        	cvSource = new CvSource("ContourVideo", VideoMode.PixelFormat.kMJPEG, 320, 240, 30);
+        	CameraServer.getInstance().addCamera(cvSource);
+            VideoSink server = CameraServer.getInstance().addServer("serve_" + cvSource.getName());
+            server.setSource(cvSource);
     	}
+    	
     }
     public void setPrimaryContours(ArrayList<MatOfPoint> list) {
     	primaryContourList = list;

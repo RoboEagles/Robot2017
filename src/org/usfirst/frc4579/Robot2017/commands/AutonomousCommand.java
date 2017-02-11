@@ -64,7 +64,7 @@ public class AutonomousCommand extends Command {
     	}
     	Robot.switches.printSwitches();
     	
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.STOP_EXECUTE_COMMAND, "Autonomous");
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND, "Autonomous");
 
     }
 

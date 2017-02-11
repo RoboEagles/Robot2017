@@ -84,7 +84,6 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-    	
     	// This method can be called at startup when the DS connects and is in Disable state.
         if (!firstDICall) {
     	    EventLogging.saveEventLog();

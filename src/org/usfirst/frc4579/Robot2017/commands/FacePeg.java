@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc4579.Robot2017.Robot;
 
 import org.opencv.core.*;
+import java.lang.Math;
 import java.util.List;
 import java.util.ArrayList;
 import org.opencv.imgproc.Imgproc;
@@ -42,35 +43,37 @@ public class FacePeg extends Command {
     }
 
     // Called just before this Command runs the first time
-    private void findCenter(Rect leftRect, Rect rightRect) {
-    	double leftBotRight = leftRect.br().x;
-    	double rectGap = rightRect.tl().x - leftBotRight;
-    	double pegPosition = leftBotRight + (rectGap/2);
-    	double PIX_TO_DEG;
-    }
     protected void initialize() {
     	contours = Robot.cam.getPrimaryContours();
     	Rect rect1 = Imgproc.boundingRect(contours.get(0));
     	Rect rect2 = Imgproc.boundingRect(contours.get(1));
+    	double errorInDegrees;
     	if (rect1.tl().x < rect2.tl().x) { //If rect1 is 
     		// If rect1.x is smaller than rect2.x then rect1 is the left rect
-    		findCenter(rect1,rect2);
+    		errorInDegrees = Robot.cam.getDistanceFromCenter(rect1,rect2);
     	} else if (rect1.tl().x > rect2.tl().x) {
     		//Rect 2 is smaller, and is the left one 
-    		findCenter(rect2, rect1);
-    	} 
-    	//else if they are the same, call isFinished()?
+    		errorInDegrees = Robot.cam.getDistanceFromCenter(rect2, rect1);
+    	} else {
+    		//Rects are the same or some other error, do nothing
+    		end();
+    		return;
+    	}
+    	//left is positive, right is negative
+    	if (Math.abs(errorInDegrees) < 5) {
+    		end();
+    	}
+    	System.out.println("Degrees needed to rotate: "+ errorInDegrees);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//robot.rotate(degrees)
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (centerX == -1) {
-    		return true;
-    	}
+    	//If the robot is at the angle, then return true
         return false;
     }
 

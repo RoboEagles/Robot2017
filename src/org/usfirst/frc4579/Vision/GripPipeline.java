@@ -52,7 +52,7 @@ public class GripPipeline {
 		Mat hsvThresholdInput = blurOutput;
 		double[] hsvThresholdHue = {36, 95};
 		double[] hsvThresholdSaturation = {0, 143};
-		double[] hsvThresholdValue = {165, 255};
+		double[] hsvThresholdValue = {120, 255};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 		hsvThresholdOutput.copyTo(hsvThresholdOutputPure);
 		
@@ -215,7 +215,6 @@ public class GripPipeline {
 			mode = Imgproc.RETR_LIST;
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
-		System.out.println(input.dtype);
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
 	}
 
