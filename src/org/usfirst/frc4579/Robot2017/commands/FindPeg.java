@@ -47,6 +47,8 @@ public class FindPeg extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//System.out.println("Executing findPeg");
+    	Robot.cam.lightOn(); //The good thing about using a motor controller is that to turn off the light, you simply dont tell it to turn on.
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -58,7 +60,8 @@ public class FindPeg extends Command {
     		 *  The next command will handle processing the tape.
     		 */
     		System.out.println("FOUND TWO TAPES!!!");
-    		
+    		Robot.cam.endProcessing();
+    		Robot.cam.setPrimaryContours(contours);
     		return true;
     	} else if (contours.size() == 1) {
     		/*

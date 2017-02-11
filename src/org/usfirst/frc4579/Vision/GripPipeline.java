@@ -215,6 +215,7 @@ public class GripPipeline {
 			mode = Imgproc.RETR_LIST;
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
+		System.out.println(input.dtype);
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
 	}
 

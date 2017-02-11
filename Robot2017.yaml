@@ -14,6 +14,23 @@ Children:
           value: '0'
       Base: Spike
       Name: Light
+    - Children: []
+      Properties:
+        Type: !!robotbuilder.data.properties.ChoicesProperty
+          choices: &id001 [Victor, Jaguar, Talon, VictorSP, TalonSRX, Spark, SD540]
+          default: Talon
+          name: Type
+          validators: null
+          value: Victor
+        Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
+          choices: &id002 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+            '11', '12', '13', '14', '15', '16', '17', '18', '19']
+          default: '0'
+          name: Output Channel (PWM)
+          validators: &id003 [PWMOutput]
+          value: '1'
+      Base: Speed Controller
+      Name: LightController
     Properties:
       Default command parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
@@ -34,17 +51,16 @@ Children:
       - Children: []
         Properties:
           Type: !!robotbuilder.data.properties.ChoicesProperty
-            choices: &id001 [Victor, Jaguar, Talon, VictorSP, TalonSRX, Spark, SD540]
+            choices: *id001
             default: Talon
             name: Type
             validators: null
             value: VictorSP
           Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
-            choices: &id002 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-              '11', '12', '13', '14', '15', '16', '17', '18', '19']
+            choices: *id002
             default: '0'
             name: Output Channel (PWM)
-            validators: &id003 [PWMOutput]
+            validators: *id003
             value: '9'
         Base: Speed Controller
         Name: controllerLeft
