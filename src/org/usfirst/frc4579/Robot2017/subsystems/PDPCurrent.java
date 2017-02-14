@@ -44,6 +44,9 @@ public class PDPCurrent extends Subsystem {
 	
 	*/
 	
+	public double getCurrent(int channel){
+		return robotPDP.getCurrent(channel);
+	}
 	
 	public double getSpeed(double maxSpeed, double stallCurrent, double minCurrent){
 		double mSpeed = maxSpeed,
@@ -54,16 +57,16 @@ public class PDPCurrent extends Subsystem {
 		// Don't think the formula below works			
 		return 1337; //-1*(mSpeed / (sCurrent - mCurrent)) * current + ((mSpeed) / (sCurrent - mCurrent) * mCurrent); 
 	}
-	public double getTorque(){
+	public double getTorque(int channel){
 		double ratio = 22/35;
-		return ratio * robotPDP.getCurrent(0);
+		return ratio * robotPDP.getCurrent(channel);
 	}
 	
 	// A method of checking the current by checking if the current drawn is more than other cases
-	public boolean checkSpike(){
+	public boolean checkSpike(int channel){
 
 		double averageCurrent = 0;
-		double current = robotPDP.getCurrent(0);
+		double current = robotPDP.getCurrent(channel);
 		if (count > 100){
 			averageCurrent = (averageCurrent + current) / 2;
 			count += 1;
@@ -79,8 +82,8 @@ public class PDPCurrent extends Subsystem {
 	}
 	
 	// A method of detecting a spike by checking if it passes the expected current
-	public boolean getSpike(){
-		double current = robotPDP.getCurrent(0);
+	public boolean getSpike(int channel){
+		double current = robotPDP.getCurrent(channel);
 
 		// If the lift motor draws more than this amount of current that means that there was a spike
 		double spikeLine = 22 * 0.75;
