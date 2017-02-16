@@ -32,7 +32,6 @@ public class GripPipeline {
 	private Mat hsvThresholdOutputPure = new Mat();
 	private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();
 	private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
-	private ArrayList<Rect> filterContoursRect = new ArrayList<Rect>();
 
 	static {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
@@ -50,16 +49,17 @@ public class GripPipeline {
 
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
-		double[] hsvThresholdHue = {36, 95};
-		double[] hsvThresholdSaturation = {0, 143};
-		double[] hsvThresholdValue = {120, 255};
+		double[] hsvThresholdHue = {59, 97};
+		double[] hsvThresholdSaturation = {0, 255};
+		double[] hsvThresholdValue = {40, 80};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 		hsvThresholdOutput.copyTo(hsvThresholdOutputPure);
 		
 		// Step Find_Contours0:
 		Mat findContoursInput = hsvThresholdOutput;
-		boolean findContoursExternalOnly = false;
-		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput);
+		boolean findContoursExternalOnly = true;
+		Mat hierarchy = new Mat();
+		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput, hierarchy);
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
@@ -74,7 +74,7 @@ public class GripPipeline {
 		double filterContoursMinVertices = 0;
 		double filterContoursMinRatio = 0.4;
 		double filterContoursMaxRatio = 0.9;
-		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput, filterContoursRect);
+		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}
 
@@ -111,10 +111,6 @@ public class GripPipeline {
 	public ArrayList<MatOfPoint> filterContoursOutput() {
 		return filterContoursOutput;
 	}
-	public ArrayList<Rect> filterContoursRect() {
-		return filterContoursRect;
-	}
-
 	/**
 	 * An indication of which type of filter to use for a blur.
 	 * Choices are BOX, GAUSSIAN, MEDIAN, and BILATERAL
@@ -203,16 +199,14 @@ public class GripPipeline {
 	 * @param maskSize the size of the mask.
 	 * @param output The image in which to store the output.
 	 */
-	private void findContours(Mat input, boolean externalOnly,
-		List<MatOfPoint> contours) {
-		Mat hierarchy = new Mat();
+	private void findContours(Mat input, boolean externalOnly, List<MatOfPoint> contours, Mat hierarchy) {
 		contours.clear();
 		int mode;
 		if (externalOnly) {
 			mode = Imgproc.RETR_EXTERNAL;
 		}
 		else {
-			mode = Imgproc.RETR_LIST;
+			mode = Imgproc.RETR_TREE;
 		}
 		int method = Imgproc.CHAIN_APPROX_SIMPLE;
 		Imgproc.findContours(input, contours, hierarchy, mode, method);
@@ -238,10 +232,9 @@ public class GripPipeline {
 	private void filterContours(List<MatOfPoint> inputContours, double minArea,
 		double minPerimeter, double minWidth, double maxWidth, double minHeight, double
 		maxHeight, double[] solidity, double maxVertexCount, double minVertexCount, double
-		minRatio, double maxRatio, List<MatOfPoint> output,List<Rect>routput) {
+		minRatio, double maxRatio, List<MatOfPoint> output) {
 		final MatOfInt hull = new MatOfInt();
 		output.clear();
-		routput.clear();
 		//operation
 		for (int i = 0; i < inputContours.size(); i++) {
 			final MatOfPoint contour = inputContours.get(i);
@@ -265,7 +258,6 @@ public class GripPipeline {
 			final double ratio = bb.width / (double)bb.height;
 			if (ratio < minRatio || ratio > maxRatio) continue;
 			output.add(contour);
-			routput.add(bb);
 		}
 	}
 

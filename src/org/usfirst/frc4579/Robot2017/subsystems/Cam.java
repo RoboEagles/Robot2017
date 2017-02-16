@@ -56,7 +56,6 @@ public class Cam extends Subsystem {
     private CvSource cvSource;
     private GripPipeline myGripPipeline = new GripPipeline();
     private ArrayList<MatOfPoint> contourList = new ArrayList<>();
-    private ArrayList<Rect> rectList = new ArrayList<>();
     private ArrayList<MatOfPoint> primaryContourList = new ArrayList<>();
 	
     private Thread t;
@@ -66,6 +65,9 @@ public class Cam extends Subsystem {
     private int RESOLUTION_X = 640;
     private int RESOLUTION_Y = 480;
     private double PIX_TO_DEG = (RESOLUTION_X / 51);
+    private Point point1 = new Point(RESOLUTION_X/2,0);
+    private Point point2 = new Point(RESOLUTION_X/2,RESOLUTION_Y);
+    
     
     private Mat rawImage = new Mat();
 	private Mat input = new Mat();
@@ -73,6 +75,22 @@ public class Cam extends Subsystem {
 	private Timer timer = new Timer();
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	public boolean takeSnapshot() {
+		cvSink.grabFrame(rawImage);
+    	if (!rawImage.empty()) {
+	    	rawImage.copyTo(input);
+	    	myGripPipeline.process(input);
+	    	output = myGripPipeline.hsvThresholdOutputPure();
+	    	contourList = myGripPipeline.filterContoursOutput();
+	    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(0,0,255,255), 2);
+	    	Imgproc.line(rawImage, point1, point2, new Scalar(255,255,0,255));
+	    	System.out.println("There are "+contourList.size()+" contours.");
+	    	cvSource.putFrame(rawImage);
+    	} else {
+    		System.out.println("Mat image is empty!");
+    	}
+    	return true;
+	}
     public void startProcessing(){
     	contourList.clear();
     	System.out.println("Starting processing thread");
@@ -80,22 +98,10 @@ public class Cam extends Subsystem {
     		timer.start();
     		while (!Thread.interrupted()) {
 				double start = timer.get();
-	        	cvSink.grabFrame(rawImage);
-	        	if (!rawImage.empty()) {
-	    	    	rawImage.copyTo(input);
-	    	    	myGripPipeline.process(input);
-	    	    	output = myGripPipeline.hsvThresholdOutputPure();
-	    	    	contourList = myGripPipeline.filterContoursOutput();
-	    	    	rectList = myGripPipeline.filterContoursRect();
-	    	    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(0,0,255,255), 2);
-	    	    	//System.out.println("There are "+contourList.size()+" contours.");
-	    	    	cvSource.putFrame(rawImage);
-	        	} else {
-	        		System.out.println("Mat image is empty!");
-	        	}
+	        	takeSnapshot();
 	        	double end = timer.get();
 	        	double elapsed = (end-start);
-	        	System.out.println("Elapsed time: "+elapsed);
+	        	//System.out.println("Elapsed time: "+elapsed);
         	}
     	});
     	t.start();
@@ -106,13 +112,22 @@ public class Cam extends Subsystem {
     		t.interrupt();
     	}
     	System.out.println("Removing camera and server");
+    	//For some reason, removing the server and camera doesn't seem to do anything.
+    	//EDIT: It seems that calling removeServer actually only removes the server from a table, not destroy them.
+    	//Maybe calling free() on the VideoSource/sink may remove it?
+    	//Note, Mjpegserver is a subclass of Videosink.
+    	
+    	//Check the Mjpegserverimpl.cpp in the cscore repository. Error occurs at line 504.
+    	/*
     	CameraServer.getInstance().removeServer("serve_ContourVideo");
     	CameraServer.getInstance().removeServer("serve_Usb Camera 0");
     	CameraServer.getInstance().removeCamera("ContourVideo");
-    	CameraServer.getInstance().removeCamera("Usb Camera 0");
+    	CameraServer.getInstance().removeCamera("Usb Camera 0"); 
+    	*/
     }
-    public void lightOn() {
-    	lightController.set(1);
+    public void lightOn(double brightness) {
+    	//Since the light controller is technically a motor controller, there is no lightOff() method.
+    	lightController.set(brightness);
     }
     public void changeFPS(int framerate) {
     	//The framerate could be lowered when doing image processing, and raised while under driver control.
@@ -160,8 +175,25 @@ public class Cam extends Subsystem {
     public ArrayList<MatOfPoint> getContours() {
     	return contourList;
     }
-    public ArrayList<Rect> getRects() {
-    	return rectList;
+    /*
+     * Returns the degree between the robot center and the peg in degrees
+     */
+    public double getErrorFromContours(MatOfPoint contour1, MatOfPoint contour2) {
+    	Rect rect1 = Imgproc.boundingRect(contour1);
+    	Rect rect2 = Imgproc.boundingRect(contour2);
+    	double errorInDegrees;
+    	if (rect1.tl().x < rect2.tl().x) { //If rect1 is 
+    		// If rect1.x is smaller than rect2.x then rect1 is the left rect
+    		errorInDegrees = getDistanceFromCenter(rect1,rect2);
+    	} else if (rect1.tl().x > rect2.tl().x) {
+    		//Rect 2 is smaller, and is the left one 
+    		errorInDegrees = getDistanceFromCenter(rect2, rect1);
+    	} else {
+    		//Rects are the same or some other error, do nothing...?
+    		errorInDegrees = 99999;
+    	}
+    	//left is positive, right is negative
+    	return errorInDegrees;
     }
     public void initDefaultCommand() {
         // BEGIN AUTOGENERATED CODE, SOURCE=ROBOTBUILDER ID=DEFAULT_COMMAND
