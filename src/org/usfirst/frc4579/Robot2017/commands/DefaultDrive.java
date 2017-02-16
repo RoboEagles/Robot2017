@@ -14,6 +14,9 @@ package org.usfirst.frc4579.Robot2017.commands;
 import org.usfirst.frc4579.Robot2017.Robot;
 import org.usfirst.frc4579.instrumentation.EventLogging;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc4579.instrumentation.FRCSmartDashboard;
 
 /**
  *
@@ -45,11 +48,12 @@ public class DefaultDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "DefaultDrive");
+    	//EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "DefaultDrive");
     	
     	// Add code here.
+    	SmartDashboard.putNumber("Range: ", Robot.ultraSonic.read());
     	
-    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
+    	//EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
     }
 
     // Make this return true when this Command no longer needs to run execute()
