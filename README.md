@@ -4,15 +4,39 @@ This repository holds the 2017 RoboEagles robot code.  New this year are some in
 
 Here are some 2017 software tasks:  
 
+* Java Resources  
+  * http://docs.oracle.com/javase/tutorial/java/  Read through Classes and Objects.  
+  * https://github.com/RoboEagles/Resources/tree/master/Java%20Lesson
 * Software Updates  
   * Install the FRC 2017 update suite (all laptops).  https://wpilib.screenstepslive.com/s/4485/m/13810/l/599669-installing-the-frc-2017-update-suite-all-languages  
-  * Update Eclipse FRC plug-ins.  See "Installing the development plugins" in https://wpilib.screenstepslive.com/s/4485/m/13503/l/599679-installing-eclipse-c-java  
-  * Image the new RoboRIO.  https://wpilib.screenstepslive.com/s/4485/m/13503/l/144984-imaging-your-roborio  
-  * Install Java on the new RoboRIO. https://wpilib.screenstepslive.com/s/4485/m/13503/l/599747-installing-java-8-on-the-roborio-using-the-frc-roborio-java-installer-java-only  
+  * Update Eclipse FRC plug-ins.  See "Installing the development plugins" in https://wpilib.screenstepslive.com/s/4485/m/13503/l/599747-installing-java-8-on-the-roborio-using-the-frc-roborio-java-installer-java-only  
 * Use RobotBuilder to generate the software framework for the 2017 robot.  
-  * Define and implement commands.  
-  * Define and implement subsystems.  
-  * Define and implement autonomous mode.   
+  * Define and implement subsystems:  
+    * Drive Train  
+      * Two motors for now.  
+      * Methods to do arcade drive and drive in a specific direction.   
+    * Measurement __(Jonathan)__  
+      * TBD distance sensor.  
+      * MPU6060 accelerometer.  
+    * Lift
+      * Single motor controller.  
+      * TBD limit switch to stop climb.  
+    * Autonomous Switches  
+      * Three toggle switches that specify robot placement along wall (Left, Center, Right).  
+      * Need a method to determine placement position.  
+      * Need a method to determine alliance (to be able to tell direction to drive to retrieval zone after placing gear).  
+      * All three switches off means a default autonomous program (drive over baseline)?  
+    * Camera __(Jonathan)__  
+      * Stream camera images to Dashboard to allow pilot to better align to gear pegs.    
+  * Define and implement commands:  
+    * Place Gear: Stop robot motion, use distance sensor to find gear post, navigate to it, place gear, back robot off.  Tie this command to a joystick button.
+    * Climb Rope: The lift motor is run as long as the joystick trigger is depressed.
+    * Autonomous mode - read switches to determine which autonomous program to run:
+      * Left: Drive to a predetermined location in front of the left gear post and execute Place Gear command.  After gear is placed drive towards gear retrieval zone.  
+      * Center: Drive to a predetermined location in front of the center gear post and execute Place Gear command.  After gear is placed drive towards gear retrieval zone.  
+      * Right: Drive to a predetermined location in front of the right gear post and execute Place Gear command.  After gear is placed drive towards gear retrieval zone.  
+      * No position set (all switches off): Drive straight across baseline TBD feet.  
+      * Two or more positions set (error): Drive straight across baseline TBD feet.  
 * Instrumentation Package and Camera Class   
   * ** Per FIRST rule R14, we can't use the new Instrumentation package and Camera subsytem as-is since it was work performed before kick-off.  As such, the programmers will re-code the classes as follows:**    
      * Update the Instrumentation class as follows:  
