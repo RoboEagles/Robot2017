@@ -37,6 +37,7 @@ public class AutonomousCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	int mode = Robot.switches.getMode();
     	
     }
 
@@ -46,15 +47,15 @@ public class AutonomousCommand extends Command {
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Autonomous");
 
     	// Add Autonoumous code here.
-    	if(Robot.switches.getMode() == 1){
+    	if(mode == 1){
     		//System.out.println("Running the middle drive program");
     		Robot.switches.mAutoDrive();
     	}
-    	else if(Robot.switches.getMode() == 2){
+    	else if(mode == 2){
     		//System.out.println("Running the left drive program");
     		Robot.switches.lAutoDrive();
     	}
-    	else if(Robot.switches.getMode() == 3){
+    	else if(mode == 3){
     		//System.out.println("Running the right drive program");
     		Robot.switches.rAutoDrive();
     	}
