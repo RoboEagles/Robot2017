@@ -12,6 +12,27 @@ public class FRCSmartDashboard {
 	public static void setCameraInitialized (boolean value) {
 		SmartDashboard.putBoolean ("Camera Initialized:", value);
 	}
+<<<<<<< HEAD
+	
+	public static void setLeftAnalogValue (int value) {
+		SmartDashboard.putNumber ("Left Ultra Value:", value);
+	}
+	
+	public static void setLeftAnalogVoltage (double value) {
+		SmartDashboard.putNumber ("Left Ultra Voltage:", value);
+	}
+	
+	public static void setLeftAnalogValueAvg (int value) {
+		SmartDashboard.putNumber ("Left Ultra Value Avg:", value);
+	}
+	
+	public static void setLeftAnalogVoltageAvg (double value) {
+		SmartDashboard.putNumber ("Left Ultra Voltage Avg:", value);
+	}
+	
+	public static void setRightAnalogValue (int value) {
+		SmartDashboard.putNumber ("Right Ultra Value:", value);
+=======
 	/*
 	public static void setDistances(double leftDist, double rightDist) {
 		SmartDashboard.putNumber("Left value:", leftDist);
@@ -25,5 +46,11 @@ public class FRCSmartDashboard {
 	public static void setRealDistances(double leftDist, double rightDist) {
 		SmartDashboard.putNumber("Left distance:", leftDist);
 		SmartDashboard.putNumber("Right distance:", rightDist);
+>>>>>>> refs/remotes/origin/master
 	}
+	
+	public static void setRightAnalogVoltage (double value) {
+		SmartDashboard.putNumber ("Right Ultra Voltage:", value);
+	}
+	
 }

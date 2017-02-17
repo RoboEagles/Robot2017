@@ -1,42 +1,62 @@
 <xml version="1.0">
 <dashboard>
-	<widget field="Elevation:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="433" y="153"/>
+	<widget field="Raw Accel X:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.LinePlot">
+		<location x="237" y="73"/>
 	</widget>
-	<widget field="Bearing:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="440" y="124"/>
+	<widget field="Left Ultra Voltage Avg:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="523" y="138"/>
 	</widget>
-	<widget field="Range:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="444" y="95"/>
+	<widget field="Left Ultra Value Avg:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="532" y="107"/>
+		<height>20</height>
 	</widget>
-	<widget field="Camera Initialized:" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="390" y="17"/>
+	<widget field="Right Ultra Voltage:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="540" y="230"/>
 	</widget>
-	<widget field="Grabbing Images:" type="Boolean" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="394" y="42"/>
+	<widget field="Right Ultra Value:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="548" y="200"/>
 	</widget>
-	<widget field="Tracking:" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
-		<location x="435" y="69"/>
-		<width>163</width>
+	<widget field="Left Ultra Voltage:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="541" y="76"/>
 	</widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.Label">
-		<location x="849" y="10"/>
-		<property name="Text" value="Connection:"/>
-	</static-widget>
-	<static-widget class="edu.wpi.first.smartdashboard.gui.elements.ConnectionIndicator">
-		<location x="913" y="8"/>
-		<height>16</height>
-	</static-widget>
-	<widget field="Default Drive" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="34"/>
+	<widget field="Left Ultra Value:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="549" y="42"/>
 	</widget>
 	<widget field="Autonomous Command" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
-		<location x="0" y="0"/>
+		<location x="5" y="127"/>
+	</widget>
+	<widget field="AlignToShip" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="13" y="88"/>
+	</widget>
+	<widget field="Default Drive" type="Command" class="edu.wpi.first.smartdashboard.gui.elements.Command">
+		<location x="8" y="45"/>
+	</widget>
+	<widget field="Auto Selector" type="String" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="5" y="164"/>
+	</widget>
+	<widget field="Auto choices" type="String Chooser" class="edu.wpi.first.smartdashboard.gui.elements.Chooser">
+		<location x="241" y="13"/>
+	</widget>
+	<widget field="Lidar Rng  : " type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="6" y="389"/>
+		<width>208</width>
+	</widget>
+	<widget field="Raw Gyro   :" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="558" y="370"/>
+	</widget>
+	<widget field="Raw Gyro  Z:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="8" y="320"/>
+		<width>203</width>
+	</widget>
+	<widget field="Raw Accel Z:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="9" y="291"/>
+		<width>205</width>
+	</widget>
+	<widget field="Raw Accel Y:" type="Number" class="edu.wpi.first.smartdashboard.gui.elements.TextBox">
+		<location x="10" y="265"/>
+		<width>203</width>
 	</widget>
 </dashboard>
 <live-window>
 </live-window>
-	<hidden field="Bearing :"/>
-	<hidden field="Vision Active:"/>
-	<hidden field="Range   :"/>
 </xml>

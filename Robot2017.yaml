@@ -126,6 +126,25 @@ Children:
     - Children: []
       Properties:
         Ping Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
+<<<<<<< HEAD
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+            '24', '25']
+          default: '0'
+          name: Ping Channel (Digital)
+          validators: [DigitalChannel]
+          value: '0'
+        Echo Channel (Digital): !!robotbuilder.data.properties.ChoicesProperty
+          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+            '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
+            '24', '25']
+          default: '0'
+          name: Echo Channel (Digital)
+          validators: [DigitalChannel]
+          value: '1'
+      Base: Ultrasonic
+      Name: Distance
+=======
           choices: &id005 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
             '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22',
             '23', '24', '25']
@@ -282,6 +301,7 @@ Children:
           value: '0'
       Base: PowerDistributionPanel
       Name: robotPDP
+>>>>>>> refs/remotes/origin/master
     Properties:
       Default command parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
@@ -296,7 +316,11 @@ Children:
         validators: null
         value: []
     Base: Subsystem
+<<<<<<< HEAD
+    Name: UltraSonic
+=======
     Name: PDPCurrent
+>>>>>>> refs/remotes/origin/master
   Properties: {}
   Base: Subsystems
   Name: Subsystems
@@ -553,9 +577,14 @@ Children:
   Base: Commands
   Name: Commands
 Properties:
+<<<<<<< HEAD
+  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\bstevens\workspace',
+    extension: null, folder: true, name: Eclipse Workspace, validators: null, value: 'C:\Users\bstevens\Documents\GitHub\test'}
+=======
   Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Jonathan
       Kwon\workspace', extension: null, folder: true, name: Eclipse Workspace, validators: null,
     value: 'C:\Users\Jonathan Kwon\Documents\GitHub'}
+>>>>>>> refs/remotes/origin/master
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Export Commands, validators: null, value: true}
   Autonomous command parameters: !!robotbuilder.data.properties.ParametersProperty
@@ -573,9 +602,14 @@ Properties:
     name: Export Subsystems, validators: null, value: true}
   Simulation World File: !!robotbuilder.data.properties.StringProperty {default: /usr/share/frcsim/worlds/GearsBotDemo.world,
     name: Simulation World File, validators: null, value: /usr/share/frcsim/worlds/GearsBotDemo.world}
+<<<<<<< HEAD
+  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\bstevens\',
+    extension: null, folder: true, name: Wiring file location, validators: null, value: 'C:\Users\bstevens'}
+=======
   Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Jonathan
       Kwon\', extension: null, folder: true, name: Wiring file location, validators: null,
     value: 'C:\Users\Jon\'}
+>>>>>>> refs/remotes/origin/master
   Autonomous Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
     name: Autonomous Command, type: Command, validators: null, value: Autonomous Command}
 Base: Robot
