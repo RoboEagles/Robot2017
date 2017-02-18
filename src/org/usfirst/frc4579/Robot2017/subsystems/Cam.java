@@ -64,7 +64,7 @@ public class Cam extends Subsystem {
     private boolean isStarted = false;
     private boolean isProcessing = false;
     private int RESOLUTION_X = 640;
-    private int RESOLUTION_Y = 480;
+    private int RESOLUTION_Y = 360;
     private double PIX_TO_DEG = (RESOLUTION_X / 51);
     private Point point1 = new Point(RESOLUTION_X/2,0);
     private Point point2 = new Point(RESOLUTION_X/2,RESOLUTION_Y);
@@ -103,6 +103,10 @@ public class Cam extends Subsystem {
 	        	double end = timer.get();
 	        	double elapsed = (end-start);
 	        	//System.out.println("Elapsed time: "+elapsed);
+	        	try {
+	        		Thread.sleep(20);
+	        	} catch (InterruptedException e) {
+	        	}
         	}
     	});
     	t.start();

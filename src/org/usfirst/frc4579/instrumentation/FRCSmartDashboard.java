@@ -30,6 +30,7 @@ public class FRCSmartDashboard {
 	
 	public static void setRightAnalogValue (int value) {
 		SmartDashboard.putNumber ("Right Ultra Value:", value);
+	}
 	/*
 	public static void setDistances(double leftDist, double rightDist) {
 		SmartDashboard.putNumber("Left value:", leftDist);
