@@ -4,7 +4,7 @@
  * Lead Programmer, Jaden Bottemiller
  */
 
-package com.RoboEagles4579.math;
+package com.eagles.math;
 
 
 public class Vector3d extends Vector2d {
@@ -49,7 +49,7 @@ public class Vector3d extends Vector2d {
     	Z /= val;
     	return this;
     }
-    
+    /*
     public Vector3d set(Vector3i val) {
     	
     	X = (double) val.X;
@@ -58,7 +58,7 @@ public class Vector3d extends Vector2d {
     	
     	return this;
     }
-
+    
 	public Vector3d set(Vector3s val) {
 		
 		
@@ -68,5 +68,5 @@ public class Vector3d extends Vector2d {
     	
     	return this;
 	}
-    
+    */
 }

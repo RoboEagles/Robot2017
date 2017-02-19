@@ -48,11 +48,6 @@ public class FindPeg extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	//Robot.rotate(direction)
-    	if (brightness <= 1) {
-    		brightness = brightness+.001;
-    	}
-    	System.out.println(brightness);
-    	Robot.cam.lightOn(brightness);
     }
 
     // Make this return true when this Command no longer needs to run execute()

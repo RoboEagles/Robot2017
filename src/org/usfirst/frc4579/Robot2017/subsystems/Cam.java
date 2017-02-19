@@ -95,6 +95,7 @@ public class Cam extends Subsystem {
     public void startProcessing(){
     	contourList.clear();
     	System.out.println("Starting processing thread");
+    	lightOn();
     	t = new Thread(() -> {
     		timer.start();
     		while (!Thread.interrupted()) {
@@ -116,7 +117,7 @@ public class Cam extends Subsystem {
     	if (t.getState() == Thread.State.RUNNABLE) {
     		t.interrupt();
     	}
-    	System.out.println("Removing camera and server");
+    	lightOff();
     	//For some reason, removing the server and camera doesn't seem to do anything.
     	//EDIT: It seems that calling removeServer actually only removes the server from a table, not destroy them.
     	//Maybe calling free() on the VideoSource/sink may remove it?
@@ -132,7 +133,11 @@ public class Cam extends Subsystem {
     }
     public void lightOn(double brightness) {
     	//Since the light controller is technically a motor controller, there is no lightOff() method.
-    	lightController.set(brightness);
+    	lightRelay.set(Relay.Value.kOn);
+    }
+    public void lightOff(double brightness) {
+    	//Since the light controller is technically a motor controller, there is no lightOff() method.
+    	lightRelay.set(Relay.Value.kOff);
     }
     public void changeFPS(int framerate) {
     	//The framerate could be lowered when doing image processing, and raised while under driver control.
