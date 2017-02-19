@@ -11,6 +11,7 @@
 
 package org.usfirst.frc4579.Robot2017.commands;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc4579.instrumentation.FRCSmartDashboard;
 import org.usfirst.frc4579.Robot2017.Robot;
 
 import org.opencv.core.*;
@@ -80,6 +81,7 @@ public class FacePeg extends Command {
     			ArrayList<MatOfPoint> contours = Robot.cam.getContours();
         		if (contours.size() == 2) {
         			double error = Robot.cam.getErrorFromContours(contours.get(0),contours.get(1));
+        			//I could make a method that gets both the error and distance, removing the need to create 2 rectangles twice.
         			System.out.println("Error is: "+error);
         			if (error == 99999) {
         				//the rectangles are in the same place, do nothing(But how do you do nothing?)

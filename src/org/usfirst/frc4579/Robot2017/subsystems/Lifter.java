@@ -38,14 +38,16 @@ public class Lifter extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
     public void climb(){
+    	/* WARNING:
+    	 * Do NOT implement anything that sets the liftMotor to -1(backwards). Setting the liftMotor will break the ratchet.
+    	 */
     	double pov = Robot.oi.joystick.getPOV();
     	if (pov == 0) {
     		liftMotor.set(1);
-    	} else if (pov==180) {
-    		liftMotor.set(-1);
     	} else {
     		liftMotor.set(0);
-    	}
+    	} 
+    	
     }
     public void stop(){
     	liftMotor.set(0);

@@ -41,6 +41,9 @@ public class FRCSmartDashboard {
 		SmartDashboard.putNumber("Right voltage:", rightDist);
 	}
 	*/
+	public static void setCameraDistance(double dist) {
+		SmartDashboard.putNumber("Distance according to the camera:", dist);
+	}
 	public static void setRealDistances(double leftDist, double rightDist) {
 		SmartDashboard.putNumber("Left distance:", leftDist);
 		SmartDashboard.putNumber("Right distance:", rightDist);

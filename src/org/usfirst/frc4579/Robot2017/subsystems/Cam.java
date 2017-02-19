@@ -11,6 +11,7 @@
 
 package org.usfirst.frc4579.Robot2017.subsystems;
 
+import org.usfirst.frc4579.instrumentation.FRCSmartDashboard;
 import org.usfirst.frc4579.Robot2017.RobotMap;
 import org.usfirst.frc4579.Vision.GripPipeline;
 import org.usfirst.frc4579.Robot2017.commands.*;
@@ -63,9 +64,10 @@ public class Cam extends Subsystem {
     
     private boolean isStarted = false;
     private boolean isProcessing = false;
-    private int RESOLUTION_X = 640;
-    private int RESOLUTION_Y = 360;
-    private double PIX_TO_DEG = (RESOLUTION_X / 51);
+    private int RESOLUTION_X = 480;
+    private int RESOLUTION_Y = 270;
+    private double FOV_HORIZ = 51;
+    private double PIX_TO_DEG = (RESOLUTION_X / FOV_HORIZ);
     private Point point1 = new Point(RESOLUTION_X/2,0);
     private Point point2 = new Point(RESOLUTION_X/2,RESOLUTION_Y);
     
@@ -77,7 +79,7 @@ public class Cam extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public boolean takeSnapshot() {
-		cvSink.grabFrame(rawImage);
+		//cvSink.grabFrame(rawImage);
     	if (!rawImage.empty()) {
 	    	rawImage.copyTo(input);
 	    	myGripPipeline.process(input);
@@ -85,10 +87,10 @@ public class Cam extends Subsystem {
 	    	contourList = myGripPipeline.filterContoursOutput();
 	    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(0,0,255,255), 2);
 	    	Imgproc.line(rawImage, point1, point2, new Scalar(255,255,0,255));
-	    	System.out.println("There are "+contourList.size()+" contours.");
-	    	cvSource.putFrame(rawImage);
+	    	//System.out.println("There are "+contourList.size()+" contours.");
+	    	//cvSource.putFrame(rawImage);
     	} else {
-    		System.out.println("Mat image is empty!");
+    		//System.out.println("Mat image is empty!");
     	}
     	return true;
 	}
@@ -96,6 +98,7 @@ public class Cam extends Subsystem {
     	contourList.clear();
     	System.out.println("Starting processing thread");
     	lightOn();
+    	changeCameraToAuto();
     	t = new Thread(() -> {
     		timer.start();
     		while (!Thread.interrupted()) {
@@ -109,15 +112,17 @@ public class Cam extends Subsystem {
 	        	} catch (InterruptedException e) {
 	        	}
         	}
+    		lightOff();
+        	changeCameraToTeleop();
     	});
     	t.start();
     	//Only process a frame if there are no frames being processed?
     }
     public void endProcessing () {
     	if (t.getState() == Thread.State.RUNNABLE) {
+    		System.out.println("Ending camera processing");
     		t.interrupt();
     	}
-    	lightOff();
     	//For some reason, removing the server and camera doesn't seem to do anything.
     	//EDIT: It seems that calling removeServer actually only removes the server from a table, not destroy them.
     	//Maybe calling free() on the VideoSource/sink may remove it?
@@ -131,12 +136,10 @@ public class Cam extends Subsystem {
     	CameraServer.getInstance().removeCamera("Usb Camera 0"); 
     	*/
     }
-    public void lightOn(double brightness) {
-    	//Since the light controller is technically a motor controller, there is no lightOff() method.
-    	lightRelay.set(Relay.Value.kOn);
+    public void lightOn() {
+    	lightRelay.set(Relay.Value.kForward);
     }
-    public void lightOff(double brightness) {
-    	//Since the light controller is technically a motor controller, there is no lightOff() method.
+    public void lightOff() {
     	lightRelay.set(Relay.Value.kOff);
     }
     public void changeFPS(int framerate) {
@@ -144,9 +147,9 @@ public class Cam extends Subsystem {
     	if(framerate > 30 || framerate < 1) {
     		framerate = 30;
     	}
-    	camObject.setFPS(framerate);
+    	//camObject.setFPS(framerate);
     }
-    public double getDistanceFromCenter(Rect leftRect, Rect rightRect) {
+    public double getAngleFromCenter(Rect leftRect, Rect rightRect) {
     	double leftBotRight = leftRect.br().x;
     	double rectGap = rightRect.tl().x - leftBotRight;
     	double pegPosition = leftBotRight + (rectGap/2);
@@ -156,25 +159,48 @@ public class Cam extends Subsystem {
     	double errorInDegrees = errorInPixels / PIX_TO_DEG;
     	return errorInDegrees;
     }
+    public double getDistFromCenter(Rect leftRect, Rect rightRect) {
+    	double leftBotRight = leftRect.br().x;
+    	double rectGap = rightRect.tl().x - leftBotRight;
+    	double pegPosition = leftBotRight + (rectGap/2);
+    	double avgPixHeight = (double) (leftRect.height+rightRect.height)/2;
+    	//d = Targetft*FOVpixel/(2*Targetpixel*tan())
+    	double distance = (5/12)*RESOLUTION_X/(2*avgPixHeight*Math.tan(Math.toRadians(FOV_HORIZ)));
+    	return distance;
+    }
     public void initCamera() {
     	if (!isStarted) {
     		System.out.println("Starting the camera!");
     		isStarted = true;
     		//Starts the camera. THIS SHOULD BE CALLED EVEN IN AUTONOMOUS. getVideo() will NOT work without startAutomaticCapture or addServer().
         	camObject = CameraServer.getInstance().startAutomaticCapture();
-        	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-        	camObject.setFPS(24); // just because you set it at a fps doesn't mean it will run at that fps
-        	camObject.setBrightness(-10);
-        	camObject.setWhiteBalanceManual(0);
-        	camObject.setExposureManual(-10);
-        	cvSink = CameraServer.getInstance().getVideo();
-        	//cvSource = CameraServer.getInstance().putVideo("ContourVideo", 320, 240); //Only the streaming res is low
+        	//camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
+        	camObject.setFPS(30); // just because you set it at a fps doesn't mean it will run at that fps
+        	/*cvSink = CameraServer.getInstance().getVideo();
+        	cvSource = CameraServer.getInstance().putVideo("ContourVideo", 320, 240); //Only the streaming res is low
         	cvSource = new CvSource("ContourVideo", VideoMode.PixelFormat.kMJPEG, 320, 240, 30);
         	CameraServer.getInstance().addCamera(cvSource);
             VideoSink server = CameraServer.getInstance().addServer("serve_" + cvSource.getName());
             server.setSource(cvSource);
+            */
     	}
     	
+    }
+    public void changeCameraToTeleop() {
+    	System.out.println("Setting camera to teleop");
+    	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
+    	camObject.setFPS(24);
+    	camObject.setBrightness(25);
+    	camObject.setWhiteBalanceAuto();
+    	camObject.setExposureManual(25);
+    }
+    public void changeCameraToAuto() {
+    	System.out.println("Setting camera to auto");
+    	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
+    	//camObject.setFPS(30);
+    	camObject.setBrightness(-10);
+    	camObject.setWhiteBalanceManual(0);
+    	camObject.setExposureManual(-10);
     }
     public void setPrimaryContours(ArrayList<MatOfPoint> list) {
     	primaryContourList = list;
@@ -194,14 +220,16 @@ public class Cam extends Subsystem {
     	double errorInDegrees;
     	if (rect1.tl().x < rect2.tl().x) { //If rect1 is 
     		// If rect1.x is smaller than rect2.x then rect1 is the left rect
-    		errorInDegrees = getDistanceFromCenter(rect1,rect2);
+    		errorInDegrees = getAngleFromCenter(rect1,rect2);
     	} else if (rect1.tl().x > rect2.tl().x) {
     		//Rect 2 is smaller, and is the left one 
-    		errorInDegrees = getDistanceFromCenter(rect2, rect1);
+    		errorInDegrees = getAngleFromCenter(rect2, rect1);
     	} else {
     		//Rects are the same or some other error, do nothing...?
     		errorInDegrees = 99999;
     	}
+    	double disty = getDistFromCenter(rect1, rect2);
+    	FRCSmartDashboard.setCameraDistance(disty);
     	//left is positive, right is negative
     	return errorInDegrees;
     }
