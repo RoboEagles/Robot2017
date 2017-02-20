@@ -78,7 +78,7 @@ public class Cam extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public boolean takeSnapshot() {
-		cvSink.grabFrame(rawImage);
+		//cvSink.grabFrame(rawImage);
     	if (!rawImage.empty()) {
 	    	rawImage.copyTo(input);
 	    	myGripPipeline.process(input);
@@ -87,7 +87,7 @@ public class Cam extends Subsystem {
 	    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(0,0,255,255), 2);
 	    	Imgproc.line(rawImage, point1, point2, new Scalar(255,255,0,255));
 	    	//System.out.println("There are "+contourList.size()+" contours.");
-	    	cvSource.putFrame(rawImage);
+	    	//cvSource.putFrame(rawImage);
     	} else {
     		System.out.println("Mat image is empty!");
     	}
@@ -167,12 +167,13 @@ public class Cam extends Subsystem {
         	camObject = CameraServer.getInstance().startAutomaticCapture();
         	camObject.setFPS(30);
         	changeCameraToTeleop();
-        	
+        	/*
         	cvSink = CameraServer.getInstance().getVideo();
         	cvSource = new CvSource("ContourVideo", VideoMode.PixelFormat.kMJPEG, 320, 240, 30);
         	CameraServer.getInstance().addCamera(cvSource);
             VideoSink server = CameraServer.getInstance().addServer("serve_" + cvSource.getName());
             server.setSource(cvSource);
+            */
     	}
     	
     }
