@@ -95,7 +95,7 @@ public class Robot extends IterativeRobot {
     	    EventLogging.saveEventLog();
     	}
     	firstDICall = false;
-    	
+    	cam.lightOff();
     }
 
     public void disabledPeriodic() {

@@ -44,6 +44,8 @@ public class Lifter extends Subsystem {
     	double pov = Robot.oi.joystick.getPOV();
     	if (pov == 0) {
     		liftMotor.set(1);
+    	} else if (pov == 180) {
+    		liftMotor.set(-1);
     	} else {
     		liftMotor.set(0);
     	} 

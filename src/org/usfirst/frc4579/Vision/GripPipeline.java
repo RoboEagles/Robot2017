@@ -59,7 +59,7 @@ public class GripPipeline {
 		Mat findContoursInput = hsvThresholdOutput;
 		boolean findContoursExternalOnly = true;
 		Mat hierarchy = new Mat();
-		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput, hierarchy);
+		//findContours(findContoursInput, findContoursExternalOnly, findContoursOutput, hierarchy);
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
@@ -74,7 +74,7 @@ public class GripPipeline {
 		double filterContoursMinVertices = 0;
 		double filterContoursMinRatio = 0.4;
 		double filterContoursMaxRatio = 0.9;
-		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
+		//filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}
 

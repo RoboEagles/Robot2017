@@ -60,7 +60,7 @@ public class Cam extends Subsystem {
     private ArrayList<MatOfPoint> contourList = new ArrayList<>();
     private ArrayList<MatOfPoint> primaryContourList = new ArrayList<>();
 	
-    private Thread t;
+    public Thread t;
     
     private boolean isStarted = false;
     private boolean isProcessing = false;
@@ -79,55 +79,53 @@ public class Cam extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public boolean takeSnapshot() {
-		//cvSink.grabFrame(rawImage);
+		cvSink.grabFrame(rawImage);
     	if (!rawImage.empty()) {
 	    	rawImage.copyTo(input);
 	    	myGripPipeline.process(input);
-	    	output = myGripPipeline.hsvThresholdOutputPure();
+	    	//output = myGripPipeline.hsvThresholdOutputPure();
 	    	contourList = myGripPipeline.filterContoursOutput();
 	    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(0,0,255,255), 2);
 	    	Imgproc.line(rawImage, point1, point2, new Scalar(255,255,0,255));
 	    	//System.out.println("There are "+contourList.size()+" contours.");
-	    	//cvSource.putFrame(rawImage);
+	    	cvSource.putFrame(rawImage);
     	} else {
-    		//System.out.println("Mat image is empty!");
+    		System.out.println("Mat image is empty!");
     	}
     	return true;
 	}
     public void startProcessing(){
-    	contourList.clear();
-    	System.out.println("Starting processing thread");
-    	lightOn();
-    	changeCameraToAuto();
-    	t = new Thread(() -> {
-    		timer.start();
-    		while (!Thread.interrupted()) {
-				double start = timer.get();
-	        	takeSnapshot();
-	        	double end = timer.get();
-	        	double elapsed = (end-start);
-	        	//System.out.println("Elapsed time: "+elapsed);
-	        	try {
-	        		Thread.sleep(20);
-	        	} catch (InterruptedException e) {
-	        	}
-        	}
-    		lightOff();
-        	changeCameraToTeleop();
-    	});
-    	t.start();
+    	if (!isProcessing) {
+    		isProcessing = true;
+    		contourList.clear();
+        	lightOn();
+        	changeCameraToAuto();
+        	t = new Thread(() -> {
+        		timer.start();
+        		while (!Thread.interrupted()) {
+    				double start = timer.get();
+    	        	takeSnapshot();
+    	        	double end = timer.get();
+    	        	double elapsed = (end-start);
+    	        	//System.out.println("Elapsed time: "+elapsed);
+    	        	try {
+    	        		Thread.sleep(20);
+    	        	} catch (InterruptedException e) {
+    	        	}
+            	}
+        		lightOff();
+            	changeCameraToTeleop();
+            	isProcessing = false;
+        	});
+        	t.start();
+    	}
     	//Only process a frame if there are no frames being processed?
     }
     public void endProcessing () {
-    	if (t.getState() == Thread.State.RUNNABLE) {
-    		System.out.println("Ending camera processing");
+    	if (t.getState() != Thread.State.TERMINATED) {
+    		System.out.println("Ending processing");
     		t.interrupt();
     	}
-    	//For some reason, removing the server and camera doesn't seem to do anything.
-    	//EDIT: It seems that calling removeServer actually only removes the server from a table, not destroy them.
-    	//Maybe calling free() on the VideoSource/sink may remove it?
-    	//Note, Mjpegserver is a subclass of Videosink.
-    	
     	//Check the Mjpegserverimpl.cpp in the cscore repository. Error occurs at line 504.
     	/*
     	CameraServer.getInstance().removeServer("serve_ContourVideo");
@@ -137,17 +135,12 @@ public class Cam extends Subsystem {
     	*/
     }
     public void lightOn() {
-    	lightRelay.set(Relay.Value.kForward);
+    	System.out.println("Turning light on.");
+    	lightRelay.set(Relay.Value.kOn);
     }
     public void lightOff() {
+    	System.out.println("Turning light off.");
     	lightRelay.set(Relay.Value.kOff);
-    }
-    public void changeFPS(int framerate) {
-    	//The framerate could be lowered when doing image processing, and raised while under driver control.
-    	if(framerate > 30 || framerate < 1) {
-    		framerate = 30;
-    	}
-    	//camObject.setFPS(framerate);
     }
     public double getAngleFromCenter(Rect leftRect, Rect rightRect) {
     	double leftBotRight = leftRect.br().x;
@@ -172,32 +165,31 @@ public class Cam extends Subsystem {
     	if (!isStarted) {
     		System.out.println("Starting the camera!");
     		isStarted = true;
-    		//Starts the camera. THIS SHOULD BE CALLED EVEN IN AUTONOMOUS. getVideo() will NOT work without startAutomaticCapture or addServer().
         	camObject = CameraServer.getInstance().startAutomaticCapture();
-        	//camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-        	camObject.setFPS(30); // just because you set it at a fps doesn't mean it will run at that fps
-        	/*cvSink = CameraServer.getInstance().getVideo();
+        	camObject.setFPS(30);
+        	changeCameraToTeleop();
+        	
+        	cvSink = CameraServer.getInstance().getVideo();
         	cvSource = CameraServer.getInstance().putVideo("ContourVideo", 320, 240); //Only the streaming res is low
         	cvSource = new CvSource("ContourVideo", VideoMode.PixelFormat.kMJPEG, 320, 240, 30);
         	CameraServer.getInstance().addCamera(cvSource);
             VideoSink server = CameraServer.getInstance().addServer("serve_" + cvSource.getName());
             server.setSource(cvSource);
-            */
     	}
     	
     }
     public void changeCameraToTeleop() {
     	System.out.println("Setting camera to teleop");
     	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-    	camObject.setFPS(24);
-    	camObject.setBrightness(25);
+    	camObject.setFPS(30);
+    	camObject.setBrightness(35);
     	camObject.setWhiteBalanceAuto();
-    	camObject.setExposureManual(25);
+    	camObject.setExposureManual(20);
     }
     public void changeCameraToAuto() {
     	System.out.println("Setting camera to auto");
     	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-    	//camObject.setFPS(30);
+    	camObject.setFPS(30);
     	camObject.setBrightness(-10);
     	camObject.setWhiteBalanceManual(0);
     	camObject.setExposureManual(-10);
