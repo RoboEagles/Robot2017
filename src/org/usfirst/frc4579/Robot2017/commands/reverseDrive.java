@@ -36,7 +36,7 @@ public class reverseDrive extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.cam.drive.reverseDrive();
+    	Robot.driveTrain.reverseDrive();
     }
 
     // Called repeatedly when this Command is scheduled to run
