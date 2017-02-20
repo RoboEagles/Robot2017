@@ -39,11 +39,12 @@ public class DriveTrain extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
-    public void drive(double sensitivity) {
+    public void drive() {
     	final double x = Robot.oi.joystick.getX()*DRIVE_DIRECTION;
     	final double y = Robot.oi.joystick.getY()*DRIVE_DIRECTION;
-    	final double z = Robot.oi.joystick.getZ();
-    	robotDrive.arcadeDrive(x*sensitivity, y*sensitivity*0.25);
+    	final double slider = Robot.oi.joystick.getRawAxis(2);
+    	double sensitivity = 1 - slider;
+    	robotDrive.arcadeDrive(Math.pow(x*sensitivity, 2), Math.pow(y*sensitivity, 2));
     }
     public void stop(){
     	controllerLeft.stopMotor();

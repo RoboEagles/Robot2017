@@ -393,13 +393,23 @@ Children:
       Name: reverseButton
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: ['0', '1', '2', '3', '4', '5']
+        choices: &id015 ['0', '1', '2', '3', '4', '5']
         default: 1
         name: Number
-        validators: [Joystick]
+        validators: &id016 [Joystick]
         value: '0'
     Base: Joystick
     Name: Joystick
+  - Children: []
+    Properties:
+      Number: !!robotbuilder.data.properties.ChoicesProperty
+        choices: *id015
+        default: 1
+        name: Number
+        validators: *id016
+        value: '1'
+    Base: Joystick
+    Name: LiftJoystick
   Properties: {}
   Base: OI
   Name: Operator Interface
@@ -477,7 +487,7 @@ Children:
     Base: Command
     Name: LaserDistance
   - Children: []
-    Properties: &id016
+    Properties: &id018
       Parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
         name: Parameters
@@ -540,14 +550,14 @@ Children:
                 validators: null
                 value: []
               - !!robotbuilder.data.properties.ParameterSetProperty
-                default: &id015 []
+                default: &id017 []
                 name: Parameter presets
                 validators: null
-                value: *id015
+                value: *id017
               supports: {}
               type: Command
             name: FindPeg
-            properties: *id016
+            properties: *id018
           hasMatch: true
           order: Sequential
           parameters:
@@ -588,10 +598,10 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: None}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id017 []
+        default: &id019 []
         name: Parameter presets
         validators: null
-        value: *id017
+        value: *id019
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
@@ -606,10 +616,10 @@ Children:
       Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
         name: Requires, type: Subsystem, validators: null, value: None}
       Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
-        default: &id018 []
+        default: &id020 []
         name: Parameter presets
         validators: null
-        value: *id018
+        value: *id020
       Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command

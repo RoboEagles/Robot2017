@@ -49,9 +49,9 @@ public class DefaultDrive extends Command {
     	
     	if (Robot.oi.joystick.getRawButton(4)) {
     		System.out.println("Driving at reduced sensitivity");
-    		Robot.driveTrain.drive(0.2);
+    		Robot.driveTrain.drive();
         } else {
-        	Robot.driveTrain.drive(1);
+        	Robot.driveTrain.drive();
         }
     	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
