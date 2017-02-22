@@ -70,9 +70,9 @@ public class OI {
         
         driveServoButton = new JoystickButton(joystick, 3);
         driveServoButton.whileHeld(new driveServo());
-        reverseButton = new JoystickButton(joystick, 11);
+        reverseButton = new JoystickButton(joystick, 7);
         reverseButton.whenPressed(new reverseDrive());
-        forwardButton = new JoystickButton(joystick, 9);
+        forwardButton = new JoystickButton(joystick, 6);
         forwardButton.whenPressed(new forwardDrive());
         laserButton = new JoystickButton(joystick, 2);
         laserButton.whileHeld(new LaserDistance());

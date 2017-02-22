@@ -58,17 +58,22 @@ public class Cam extends Subsystem {
     private GripPipeline myGripPipeline = new GripPipeline();
     private ArrayList<MatOfPoint> contourList = new ArrayList<>();
     private ArrayList<MatOfPoint> primaryContourList = new ArrayList<>();
+    
+    private final boolean STREAM_PROCESSED_VIDEO = true;
 	
     public Thread t;
     
     private boolean isStarted = false;
     private boolean isProcessing = false;
-    private int RESOLUTION_X = 480;
-    private int RESOLUTION_Y = 270;
+    private String cameraState = "auto"; //tele and auto
+    private int RESOLUTION_X = 320;
+    private int RESOLUTION_Y = 240;
     private double FOV_HORIZ = 51;
     private double PIX_TO_DEG = (RESOLUTION_X / FOV_HORIZ);
     private Point point1 = new Point(RESOLUTION_X/2,0);
     private Point point2 = new Point(RESOLUTION_X/2,RESOLUTION_Y);
+    private Point peg1 = new Point();
+    private Point peg2 = new Point();
     
     
     private Mat rawImage = new Mat();
@@ -78,16 +83,20 @@ public class Cam extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	public boolean takeSnapshot() {
-		//cvSink.grabFrame(rawImage);
+		cvSink.grabFrame(rawImage);
     	if (!rawImage.empty()) {
 	    	rawImage.copyTo(input);
 	    	myGripPipeline.process(input);
-	    	//output = myGripPipeline.hsvThresholdOutputPure();
+	    	output = myGripPipeline.hsvThresholdOutputPure();
 	    	contourList = myGripPipeline.filterContoursOutput();
-	    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(0,0,255,255), 2);
+	    	Imgproc.drawContours(rawImage, contourList, -1, new Scalar(255,0,0,255), 2);
 	    	Imgproc.line(rawImage, point1, point2, new Scalar(255,255,0,255));
+	    	Imgproc.line(rawImage, peg1, peg2, new Scalar(0,255,255,255));
 	    	//System.out.println("There are "+contourList.size()+" contours.");
-	    	//cvSource.putFrame(rawImage);
+	    	if (STREAM_PROCESSED_VIDEO) {
+	    		cvSource.putFrame(rawImage);
+	    	}
+	    	
     	} else {
     		System.out.println("Mat image is empty!");
     	}
@@ -96,34 +105,34 @@ public class Cam extends Subsystem {
     public void startProcessing(){
     	if (!isProcessing) {
     		isProcessing = true;
+    		System.out.println("Starting processing!");
     		contourList.clear();
         	lightOn();
         	changeCameraToAuto();
         	t = new Thread(() -> {
         		timer.start();
-        		while (!Thread.interrupted() || !isProcessing) {
+        		while (isProcessing) { // This is where I'd put my interrupted() check... IF IT HAD WORKED.
     				double start = timer.get();
     	        	takeSnapshot();
     	        	double end = timer.get();
     	        	double elapsed = (end-start);
-    	        	//System.out.println("Elapsed time: "+elapsed);
     	        	try {
     	        		Thread.sleep(20);
     	        	} catch (InterruptedException e) {
+    	        		break;
     	        	}
             	}
         		lightOff();
-            	changeCameraToTeleop();
-            	isProcessing = false;
         	});
         	t.start();
-    	}
+    	} else System.out.println("Cannot start new processing thread: End the current one first.");
     	//Only process a frame if there are no frames being processed?
     }
     public void endProcessing () {
     	if (t.getState() != Thread.State.TERMINATED) {
     		System.out.println("Ending processing");
-    		t.interrupt();
+    		isProcessing = false;
+    		lightOff();
     	}
     	//Check the Mjpegserverimpl.cpp in the cscore repository. Error occurs at line 504.
     	/*
@@ -135,30 +144,11 @@ public class Cam extends Subsystem {
     }
     public void lightOn() {
     	System.out.println("Turning light on.");
-    	lightRelay.set(Relay.Value.kOn);
+    	lightRelay.set(Relay.Value.kForward);
     }
     public void lightOff() {
     	System.out.println("Turning light off.");
     	lightRelay.set(Relay.Value.kOff);
-    }
-    public double getAngleFromCenter(Rect leftRect, Rect rightRect) {
-    	double leftBotRight = leftRect.br().x;
-    	double rectGap = rightRect.tl().x - leftBotRight;
-    	double pegPosition = leftBotRight + (rectGap/2);
-    	
-    	//if the pegPosition is left, then num is positive, if right then negative
-    	double errorInPixels = (RESOLUTION_X/2) - pegPosition;
-    	double errorInDegrees = errorInPixels / PIX_TO_DEG;
-    	return errorInDegrees;
-    }
-    public double getDistFromCenter(Rect leftRect, Rect rightRect) {
-    	double leftBotRight = leftRect.br().x;
-    	double rectGap = rightRect.tl().x - leftBotRight;
-    	double pegPosition = leftBotRight + (rectGap/2);
-    	double avgPixHeight = (double) (leftRect.height+rightRect.height)/2;
-    	//d = Targetft*FOVpixel/(2*Targetpixel*tan())
-    	double distance = (5/12)*RESOLUTION_X/(2*avgPixHeight*Math.tan(Math.toRadians(FOV_HORIZ)));
-    	return distance;
     }
     public void initCamera() {
     	if (!isStarted) {
@@ -167,31 +157,37 @@ public class Cam extends Subsystem {
         	camObject = CameraServer.getInstance().startAutomaticCapture();
         	camObject.setFPS(30);
         	changeCameraToTeleop();
-        	/*
         	cvSink = CameraServer.getInstance().getVideo();
-        	cvSource = new CvSource("ContourVideo", VideoMode.PixelFormat.kMJPEG, 320, 240, 30);
-        	CameraServer.getInstance().addCamera(cvSource);
-            VideoSink server = CameraServer.getInstance().addServer("serve_" + cvSource.getName());
-            server.setSource(cvSource);
-            */
+        	if (STREAM_PROCESSED_VIDEO) {
+            	cvSource = new CvSource("ContourVideo", VideoMode.PixelFormat.kMJPEG, RESOLUTION_X, RESOLUTION_Y, 3);
+            	CameraServer.getInstance().addCamera(cvSource);
+                VideoSink server = CameraServer.getInstance().addServer("serve_" + cvSource.getName());
+                server.setSource(cvSource);
+        	}
     	}
     	
     }
     public void changeCameraToTeleop() {
-    	System.out.println("Setting camera to teleop");
-    	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-    	camObject.setFPS(30);
-    	camObject.setBrightness(35);
-    	camObject.setWhiteBalanceAuto();
-    	camObject.setExposureManual(20);
+    	if (cameraState != "tele") {
+    		cameraState = "tele";
+    		System.out.println("Setting camera to teleop");
+        	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
+        	camObject.setFPS(30);
+        	camObject.setBrightness(35);
+        	camObject.setWhiteBalanceAuto();
+        	camObject.setExposureManual(20);
+    	} else System.out.println("Camera is already tele");
     }
     public void changeCameraToAuto() {
-    	System.out.println("Setting camera to auto");
-    	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-    	camObject.setFPS(30);
-    	camObject.setBrightness(-10);
-    	camObject.setWhiteBalanceManual(0);
-    	camObject.setExposureManual(-10);
+    	if (cameraState != "auto") {
+    		cameraState = "auto";
+    		System.out.println("Setting camera to auto");
+        	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
+        	camObject.setFPS(30);
+        	camObject.setBrightness(-10);
+        	camObject.setWhiteBalanceManual(0);
+        	camObject.setExposureManual(-10);
+    	} else System.out.println("Camera is already auto");
     }
     public void setPrimaryContours(ArrayList<MatOfPoint> list) {
     	primaryContourList = list;
@@ -205,6 +201,29 @@ public class Cam extends Subsystem {
     /*
      * Returns the degree between the robot center and the peg in degrees
      */
+    public double getDistFromCenter(Rect leftRect, Rect rightRect) {
+    	double leftBotRight = leftRect.br().x;
+    	double rectGap = rightRect.tl().x - leftBotRight;
+    	double pegPosition = leftBotRight + (rectGap/2);
+    	double avgPixHeight = ((double) (leftRect.height+rightRect.height))/2.0;
+    	//d = Targetft*FOVpixel/(2*Targetpixel*tan())
+    	double distance = ((5.0/12.0)*((double) RESOLUTION_X))/(2.0*avgPixHeight*Math.tan(Math.toRadians(FOV_HORIZ)));
+    	System.out.println("Distance: "+distance);
+    	return distance;
+    }
+    public double getAngleFromCenter(Rect leftRect, Rect rightRect) {
+    	double leftBotRight = leftRect.br().x;
+    	double rectGap = rightRect.tl().x - leftBotRight;
+    	double pegPosition = leftBotRight + (rectGap/2);
+    	//if the pegPosition is left, then num is positive, if right then negative
+    	peg1.x = pegPosition;
+    	peg2.x = pegPosition;
+    	peg1.y = 0;
+    	peg2.y = RESOLUTION_Y;
+    	double errorInPixels = (RESOLUTION_X/2) - pegPosition;
+    	double errorInDegrees = errorInPixels / PIX_TO_DEG;
+    	return errorInDegrees;
+    }
     public double getErrorFromContours(MatOfPoint contour1, MatOfPoint contour2) {
     	Rect rect1 = Imgproc.boundingRect(contour1);
     	Rect rect2 = Imgproc.boundingRect(contour2);

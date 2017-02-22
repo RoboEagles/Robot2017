@@ -42,6 +42,7 @@ public class FindPeg extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	System.out.println("Starting init processing");
     	Robot.cam.startProcessing();
     }
 

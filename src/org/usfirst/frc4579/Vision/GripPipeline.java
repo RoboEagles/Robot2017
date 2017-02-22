@@ -50,8 +50,8 @@ public class GripPipeline {
 		// Step HSV_Threshold0:
 		Mat hsvThresholdInput = blurOutput;
 		double[] hsvThresholdHue = {59, 97};
-		double[] hsvThresholdSaturation = {0, 255};
-		double[] hsvThresholdValue = {40, 80};
+		double[] hsvThresholdSaturation = {205, 255};
+		double[] hsvThresholdValue = {64, 120};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 		hsvThresholdOutput.copyTo(hsvThresholdOutputPure);
 		
@@ -59,7 +59,7 @@ public class GripPipeline {
 		Mat findContoursInput = hsvThresholdOutput;
 		boolean findContoursExternalOnly = true;
 		Mat hierarchy = new Mat();
-		//findContours(findContoursInput, findContoursExternalOnly, findContoursOutput, hierarchy);
+		findContours(findContoursInput, findContoursExternalOnly, findContoursOutput, hierarchy);
 
 		// Step Filter_Contours0:
 		ArrayList<MatOfPoint> filterContoursContours = findContoursOutput;
@@ -74,7 +74,7 @@ public class GripPipeline {
 		double filterContoursMinVertices = 0;
 		double filterContoursMinRatio = 0.4;
 		double filterContoursMaxRatio = 0.9;
-		//filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
+		filterContours(filterContoursContours, filterContoursMinArea, filterContoursMinPerimeter, filterContoursMinWidth, filterContoursMaxWidth, filterContoursMinHeight, filterContoursMaxHeight, filterContoursSolidity, filterContoursMaxVertices, filterContoursMinVertices, filterContoursMinRatio, filterContoursMaxRatio, filterContoursOutput);
 
 	}
 

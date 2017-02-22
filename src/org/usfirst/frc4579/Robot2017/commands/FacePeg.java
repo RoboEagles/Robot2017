@@ -82,11 +82,12 @@ public class FacePeg extends Command {
         		if (contours.size() == 2) {
         			double error = Robot.cam.getErrorFromContours(contours.get(0),contours.get(1));
         			//I could make a method that gets both the error and distance, removing the need to create 2 rectangles twice.
-        			System.out.println("Error is: "+error);
+        			//System.out.println("Error is: "+error);
         			if (error == 99999) {
         				//the rectangles are in the same place, do nothing(But how do you do nothing?)
-        			} else if (error <= allowedError) {
+        			} else if (Math.abs(error) <= allowedError) {
         				System.out.println("The robot is facing the peg.");
+        				Robot.cam.changeCameraToTeleop();
         				return true;
         			} else {
         				//rotate the robot to the peg again(atAngle will be false)

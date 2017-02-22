@@ -46,18 +46,20 @@ public class DriveTrain extends Subsystem {
     	double ysign = Math.signum(y);
     	final double slider = Robot.oi.joystick.getRawAxis(2) / 2;
     	double sensitivity = 0.5 - slider;
-    	System.out.println("xsign: "+xsign+ "ysign: "+ysign);
     	//LOGIC BUG: math.pow always returns a positive value.
-    	robotDrive.arcadeDrive(Math.pow(x*sensitivity, 2)*xsign, Math.pow(y*sensitivity, 2)*ysign);
+    	robotDrive.arcadeDrive(Math.pow(x*sensitivity, 2)*xsign, Math.pow(y*sensitivity, 2)*ysign*drive_direction);
+    	//robotDrive.arcadeDrive(Math.pow(x*sensitivity, 2)*xsign, Math.pow(y*sensitivity, 2)*ysign);
     }
     public void stop(){
     	controllerLeft.stopMotor();
     	controllerRight.stopMotor();
     }
     public void reverseDrive() {
+    	System.out.println("Setting drive to reverse");
     	drive_direction = -1;
     }
     public void forwardDrive() {
+    	System.out.println("Setting drive to forward");
     	drive_direction = 1;
     }
     /*
