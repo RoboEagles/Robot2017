@@ -13,6 +13,7 @@ package org.usfirst.frc4579.Robot2017.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import org.usfirst.frc4579.Robot2017.Robot;
 import org.opencv.core.*;
+import org.usfirst.frc4579.instrumentation.FRCSmartDashboard;
 
 import java.util.List;
 import java.util.ArrayList; //I DONT KNOW WHY WE NEED TWO PACKAGES TO GET ONE THING BUT OOOOOOK
@@ -62,6 +63,15 @@ public class FindPeg extends Command {
     		System.out.println("FOUND TWO TAPES!!!");
     		Robot.cam.endProcessing();
     		Robot.cam.setPrimaryContours(contours);
+    		/*
+    		double error = Robot.cam.getErrorFromContours(contours.get(0),contours.get(1));
+    		double jok = Math.signum(error);
+    		
+    		double c = 180 - camAngle;
+    		double centerToPeg = Math.sqrt( Math.pow(offset, 2) + Math.pow(camDistance, 2) - (2*offset*camDistance*Math.cos(c)) );
+    		double finalTurnAngle = Math.asin( camDistance*Math.sin(c)/centerToPeg );
+    		FRCSmartDashboard.
+    		*/
     		return true;
     	} else if (contours.size() == 1) {
     		/*

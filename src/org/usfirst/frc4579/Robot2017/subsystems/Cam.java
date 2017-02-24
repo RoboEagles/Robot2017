@@ -207,8 +207,10 @@ public class Cam extends Subsystem {
     	double pegPosition = leftBotRight + (rectGap/2);
     	double avgPixHeight = ((double) (leftRect.height+rightRect.height))/2.0;
     	//d = Targetft*FOVpixel/(2*Targetpixel*tan())
-    	double distance = ((5.0/12.0)*((double) RESOLUTION_X))/(2.0*avgPixHeight*Math.tan(Math.toRadians(FOV_HORIZ)));
-    	System.out.println("Distance: "+distance);
+    	//(5*590)/(2.0*63*tan(22.3deg))
+    	double distance = ((5.0)*((double) RESOLUTION_X))/(2.0*avgPixHeight*Math.tan(Math.toRadians(FOV_HORIZ/2)));
+    	//640 / (n * tan( 59.7 / 2 ) )
+    	System.out.println("Distance: "+distance); //returns distance in inches.
     	return distance;
     }
     public double getAngleFromCenter(Rect leftRect, Rect rightRect) {
