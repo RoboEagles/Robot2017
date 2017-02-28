@@ -8,8 +8,8 @@ public class KalmanFilter {
 	private double angle;     // The angle calculated by the Kalman filter.
 	private double bias;      // The gyro bias calculated by the Kalman filter.
 	private double rate;
-	private double P[2][2];   // Error covariance matrix.
-	private double K[2];      // Kalman gain 2x1 vector.
+	private double[][] P;     // Error covariance matrix.
+	private double[] K;       // Kalman gain 2x1 vector.
 	private double y;         // Angle difference.
 	private double S;         // Estimate error.
 	
@@ -20,6 +20,8 @@ public class KalmanFilter {
 		R_measure = 0.03;
 		angle     = 0.0;
 		bias      = 0.0;
+		P         = new double[2][2];
+		K         = new double[2];
 		P[0][0]   = 0.0; // Since we assume that the bias is 0 and we know the starting angle (use setAngle),
 		P[0][1]   = 0.0; // the error covariance matrix is set like so.
 		P[1][0]   = 0.0;
@@ -27,7 +29,7 @@ public class KalmanFilter {
 	}
 	
 	// The angle should be in degrees and the rate should be in degrees per second and the delta time in seconds.
-	public double getAngle (double newAngle, double newRange, double dt) {
+	public double getAngle (double newAngle, double newRate, double dt) {
 		
 		// Project the state ahead (xhat)
 		rate   = newRate - bias;
@@ -59,7 +61,7 @@ public class KalmanFilter {
 	}
 	
 	// Used to set the starting angle.
-	pubic void setAngle(double newAngle) { angle = newAngle; }
+	public void setAngle(double newAngle) { angle = newAngle; }
 	
 	// Get the unbiased rate;
 	double getRate() { return rate;}

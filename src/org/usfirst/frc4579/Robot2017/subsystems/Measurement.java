@@ -1,8 +1,8 @@
 package org.usfirst.frc4579.Robot2017.subsystems;
 
 import org.usfirst.frc4579.Robot2017.Robot;
-import com.sensors.MPU6050_I2C;
-import com.sensors.VL53LOX_I2C;
+import com.eagles.sensors.MPU6050_I2C;
+import com.eagles.sensors.VL53LOX_I2C;
 import org.usfirst.frc4579.instrumentation.EventLogging;
 
 import edu.wpi.first.wpilibj.Timer;

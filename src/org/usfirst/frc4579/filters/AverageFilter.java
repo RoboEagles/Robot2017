@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4579.filters;
+package org.usfirst.frc4579.filters;
 
 /*************************************************************************************
  * AVERAGE FILTER

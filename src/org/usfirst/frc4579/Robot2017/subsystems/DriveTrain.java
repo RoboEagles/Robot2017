@@ -39,6 +39,12 @@ public class DriveTrain extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+    
+    // Return true if the motors are commanded to zero.
+    public boolean isNotMoving() {
+    	return (controllerLeft.get() == 0.0) && (controllerRight.get() == 0.0);
+    }
+    
     public void drive() {
     	double x = Robot.oi.joystick.getX();//*drive_direction;
     	double y = Robot.oi.joystick.getY();//*drive_direction;
