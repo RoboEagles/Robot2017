@@ -7,22 +7,15 @@
  * the folder containing the date and time that the run began.  The inheriting 
  * subclass responsible for writing a particular kind of debug data has access 
  * to this folder path via the dataDirectoryName method.
- * 
- * The directory in which the "runs" directory is created is derived by
- * concatenating the user.home system property with the BaseDataDir system
- * property.  The BaseDataDir system properties is specified in Eclipse as
- * follows:
- * 		1. Select Run -> Run Configurations...
- * 		2. Select the desired program and the "(x) = Arguements" tab.
- * 		3. Under "VM Arguments" add: 
- * 				-DBaseDataDir="<path to append to the user.home value>"
- * 		4. Click apply.
  *****************************************************************************/
 
 package org.usfirst.frc4579.instrumentation;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import edu.wpi.first.wpilibj.Timer;
+
 import java.io.File;
 
 public abstract class Instrumentation {
@@ -40,9 +33,7 @@ public abstract class Instrumentation {
 		if (!instrAvailable) {
 
 			// Try to create a "runs" directory file object.
-			String mainPath = System.getProperty("user.home"); // + System.getProperty("BaseDataDir");
-			//String mainPath = "/media/sa1";
-			//String mainPath = "/V";
+			String mainPath = System.getProperty("user.home");
 			
 			instrAvailable  = true;
 
@@ -72,5 +63,11 @@ public abstract class Instrumentation {
 	
 	// Returns the path to where debug data should be saved.
 	public static String dataDirectoryName () {return runDataDir;}
+	
+	// Provides a common time source for child classes to time-tag debug data.
+	// The returned time is in seconds.
+	public static double timeNow () {
+		return Timer.getFPGATimestamp();
+	}
 
 }
