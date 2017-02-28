@@ -1,7 +1,7 @@
-package org.usfirst.frc.team4579.utilities;
+package org.usfirst.frc.team4579.filters;
 
 /*************************************************************************************
- * AVERAGE STATS
+ * AVERAGE FILTER
  * 
  * Allows the caller to maintain a running average of sample values.  Standard deviation
  * is also available.  The class is instantiated with the max number of samples that
