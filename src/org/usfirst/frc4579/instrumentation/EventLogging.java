@@ -8,7 +8,6 @@
 
 package org.usfirst.frc4579.instrumentation;
 
-import java.util.Date;
 import java.util.*;
 import java.text.*;
 import java.io.BufferedWriter;
@@ -57,14 +56,9 @@ public class EventLogging extends Instrumentation {
 	 *********************************************************************************/
 	public enum INTERESTINGEVENTS {
 						
-						CONTOUR_REJECTED_TOO_FEW_POINTS, // Vision processing (INTERESTING)
-						CONTOUR_FAILED_COVERAGE_AREA_TEST,
-						CONTOUR_FAILED_ASPECT_RATIO_TEST,
-						CONTOUR_PASSED_COVERAGE_AREA_TEST,
-						CONTOUR_PASSED_ASPECT_RATIO_TEST,
-						CONTOUR_ACCEPTED_AND_IS_NEW_BEST,
-						CONTOUR_ACCEPTED_BUT_NOT_BEST,
-						TEST
+						MPU6050_CAL,
+						MPU6050_DATA,
+						MEASUREMENT_DATA
 	};
 
 	/*********************************************************************************
@@ -75,7 +69,6 @@ public class EventLogging extends Instrumentation {
 	};
 
 	private static boolean logAvailable = false;
-	private static File logFile = null;
 
 	// Constructor
 	public EventLogging () {
@@ -93,10 +86,7 @@ public class EventLogging extends Instrumentation {
 	// Define the event log.  Event are stored locally to save throughput.  The
 	// saveEventLog can be invoked (say, after a match is over) to dump the log
 	// to the Driver Station or storage device.
-	private static List<String> eventLog = new ArrayList<String>(10000);
-
-	// Format string for time and date.
-	private static final SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy.MM.dd hh:mm:ss.SSS");		
+	private static List<String> eventLog = new ArrayList<String>(10000);		
 
 	/***************************************************************************
 	 * This method returns true if event logging is available.  It would not
@@ -112,8 +102,8 @@ public class EventLogging extends Instrumentation {
 	 ***************************************************************************/
 	private static synchronized void logEvent (String event) {
 
-		Date date       = new Date();
-		String eventStr = dateFormat.format(date) + ' ' + event;
+		String eventStr = String.format("%10.6f", timeNow()) + '\t' + event + '\t';
+		
 		eventLog.add(eventStr);
 
 	}
@@ -124,7 +114,7 @@ public class EventLogging extends Instrumentation {
 	public static synchronized void logNormalEvent (NORMALEVENTS event, String auxData) {
 
 		if (logAvailable) 
-			logEvent ("NORMAL      " + event.name() + " " + auxData);
+			logEvent ("NORMAL      \t" + event.name() + "\t" + auxData);
 
 	}
 
@@ -134,7 +124,7 @@ public class EventLogging extends Instrumentation {
 	public static synchronized void logInterestingEvent (INTERESTINGEVENTS event, String auxData) {
 
 		if (logAvailable) 
-			logEvent ("INTERESTING " + event.name() + " " + auxData);
+			logEvent ("INTERESTING\t" + event.name() + "\t" + auxData);
 
 	}
 
@@ -144,35 +134,37 @@ public class EventLogging extends Instrumentation {
 	public static synchronized void logBadEvent (BADEVENTS event, String auxData) {
 
 		if (logAvailable) 
-			logEvent ("BAD         " + event.name() + " " + auxData);
+			logEvent ("BAD         \t" + event.name() + "\t" + auxData);
 
 	}
 
+	/***************************************************************************
+	 * Log a string to the event log with no other information.
+	 ***************************************************************************/
+	public static void logString (String str) {
+		eventLog.add(str);
+	}
+	
 	/***************************************************************************
 	 * This method dumps the event log to a file.
 	 ***************************************************************************/
 	public static synchronized void saveEventLog () {
 
-		BufferedWriter bw;
-		FileWriter     fw;
+		File             logFile;
+		BufferedWriter   bw;
+		FileWriter       fw;
+		SimpleDateFormat hrMinFormat = new SimpleDateFormat ("_hh.mm.ss");		
 
 		if (logAvailable) {
 
 			// Create a File object with the event log file name.
-			if (logFile == null)
-			    logFile = new File(dataDirectoryName() + "/Events.txt");
-
-			// if it happens to already exist, delete it.
-			// if (logFile.exists()) 
-			//	logFile.delete();
+			Date date = new Date();
+			logFile   = new File(dataDirectoryName() + "/Events" + hrMinFormat.format(date) + ".txt");
 
 			try {
 
 				if (!logFile.exists())
 					logFile.createNewFile();
-				
-				// if we can create the file
-				//if (logFile.createNewFile()) {
 
 				if (logFile.exists()) {
 					
