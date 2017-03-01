@@ -84,7 +84,15 @@ public class Robot extends IterativeRobot {
         // instantiate the command used for the autonomous period
         
         //Note: I removed the AutonomousCommand flags for robotbuilder, you may need to re-add them in the future.
-        autonomousCommand = new Auto_PlaceGear("LEFT");
+        int state = switches.getMode();
+        String direction;
+        if (state == 1) {
+        	autonomousCommand = new Auto_PlaceGear("center");
+        } else if(state==2) {
+        	autonomousCommand = new Auto_PlaceGear("left");
+        } else if(state==3) {
+        	autonomousCommand = new Auto_PlaceGear("right");
+        }
     }
 
     /**
