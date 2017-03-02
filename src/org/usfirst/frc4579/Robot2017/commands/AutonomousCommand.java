@@ -46,6 +46,9 @@ public class AutonomousCommand extends Command {
     protected void execute() {
     	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "Autonomous");
+    	
+    	// Update IMU data.
+    	Robot.meas.measure();
 
     	// Add Autonoumous code here.
     	if(mode == 1){

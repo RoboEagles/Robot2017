@@ -47,6 +47,9 @@ public class DefaultDrive extends Command {
 
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "DefaultDrive");
     	
+    	// Update IMU data.
+    	Robot.meas.measure();
+    	
     	Robot.driveTrain.drive();
     	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
