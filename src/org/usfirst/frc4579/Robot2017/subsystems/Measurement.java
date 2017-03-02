@@ -237,12 +237,13 @@ public class Measurement extends Subsystem {
     public double getVelocityY() {
     	return velocityY;
     }
+    */
     
     // Returns the robot angular displacement from its original placement (in degrees).
     public double getAngle() {
     	return robotAngleZ;
     }
-    */
+
     // Returns the robot angular rate (in degrees/sec).
     public double getAngleRate() {
     	return robotAngleRateZ;
