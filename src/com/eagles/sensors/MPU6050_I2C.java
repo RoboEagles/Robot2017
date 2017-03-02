@@ -98,10 +98,10 @@ public class MPU6050_I2C {
 
     	}
 
-    	EventLogging.logInterestingEvent(
+/*    	EventLogging.logInterestingEvent(
     			EventLogging.INTERESTINGEVENTS.MPU6050_DATA, 
     			"name\tscaledValue\tcorrectedValue\tfilteredValue\tcalAvg\tcalStdDev"
-    			);
+    			);*/
     	
 		readTimer.stop();
     	
@@ -170,9 +170,7 @@ public class MPU6050_I2C {
 		yGyroData .computeRawAndScaledValue( READS[10], READS[11], gyroScaleFactor);
 		zGyroData .computeRawAndScaledValue( READS[12], READS[13], gyroScaleFactor);
 		
-		byte tempH = READS[6];
-		int  tempL = toU(READS[7]);
-		int temp   = (tempH << 8) | tempL;
+		int temp = ((int)READS[6] << 8) | (READS[7] & 0xff);
 		tempF      = (double) temp * 0.0052941 + 97.754;
 		
 		readTimer.stop();
@@ -247,12 +245,6 @@ public class MPU6050_I2C {
 	public double getTemp() { // degrees F
 		return tempF;
 	}
-    
-	// Java does not support unsigned values, so we convert Java's signed byte
-    // to an unsigned value in a signed integer.
-	private int toU(byte value) {
-	    return value >= 0 ? value : 2 * (int) Byte.MAX_VALUE + 2 + value;
-	}
 	
 	/***********************************************************************************
 	 * Parent class that encapsulates the common data/processing of each IMU axis type.
@@ -287,8 +279,7 @@ public class MPU6050_I2C {
 		// Computes the raw and scaled value as supplied by the MPU6050.
 		public void computeRawAndScaledValue (byte highOrder, byte lowOrder, double scaleFactor) {
 
-			this.rawValue = (highOrder << 8)   | toU(lowOrder);    //Convert all the bytes to int's.
-
+			this.rawValue    = ((int)highOrder << 8) | (lowOrder & 0xff);
 			this.scaledValue = (double)this.rawValue / scaleFactor;
 		}
 		
@@ -316,7 +307,7 @@ public class MPU6050_I2C {
 		
 		public void logAxisData () {
 			
-	    	EventLogging.logInterestingEvent(
+/*	    	EventLogging.logInterestingEvent(
 	    			EventLogging.INTERESTINGEVENTS.MPU6050_DATA, 
 	    			this.name 				+ "\t" +
 	    			this.scaledValue        + "\t" +
@@ -324,7 +315,7 @@ public class MPU6050_I2C {
 	    			this.filteredValue      + "\t" + 
 	    			this.avgStats.average() + "\t" + 
 	    			this.avgStats.stdDeviation()
-	    			);
+	    			);*/
 		}
 		
 		// Access methods for internal data.
