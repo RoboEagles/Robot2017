@@ -210,7 +210,7 @@ public class Measurement extends Subsystem {
     	
     }
     
-    // Returns the X displacement from starting location in inches.
+/*    // Returns the X displacement from starting location in inches.
     public double getFieldPositionX() {
     	return fieldPosX;
     }
@@ -242,7 +242,7 @@ public class Measurement extends Subsystem {
     public double getAngle() {
     	return robotAngleZ;
     }
-    
+    */
     // Returns the robot angular rate (in degrees/sec).
     public double getAngleRate() {
     	return robotAngleRateZ;
