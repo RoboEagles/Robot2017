@@ -45,6 +45,14 @@ public class DriveTrain extends Subsystem {
     	return (controllerLeft.get() == 0.0) && (controllerRight.get() == 0.0);
     }
     
+    // Drive each motor at the indicated speed.
+    public void driveEachMotor (double leftMotorSpeed, double rightMotorSpeed) {
+
+    	controllerLeft .set(leftMotorSpeed);
+    	controllerRight.set(rightMotorSpeed);
+    	
+    }
+    
     public void drive() {
     	double x = Robot.oi.joystick.getX();//*drive_direction;
     	double y = Robot.oi.joystick.getY();//*drive_direction;
