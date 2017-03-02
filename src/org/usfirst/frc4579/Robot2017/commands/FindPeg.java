@@ -84,6 +84,7 @@ public class FindPeg extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.driveTrain.stopDrivingToSetpoint();
     	Robot.cam.endProcessing();
     	timer.stop();
     }

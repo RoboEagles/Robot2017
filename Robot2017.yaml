@@ -716,6 +716,38 @@ Children:
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
     Name: PushGear
+  - Children: []
+    Properties:
+      Parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Parameters
+        validators: null
+        value:
+        - !!robotbuilder.data.properties.ParameterDescriptor {name: dist, type: double}
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+        name: Parameter presets
+        validators: null
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: DriveDistance
+  - Children: []
+    Properties:
+      Parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Parameters
+        validators: null
+        value:
+        - !!robotbuilder.data.properties.ParameterDescriptor {name: angle, type: double}
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+        name: Parameter presets
+        validators: null
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: RotateAngle
   Properties: {}
   Base: Commands
   Name: Commands

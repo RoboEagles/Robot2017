@@ -97,6 +97,7 @@ public class FacePeg extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.driveTrain.stopDrivingToSetpoint();
     	timer.stop();
     }
 
