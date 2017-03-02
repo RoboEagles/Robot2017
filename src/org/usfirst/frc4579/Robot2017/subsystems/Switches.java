@@ -44,16 +44,16 @@ public class Switches extends Subsystem {
 	    SmartDashboard.putBoolean("Left Switch",lState);
 	    SmartDashboard.putBoolean("Right Switch",rState);
     }
-    public int getMode(){
+    public String getMode(){
     	
     	if(middle.get() || leftSwitch.get() && rightSwitch.get()){
-    		return 1;
+    		return "center";
     	} else if(leftSwitch.get()){
-    		return 2;
+    		return "left";
     	} else if(rightSwitch.get()){
-    		return 3;
+    		return "right";
     	} else {
-    		return 0;
+    		return "null";
     	}
     }
     

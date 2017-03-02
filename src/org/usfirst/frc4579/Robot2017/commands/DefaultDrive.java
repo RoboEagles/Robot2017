@@ -51,7 +51,7 @@ public class DefaultDrive extends Command {
     	Robot.meas.measure();
     	
     	Robot.driveTrain.drive();
-    	
+    	Robot.driveTrain.putEncoderDistance();
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
     }
 
