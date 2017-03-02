@@ -49,8 +49,8 @@ public class DriveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (Robot.driveTrain.isAtSetpoint) {
-    		return true
+    	if (Robot.driveTrain.isAtSetpoint()) {
+    		return true;
     	}
         return false;
     }
