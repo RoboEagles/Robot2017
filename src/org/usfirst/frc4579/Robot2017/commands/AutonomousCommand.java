@@ -51,23 +51,6 @@ public class AutonomousCommand extends Command {
     	Robot.meas.measure();
 
     	// Add Autonoumous code here.
-    	if(mode == 1){
-    		//System.out.println("Running the middle drive program");
-    		Robot.switches.mAutoDrive();
-    	}
-    	else if(mode == 2){
-    		//System.out.println("Running the left drive program");
-    		Robot.switches.lAutoDrive();
-    	}
-    	else if(mode == 3){
-    		//System.out.println("Running the right drive program");
-    		Robot.switches.rAutoDrive();
-    	}
-    	else{
-    		//System.out.println("Didn't recieve a valid input from switches");
-    		//Robot.driveTrain.stop();
-    	}
-    	Robot.switches.printSwitches();
     	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND, "Autonomous");
 
