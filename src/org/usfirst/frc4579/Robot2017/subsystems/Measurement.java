@@ -60,7 +60,7 @@ public class Measurement extends Subsystem {
     private boolean lidarAvailable  = false;
     private boolean lidarContinuous = true;  // True  => lidar makes continous back-to-back measurements.
     										 // False => use lidar in single-shot mode.
-    
+
     // Initializes the accelerometer and distance ranging devices.
     public void initialize() {
 
@@ -76,7 +76,7 @@ public class Measurement extends Subsystem {
         	System.out.println("***** MEASUREMENT INITIALIZED" + "\n");
 
     		EventLogging.logInterestingEvent(EventLogging.INTERESTINGEVENTS.MEASUREMENT_DATA, 
-    				"Time\tCorrectedX\tCorrectedY\tCorrectedZ\tPitch\tVelocityX\tRoll\tVelocityY\tdistanceX\tdistanceY\tzGyroRate\tzAngle");
+    				"Time\tCorrectedX\tCorrectedY\tCorrectedZ\tVelocityX\tVelocityY\tdistanceX\tdistanceY\tzGyroRate\tzAngle");
 
     	}
     	else
@@ -143,12 +143,12 @@ public class Measurement extends Subsystem {
     		double accelerationY  = mpu.getAccelY();
     		double accelerationZ  = mpu.getAccelZ();
     		
-    		double xAccel = -Math.atan2(-accelerationX, accelerationZ) * angleToAccelScale;
-    		double yAccel = Math.atan(accelerationY / 
-    				                 Math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ)) * angleToAccelScale;
+//    		double xAccel = -Math.atan2(-accelerationX, accelerationZ) * angleToAccelScale;
+//    		double yAccel = Math.atan(accelerationY / 
+//    				                 Math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ)) * angleToAccelScale;
     		
-    		velocityX += xAccel * deltaT;
-    		velocityY += yAccel * deltaT;
+    		velocityX += accelerationX * deltaT;
+    		velocityY += accelerationY * deltaT;
     		
     		// Compute new distance vector.
     		double dX = velocityX * deltaT;
@@ -185,7 +185,7 @@ public class Measurement extends Subsystem {
     		EventLogging.logInterestingEvent(EventLogging.INTERESTINGEVENTS.MEASUREMENT_DATA, 
     				time + "\t" + 
     				accelerationX + "\t" + accelerationY  + "\t" + accelerationZ + "\t" +
-    				xAccel + "\t" + velocityX + "\t"  + yAccel + "\t" + velocityY + "\t" + 
+    				velocityX + "\t" + velocityY + "\t" + 
     				distanceX + "\t" + distanceY + "\t" + robotAngleRateZ + "\t" + robotAngleZ);
     		
     		// if we don't seem to be moving, compute a new calibration average for the sensor.
