@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot {
         //Note: I removed the AutonomousCommand flags for robotbuilder, you may need to re-add them in the future.
         String state = switches.getMode();
         String direction;
-        if (state ~= "null") {
+        if (state != "null") {
         	autonomousCommand = new Auto_PlaceGear(state);
         } else {
         	System.out.println("State was null...");
