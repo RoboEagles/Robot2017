@@ -42,6 +42,8 @@ public class Auto_PlaceGear extends CommandGroup {
         // arm.
     	System.out.println("Autonomous command state is set at: "+pegLocation);
     	if (pegLocation == "left") {
+    		//addSequential(new DriveDistance(3.0));
+    		//addSequential(new RotateAngle(30);
     		addSequential(new FindPeg());
     		addSequential(new FacePeg());
     	} else if (pegLocation == "right") {

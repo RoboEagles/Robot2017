@@ -39,6 +39,7 @@ public class DriveDistance extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//CONSIDER ADDING A WAIT() TO ALLOW THE BOT TO STOP MOVING FIRST.
     	Robot.driveTrain.shiftPIDToDrive();
     	Robot.driveTrain.driveToSetpoint(m_dist);
     }

@@ -54,11 +54,11 @@ public class FindPeg extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() { //Ideally, this would use PID turning instead of constant turning. This is temporary code.
     	double currentTime = timer.get(); 
-    	if (currentTime <= 2.0) {
+    	if (currentTime <= 1.0) {
     		Robot.driveTrain.continuousTurn("left"); //first search the left for tapes
-    	} else if (currentTime <= 6.0) {
+    	} else if (currentTime <= 3.0) {
     		Robot.driveTrain.continuousTurn("right");//afterwards, return to centerpoint and search right
-    	} else if (currentTime <= 8.0) {
+    	} else if (currentTime <= 4.0) {
     		Robot.driveTrain.continuousTurn("left"); //if you can't find anything, just return to centerpoint
     	} //After eight seconds, do nothing.
     }
