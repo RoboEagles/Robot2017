@@ -86,16 +86,14 @@ public class Robot extends IterativeRobot {
         // instantiate the command used for the autonomous period
         
         //Note: I removed the AutonomousCommand flags for robotbuilder, you may need to re-add them in the future.
-        autonomousCommand = new AutonomousCommand();
-        /*
+        
         String state = switches.getMode();
         String direction;
+        System.out.println("State: "+state)
         if (state != "null") {
-        	autonomousCommand = new Auto_PlaceGear(state);
-        } else {
-        	System.out.println("State was null...");
+        	autonomousCommand = new AutonomousCommand(state);
         }
-        */
+        
     }
 
     /**

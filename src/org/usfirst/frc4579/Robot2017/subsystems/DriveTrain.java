@@ -106,8 +106,8 @@ public class DriveTrain extends PIDSubsystem {
             rightMotorSpeed = -Math.max(-moveValue, -rotateValue);
           }
         }
-
-        driveEachMotor(limit(leftMotorSpeed+0.05), limit(rightMotorSpeed));
+        double leftMotorOffset = limit(SmartDashboard.getNumber("LEFT MOTOR OFFSET:", 0.0));
+        driveEachMotor(limit(leftMotorSpeed+leftMotorOffset), limit(rightMotorSpeed));
       }
     // Return true if the motors are commanded to zero.
     public boolean isNotMoving() {
@@ -129,7 +129,8 @@ public class DriveTrain extends PIDSubsystem {
     	double ysign = Math.signum(y);
     	final double slider = Robot.oi.joystick.getRawAxis(2) / 2;
     	double sensitivity = 0.5 - slider;
-    	robotDrive.arcadeDrive(Math.pow(x*sensitivity, 2)*xsign, Math.pow(y*sensitivity, 2)*ysign*drive_direction);
+    	//arcadeDriveCustom(x, y, true);
+    	robotDrive.arcadeDrive(Math.pow(x*sensitivity, 2)*xsign, Math.pow(y*sensitivity, 2)*ysign*drive_direction, false);
     	//robotDrive.arcadeDrive(Math.pow(x*sensitivity, 2)*xsign, Math.pow(y*sensitivity, 2)*ysign);
     }
     // Turns the robot continuously either left or right. Speed may need to change.
