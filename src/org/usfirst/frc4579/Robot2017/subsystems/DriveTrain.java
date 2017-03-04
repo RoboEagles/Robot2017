@@ -136,7 +136,7 @@ public class DriveTrain extends PIDSubsystem {
     public void driveStraight() {
     	// To get the robot to drive straight, compute a correction based on z gyro angle rate and z angle.
 	    // Apply half the correction to each wheel to make the middle of the robot move at the desired speed.
-	    double halfCorrection = ((Robot.meas.getAngleRate() * .01) + (Robot.meas.getAngle() * .02)) /2.0;
+	    double halfCorrection = ((Robot.meas.getAngleRate() * .006) + (Robot.meas.getAngle() * .016)) /2.0;
 	    Robot.driveTrain.driveEachMotor(0.2 + halfCorrection, 0.2 - halfCorrection);
     }
     public void stop(){

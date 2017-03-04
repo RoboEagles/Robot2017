@@ -58,7 +58,7 @@ public class AutonomousCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	if (timer.get() >= 7) {
+    	if (timer.get() >= 5.8) {
     		return true;
     	}
         return false;
