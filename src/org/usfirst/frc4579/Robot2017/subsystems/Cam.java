@@ -57,7 +57,7 @@ public class Cam extends Subsystem {
     private CvSource cvSource;
     private GripPipeline myGripPipeline = new GripPipeline();
     
-    private final boolean STREAM_PROCESSED_VIDEO = true;
+    private final boolean STREAM_PROCESSED_VIDEO = false;
 	
     public Thread t;
     
@@ -176,10 +176,10 @@ public class Cam extends Subsystem {
     		cameraState = "tele";
     		System.out.println("Setting camera to teleop");
         	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-        	camObject.setFPS(30);
-        	camObject.setBrightness(35);
+        	camObject.setFPS(24);
+        	camObject.setBrightness(45);
         	camObject.setWhiteBalanceAuto();
-        	camObject.setExposureManual(20);
+        	camObject.setExposureManual(33);
     	} else System.out.println("Camera is already tele");
     }
     public void changeCameraToAuto() {
@@ -187,7 +187,7 @@ public class Cam extends Subsystem {
     		cameraState = "auto";
     		System.out.println("Setting camera to auto");
         	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
-        	camObject.setFPS(30);
+        	camObject.setFPS(24);
         	camObject.setBrightness(-10);
         	camObject.setWhiteBalanceManual(0);
         	camObject.setExposureManual(-10);

@@ -53,7 +53,7 @@ public class PushGear extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	System.out.println("Retracting servo motor...");
-    	Robot.servoTestSystem.setServoAngle(240);
+    	Robot.servoTestSystem.setServoAngle(300);
     }
 
     // Called when another command which requires one or more of the same
