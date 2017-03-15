@@ -1,25 +1,17 @@
 /**********************************************************************
  * EVENT LOG
  * This class allows the coder to leave a trail of time-tagged
- * "breadcrumbs" (events) for debug purposes.  The events are saved
- * in memory until saveEventLog is called, at which point the events
- * are dumped to a text file.
+ * "bread crumbs" (events) for debug purposes.  These are written
+ * to a file on the roboRIO (see DebugTextFile class).
  **********************************************************************/
 
 package org.usfirst.frc4579.instrumentation;
-
-import java.util.*;
-import java.text.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class EventLogging extends Instrumentation {
 	
 	/*********************************************************************************
 	 * NORMAL EVENTS document "normal" execution events, e.g, the beginning and end of
-	 * major functionalflows.
+	 * major functional flows.
 	 *********************************************************************************/
 	public enum NORMALEVENTS {
 						START_INITIALIZE_COMMAND,   // Outer level command events (NORMAL)
@@ -56,9 +48,7 @@ public class EventLogging extends Instrumentation {
 	 *********************************************************************************/
 	public enum INTERESTINGEVENTS {
 						
-						MPU6050_CAL,
-						MPU6050_DATA,
-						MEASUREMENT_DATA
+						TBD
 	};
 
 	/*********************************************************************************
@@ -68,7 +58,8 @@ public class EventLogging extends Instrumentation {
 						TARGET_TRACKER_UNHANDLED_EXCEPTION
 	};
 
-	private static boolean logAvailable = false;
+	private static boolean        logAvailable = false;
+	private static DebugTextFile  eventLogFile = new DebugTextFile("Events", false, "", 30000);
 
 	// Constructor
 	public EventLogging () {
@@ -81,12 +72,7 @@ public class EventLogging extends Instrumentation {
 	// Invoke the constructor to set up the instrumentation file structure.
 	static {
  	    new EventLogging();
-	}
-	
-	// Define the event log.  Event are stored locally to save throughput.  The
-	// saveEventLog can be invoked (say, after a match is over) to dump the log
-	// to the Driver Station or storage device.
-	private static List<String> eventLog = new ArrayList<String>(10000);		
+	}	
 
 	/***************************************************************************
 	 * This method returns true if event logging is available.  It would not
@@ -104,7 +90,7 @@ public class EventLogging extends Instrumentation {
 
 		String eventStr = String.format("%10.6f", timeNow()) + '\t' + event + '\t';
 		
-		eventLog.add(eventStr);
+		eventLogFile.write(eventStr);
 
 	}
 
@@ -135,67 +121,6 @@ public class EventLogging extends Instrumentation {
 
 		if (logAvailable) 
 			logEvent ("BAD         \t" + event.name() + "\t" + auxData);
-
-	}
-
-	/***************************************************************************
-	 * Log a string to the event log with no other information.
-	 ***************************************************************************/
-	public static void logString (String str) {
-		eventLog.add(str);
-	}
-	
-	/***************************************************************************
-	 * This method dumps the event log to a file.
-	 ***************************************************************************/
-	public static synchronized void saveEventLog () {
-
-		File             logFile;
-		BufferedWriter   bw;
-		FileWriter       fw;
-		SimpleDateFormat hrMinFormat = new SimpleDateFormat ("_hh.mm.ss");		
-
-		if (logAvailable) {
-
-			// Create a File object with the event log file name.
-			Date date = new Date();
-			logFile   = new File(dataDirectoryName() + "/Events" + hrMinFormat.format(date) + ".txt");
-
-			try {
-
-				if (!logFile.exists())
-					logFile.createNewFile();
-
-				if (logFile.exists()) {
-					
-					// Try to dump it to the file.
-					fw = new FileWriter(logFile);
-					bw = new BufferedWriter(fw);
-
-					// Write the event log someplace.
-					for (String element : eventLog) {
-
-						// On the roboRIO, users should store files to /home/lvuser or subfolders created there. Or,
-						// write them to a USB thumbstick at /media/sda1 (or reference /U/ and /V/).  USB stick may have
-						// to be FAT-formatted and not "too large".
-						bw.write(element);
-						bw.write("\r\n");
-						//System.out.println(element); 
-					}
-
-					bw.close();
-					fw.close();
-				}
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-
-
-		}
-
-		// Free up memory.
-		eventLog.clear();
 	}
 }
 

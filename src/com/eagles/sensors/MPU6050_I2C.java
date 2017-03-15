@@ -2,7 +2,8 @@ package com.eagles.sensors;
 
 import org.usfirst.frc4579.filters.AverageFilter;
 import org.usfirst.frc4579.filters.FirstOrderLPF;
-import org.usfirst.frc4579.instrumentation.EventLogging;
+import org.usfirst.frc4579.instrumentation.DebugTextFile;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -47,6 +48,8 @@ public class MPU6050_I2C {
 	AxisData yGyroData  = new AxisData("yGyro" , 0.7, numCalibrationSamples, 0.0);
 	AxisData zGyroData  = new AxisData("zGyro" , 0.7, numCalibrationSamples, 0.0);
 	
+	DebugTextFile allAxisRawDataFile = new DebugTextFile("allAxisScaledMPUData", true, "xAccelRaw\tyAccelRaw\tzAccelRaw\txGyroRaw\tyGyroRaw\tzGyroRaw\tTemp", 30000);
+
 	double   tempF      = 0.0; // Temperature degrees F.
 	
 	private Timer readTimer   = new Timer();
@@ -97,11 +100,6 @@ public class MPU6050_I2C {
     		if (!mpuAvailable) break;
 
     	}
-
-/*    	EventLogging.logInterestingEvent(
-    			EventLogging.INTERESTINGEVENTS.MPU6050_DATA, 
-    			"name\tscaledValue\tcorrectedValue\tfilteredValue\tcalAvg\tcalStdDev"
-    			);*/
     	
 		readTimer.stop();
     	
@@ -175,6 +173,7 @@ public class MPU6050_I2C {
 		
 		readTimer.stop();
 
+    	SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
 		//System.out.println( "ah= " + String.format("0x%02X", READS[0]) + "  al= " + String.format("0x%02X", READS[1]));
 		
 		return true;
@@ -203,6 +202,15 @@ public class MPU6050_I2C {
 			xGyroData .logAxisData();
 			yGyroData .logAxisData();
 			zGyroData .logAxisData(); 
+			
+			// Log the raw data for each axis.
+			allAxisRawDataFile.write(xAccelData.axisScaledValue() + "\t" +
+									 yAccelData.axisScaledValue() + "\t" +
+									 zAccelData.axisScaledValue() + "\t" +
+									 xGyroData.axisScaledValue()  + "\t" +
+									 yGyroData.axisScaledValue()  + "\t" +
+									 zGyroData.axisScaledValue()  + "\t" +
+									 tempF);
 
 			//SmartDashboard.putString ("MPU6050 Temp:"     , String.format("%5.1f", getTemp()));
 			SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
@@ -247,7 +255,7 @@ public class MPU6050_I2C {
 	}
 	
 	/***********************************************************************************
-	 * Parent class that encapsulates the common data/processing of each IMU axis type.
+	 * Class that encapsulates the data and processing of each IMU axis type.
      ***********************************************************************************/
 	private class AxisData {
 		
@@ -258,7 +266,8 @@ public class MPU6050_I2C {
 		private double        filteredValue  = 0.0; // Result of running the correctedValue thru the low pass filter.
 		private double		  desiredCalValue;      // The value to be returned under no motion/level orientation.
 		private FirstOrderLPF lpf;                  // Low pass filter for the correctedValue, producing filteredValue.
-		private AverageFilter avgStats;
+		private AverageFilter avgStats;				// Average and std deviation used to correct drift.
+		private DebugTextFile mpuDataFile;			// A text file to write debug data to.
 		
 		// Constructor
 		private AxisData (String name, double lpfK, int numSamplesForAverage, double desiredCalValue) {
@@ -267,6 +276,10 @@ public class MPU6050_I2C {
 			this.lpf             = new FirstOrderLPF(lpfK); // lpfK may need to be tuned for each axis.
 			this.avgStats        = new AverageFilter(numSamplesForAverage);
 			this.desiredCalValue = desiredCalValue;
+			
+			// Instrumentation debug file for this axis.
+			mpuDataFile = new DebugTextFile(name + "MPUData", true, "ScaledValue\tCcorrectedValue\tFilteredValue\tCalAvg\tCalStdDev", 30000);
+			
 		}
 		
 		// Compute intermediate stats during calibration.
@@ -307,15 +320,13 @@ public class MPU6050_I2C {
 		
 		public void logAxisData () {
 			
-/*	    	EventLogging.logInterestingEvent(
-	    			EventLogging.INTERESTINGEVENTS.MPU6050_DATA, 
-	    			this.name 				+ "\t" +
+	    	mpuDataFile.write(
 	    			this.scaledValue        + "\t" +
 	    			this.correctedValue     + "\t" + 
 	    			this.filteredValue      + "\t" + 
 	    			this.avgStats.average() + "\t" + 
 	    			this.avgStats.stdDeviation()
-	    			);*/
+	    			);
 		}
 		
 		// Access methods for internal data.

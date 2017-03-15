@@ -3,9 +3,8 @@ package org.usfirst.frc4579.Robot2017.subsystems;
 import org.usfirst.frc4579.Robot2017.Robot;
 import com.eagles.sensors.MPU6050_I2C;
 import com.eagles.sensors.VL53LOX_I2C;
-import org.usfirst.frc4579.instrumentation.EventLogging;
-
-import edu.wpi.first.wpilibj.Timer;
+import org.usfirst.frc4579.instrumentation.DebugTextFile;
+import org.usfirst.frc4579.instrumentation.Instrumentation;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -52,7 +51,6 @@ public class Measurement extends Subsystem {
 
     private double correctedRange   = 0.0;  // Range finder range.
     
-    private double startTime = 0.0;
     private double lastTime  = 0.0;
     
     private boolean firstCall       = true;
@@ -60,6 +58,14 @@ public class Measurement extends Subsystem {
     private boolean lidarAvailable  = false;
     private boolean lidarContinuous = true;  // True  => lidar makes continous back-to-back measurements.
     										 // False => use lidar in single-shot mode.
+    
+    // Create a debug file containing data for this class for post-run
+    // analysis.
+    DebugTextFile measData = new DebugTextFile(
+    		"measData", 															// Base file name.
+    		true, 																	// Add time stamp to data.
+    		"AccelX\tAccelY\tAccelZ\tVelX\tVelY\tdistX\tdistY\tzAngleRate\tzAngle", // File header.
+    		20000);																	// Max anticipated lines in file.
 
     // Initializes the accelerometer and distance ranging devices.
     public void initialize() {
@@ -75,16 +81,13 @@ public class Measurement extends Subsystem {
     		
         	System.out.println("***** MEASUREMENT INITIALIZED" + "\n");
 
-    		EventLogging.logInterestingEvent(EventLogging.INTERESTINGEVENTS.MEASUREMENT_DATA, 
-    				"Time\tCorrectedX\tCorrectedY\tCorrectedZ\tVelocityX\tVelocityY\tdistanceX\tdistanceY\tzGyroRate\tzAngle");
-
     	}
-    	else
+    	else {
         	System.out.println("***** MPU INIT FAILED *********" + "\n");
+    		measData.write("MPU INIT FAILED");
+    	}
 		
     	reset();
-    	
-    	startTime = getTime();
     	
     	SmartDashboard.putBoolean ("MPU Available:", mpuAvailable);
     	
@@ -127,7 +130,7 @@ public class Measurement extends Subsystem {
     	if (mpuAvailable) {
     		
     		// Compute change in time since last computations.
-    		double time   = getTime();
+    		double time   = Instrumentation.timeNow();
     		if (firstCall) {
     			lastTime = time;
     			firstCall = false;
@@ -142,10 +145,6 @@ public class Measurement extends Subsystem {
     		double accelerationX  = mpu.getAccelX();
     		double accelerationY  = mpu.getAccelY();
     		double accelerationZ  = mpu.getAccelZ();
-    		
-//    		double xAccel = -Math.atan2(-accelerationX, accelerationZ) * angleToAccelScale;
-//    		double yAccel = Math.atan(accelerationY / 
-//    				                 Math.sqrt(accelerationX*accelerationX + accelerationZ*accelerationZ)) * angleToAccelScale;
     		
     		velocityX += accelerationX * deltaT;
     		velocityY += accelerationY * deltaT;
@@ -182,13 +181,9 @@ public class Measurement extends Subsystem {
     		SmartDashboard.putString ("Angle X:"    , String.format("%7.1f", robotAngleX));
     		SmartDashboard.putString ("Total Lineal Distance:", String.format("%7.1f", linealDistance));
 
-    		EventLogging.logInterestingEvent(EventLogging.INTERESTINGEVENTS.MEASUREMENT_DATA, 
-    				time + "\t" + 
-    				accelerationX + "\t" + accelerationY  + "\t" + accelerationZ + "\t" +
-    				velocityX + "\t" + velocityY + "\t" + 
-    				distanceX + "\t" + distanceY + "\t" + robotAngleRateZ + "\t" + robotAngleZ);
-    		
-    		// if we don't seem to be moving, compute a new calibration average for the sensor.
+    		measData.write( accelerationX + "\t" + accelerationY  + "\t" + accelerationZ + "\t" +
+    						velocityX + "\t" + velocityY + "\t" + 
+    						distanceX + "\t" + distanceY + "\t" + robotAngleRateZ + "\t" + robotAngleZ);
     		
     	}
     	
@@ -252,11 +247,6 @@ public class Measurement extends Subsystem {
     // Returns the current range from a detected object (in inches).
     public double getRange() {
     	return correctedRange;
-    }
-    
-    // Get the elapsed time since startup.
-    private double getTime() { 
-    	return Timer.getFPGATimestamp() - startTime;
     }
 	
 	public void initDefaultCommand() {

@@ -13,7 +13,9 @@ package org.usfirst.frc4579.Robot2017;
 
 import org.usfirst.frc4579.Robot2017.commands.*;
 import org.usfirst.frc4579.Robot2017.subsystems.*;
+import org.usfirst.frc4579.instrumentation.DebugTextFile;
 import org.usfirst.frc4579.instrumentation.EventLogging;
+import org.usfirst.frc4579.instrumentation.Instrumentation;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -97,12 +99,11 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-    	// This method can be called at startup when the DS connects and is in Disable state.
-        if (!firstDICall) {
-    	    EventLogging.saveEventLog();
-    	}
-    	firstDICall = false;
+    	
+    	Instrumentation.deleteOldDataDirectories(2);  // Delete instrumentation directories older than 2 days.
+    	DebugTextFile.saveDataFiles();
     	cam.lightOff();
+
     }
 
     public void disabledPeriodic() {
