@@ -120,10 +120,6 @@ public class DriveTrain extends PIDSubsystem {
     		driveEachMotor(TURN_SPEED, -TURN_SPEED); 
     	}
     }
-    //This method gets the encoder's distance.
-    public void putEncoderDistance() {
-    	SmartDashboard.putNumber("Encoder distance:", encoder.getDistance());
-    }
     /*
      * PID DRIVETRAIN METHODS
      */

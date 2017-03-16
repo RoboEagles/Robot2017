@@ -45,13 +45,13 @@ public class DefaultDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 
-    	//EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "DefaultDrive");
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_EXECUTE_COMMAND, "DefaultDrive");
     	
     	// Update IMU data.
     	Robot.meas.measure();
     	
     	Robot.driveTrain.drive();
-    	//EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
+    	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
     }
 
     // Make this return true when this Command no longer needs to run execute()

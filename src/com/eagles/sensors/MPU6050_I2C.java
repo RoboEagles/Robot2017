@@ -3,6 +3,7 @@ package com.eagles.sensors;
 import org.usfirst.frc4579.filters.AverageFilter;
 import org.usfirst.frc4579.filters.FirstOrderLPF;
 import org.usfirst.frc4579.instrumentation.DebugTextFile;
+import org.usfirst.frc4579.instrumentation.EventLogging;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Timer;
@@ -79,6 +80,8 @@ public class MPU6050_I2C {
 	// Initializes the MPU with pre-defined settings
 	public boolean init() {
 		
+		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_MPU_INIT, "");
+		
 		// Start the timer to determine how long init takes.
 		readTimer.reset();
 		readTimer.start();
@@ -105,6 +108,8 @@ public class MPU6050_I2C {
     	
     	SmartDashboard.putString ("MPU6050 Init Time:", String.format("%7.4f", readTimer.get()));
     	
+		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_MPU_INIT, "");
+
     	return mpuAvailable;
     	
 	}
@@ -183,6 +188,8 @@ public class MPU6050_I2C {
 	// public access methods can be called to return values.
 	public void read( boolean isNotMoving, double timeNow) {
 		
+		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.START_UPDATE_MPU_DATA, "");
+
 		// Read the raw data and convert to scaled values.
 		if (readRawData()) {
 
@@ -216,6 +223,9 @@ public class MPU6050_I2C {
 			SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
 
 		}
+		
+		EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_UPDATE_MPU_DATA, "");
+
 
 	}
 
