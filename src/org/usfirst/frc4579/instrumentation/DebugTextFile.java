@@ -48,8 +48,8 @@ public class DebugTextFile extends Instrumentation {
 	private static final int 	   ALLOC_INCREMENT = 10000;
 	private              int       initialAlloc    = ALLOC_INCREMENT;
 	private				 int	   currentAlloc    = initialAlloc;
+	private static       boolean   isFirstSave     = true;    // First call to saveDebugData?
 	private static       boolean   instrAvailable; // True => "runs" directory exists.
-	private static       boolean   isFirstSave;    // First call to saveDebugData?
 	private				 String    fileName;	   // Base file name for this file.
 	private 			 String    header;		   // Header to be written to this file.
 	private 			 boolean   addTimeStamp;   // True => time tag each line that is written to the file.
@@ -83,8 +83,7 @@ public class DebugTextFile extends Instrumentation {
 			// Add this object to the list of file objects.
 			fileList.add(this);
 		}
-		
-		isFirstSave = true;
+
 	}
 	
 	// Writes a line to the debug file.
@@ -107,14 +106,14 @@ public class DebugTextFile extends Instrumentation {
 	
 	// Saves debug data to a file for each DebugTextFile object.
 	public static void saveDataFiles() {
-
+		
 		// Robot.disabledInit() is called at startup (when no data has been written).
 		// So don't try to dump data on the first call.
 		if (isFirstSave) {
 			isFirstSave = false;
 			return;
 		}
-
+		
 		// for each debug file
 		for (DebugTextFile aDebugFile : fileList) {
 
@@ -127,14 +126,16 @@ public class DebugTextFile extends Instrumentation {
 				BasicTextFileOps fileWriter = new BasicTextFileOps
 						(dataDirectoryName() + "/" + aDebugFile.fileName + hrMinFormat.format(date) + ".txt");
 
+				System.out.println("Saving debug file " + fileWriter.fileName);
+				
 				fileWriter.openForWrite();
 
 				// If a header was supplied, write it to the file.
 				if (aDebugFile.header.length() != 0) {
 					if (aDebugFile.addTimeStamp)
-						fileWriter.writeLine("Time\t" + aDebugFile.header + "\r\n");
+						fileWriter.writeLine("Time\t" + aDebugFile.header);
 					else
-						fileWriter.writeLine(aDebugFile.header + "\r\n");
+						fileWriter.writeLine(aDebugFile.header);
 				}
 
 				// If final size is larger than initial allocation, print a warning.
@@ -145,7 +146,7 @@ public class DebugTextFile extends Instrumentation {
 
 				// Write out each line of the file.
 				for (String line : aDebugFile.fileData) {
-					fileWriter.writeLine(line + "\r\n");
+					fileWriter.writeLine(line);
 				}
 
 				fileWriter.close();
