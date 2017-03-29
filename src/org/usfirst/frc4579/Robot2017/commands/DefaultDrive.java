@@ -50,7 +50,8 @@ public class DefaultDrive extends Command {
     	// Update IMU data.
     	Robot.meas.measure();
     	
-    	Robot.driveTrain.drive();
+    	Robot.driveTrain.joeyStickDrive();
+    	
     	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND,   "DefaultDrive");
     }
 
