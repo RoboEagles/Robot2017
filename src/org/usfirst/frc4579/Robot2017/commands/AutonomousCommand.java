@@ -55,7 +55,7 @@ public class AutonomousCommand extends Command {
         	Robot.meas.measure();
 
         	// Add Autonoumous code here.
-        	Robot.driveTrain.driveStraight();
+        	Robot.driveTrain.driveStraight(0.2);
 
         	EventLogging.logNormalEvent(EventLogging.NORMALEVENTS.END_EXECUTE_COMMAND, "Autonomous");
     	}
