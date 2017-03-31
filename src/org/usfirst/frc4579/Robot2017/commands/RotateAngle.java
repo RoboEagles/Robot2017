@@ -38,7 +38,7 @@ public class RotateAngle extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.driveTrain.shiftPIDToRotate();
-    	Robot.driveTrain.driveToSetpoint(m_angle);
+    	Robot.driveTrain.driveToSetpoint();
     }
 
     // Called repeatedly when this Command is scheduled to run

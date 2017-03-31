@@ -55,7 +55,6 @@ public class OI {
     public JoystickButton gateButton;
     public JoystickButton forwardButton;
     public JoystickButton reverseButton;
-    public JoystickButton pushGearButton;
     public Joystick joystick;
     public Joystick liftJoystick;
 
@@ -68,8 +67,6 @@ public class OI {
         
         joystick = new Joystick(0);
         
-        pushGearButton = new JoystickButton(joystick, 1);
-        pushGearButton.whileHeld(new PushGear());
         reverseButton = new JoystickButton(joystick, 7);
         reverseButton.whenPressed(new reverseDrive());
         forwardButton = new JoystickButton(joystick, 6);
