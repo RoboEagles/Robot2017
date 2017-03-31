@@ -285,14 +285,34 @@ Children:
     - Children: []
       Properties:
         Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
-          choices: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
-            '12', '13', '14', '15', '16', '17', '18', '19']
+          choices: &id008 ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+            '11', '12', '13', '14', '15', '16', '17', '18', '19']
           default: '0'
           name: Output Channel (PWM)
-          validators: [PWMOutput]
+          validators: &id009 [PWMOutput]
           value: '5'
       Base: Servo
       Name: TinyServo
+    - Children: []
+      Properties:
+        Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id008
+          default: '0'
+          name: Output Channel (PWM)
+          validators: *id009
+          value: '6'
+      Base: Servo
+      Name: leftServo
+    - Children: []
+      Properties:
+        Output Channel (PWM): !!robotbuilder.data.properties.ChoicesProperty
+          choices: *id008
+          default: '0'
+          name: Output Channel (PWM)
+          validators: *id009
+          value: '7'
+      Base: Servo
+      Name: rightServo
     Properties:
       Default command parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
@@ -323,7 +343,7 @@ Children:
           validators: null
           value: []
         Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id008 ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
+          choices: &id010 ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11',
             '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23',
             '24', '25', '26', '27', '28', '29', '30', '31', '32']
           default: '1'
@@ -334,16 +354,16 @@ Children:
           default: None
           name: Command
           type: Command
-          validators: &id009 [TypeDropdownSelected]
-          value: LaserDistance
+          validators: &id011 [TypeDropdownSelected]
+          value: moveGates
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: &id010 [whileHeld, whenPressed, whenReleased]
+          choices: &id012 [whileHeld, whenPressed, whenReleased]
           default: whileHeld
           name: When to Run
           validators: null
           value: whileHeld
       Base: Joystick Button
-      Name: laserButton
+      Name: gateButton
     - Children: []
       Properties:
         Joystick: !!robotbuilder.data.properties.ParentProperty {default: parent,
@@ -354,7 +374,7 @@ Children:
           validators: null
           value: []
         Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id008
+          choices: *id010
           default: '1'
           name: Button
           validators: null
@@ -363,10 +383,10 @@ Children:
           default: None
           name: Command
           type: Command
-          validators: *id009
+          validators: *id011
           value: forwardDrive
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
+          choices: *id012
           default: whileHeld
           name: When to Run
           validators: null
@@ -383,7 +403,7 @@ Children:
           validators: null
           value: []
         Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id008
+          choices: *id010
           default: '1'
           name: Button
           validators: null
@@ -392,10 +412,10 @@ Children:
           default: None
           name: Command
           type: Command
-          validators: *id009
+          validators: *id011
           value: reverseDrive
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
+          choices: *id012
           default: whileHeld
           name: When to Run
           validators: null
@@ -412,7 +432,7 @@ Children:
           validators: null
           value: []
         Button: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id008
+          choices: *id010
           default: '1'
           name: Button
           validators: null
@@ -421,10 +441,10 @@ Children:
           default: None
           name: Command
           type: Command
-          validators: *id009
+          validators: *id011
           value: PushGear
         When to Run: !!robotbuilder.data.properties.ChoicesProperty
-          choices: *id010
+          choices: *id012
           default: whileHeld
           name: When to Run
           validators: null
@@ -433,20 +453,20 @@ Children:
       Name: pushGearButton
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: &id011 ['0', '1', '2', '3', '4', '5']
+        choices: &id013 ['0', '1', '2', '3', '4', '5']
         default: 1
         name: Number
-        validators: &id012 [Joystick]
+        validators: &id014 [Joystick]
         value: '0'
     Base: Joystick
     Name: Joystick
   - Children: []
     Properties:
       Number: !!robotbuilder.data.properties.ChoicesProperty
-        choices: *id011
+        choices: *id013
         default: 1
         name: Number
-        validators: *id012
+        validators: *id014
         value: '1'
     Base: Joystick
     Name: LiftJoystick
@@ -527,7 +547,7 @@ Children:
     Base: Command
     Name: LaserDistance
   - Children: []
-    Properties: &id014
+    Properties: &id016
       Parameters: !!robotbuilder.data.properties.ParametersProperty
         default: []
         name: Parameters
@@ -590,14 +610,14 @@ Children:
                 validators: null
                 value: []
               - !!robotbuilder.data.properties.ParameterSetProperty
-                default: &id013 []
+                default: &id015 []
                 name: Parameter presets
                 validators: null
-                value: *id013
+                value: *id015
               supports: {}
               type: Command
             name: FindPeg
-            properties: *id014
+            properties: *id016
           hasMatch: true
           order: Sequential
           parameters:
@@ -738,13 +758,30 @@ Children:
         name: Button on SmartDashboard, validators: null, value: true}
     Base: Command
     Name: RotateAngle
+  - Children: []
+    Properties:
+      Parameters: !!robotbuilder.data.properties.ParametersProperty
+        default: []
+        name: Parameters
+        validators: null
+        value: []
+      Requires: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
+        name: Requires, type: Subsystem, validators: null, value: None}
+      Parameter presets: !!robotbuilder.data.properties.ParameterSetProperty
+        default: &id017 []
+        name: Parameter presets
+        validators: null
+        value: *id017
+      Button on SmartDashboard: !!robotbuilder.data.properties.BooleanProperty {default: true,
+        name: Button on SmartDashboard, validators: null, value: true}
+    Base: Command
+    Name: moveGates
   Properties: {}
   Base: Commands
   Name: Commands
 Properties:
-  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Jonathan
-      Kwon\workspace', extension: null, folder: true, name: Eclipse Workspace, validators: null,
-    value: 'C:\Users\Jonathan Kwon\Documents\GitHub'}
+  Eclipse Workspace: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\admin\workspace',
+    extension: null, folder: true, name: Eclipse Workspace, validators: null, value: 'C:\Users\admin\git'}
   Export Commands: !!robotbuilder.data.properties.BooleanProperty {default: true,
     name: Export Commands, validators: null, value: true}
   Autonomous command parameters: !!robotbuilder.data.properties.ParametersProperty
@@ -762,9 +799,9 @@ Properties:
     name: Export Subsystems, validators: null, value: true}
   Simulation World File: !!robotbuilder.data.properties.StringProperty {default: /usr/share/frcsim/worlds/GearsBotDemo.world,
     name: Simulation World File, validators: null, value: /usr/share/frcsim/worlds/GearsBotDemo.world}
-  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\Jonathan
-      Kwon\', extension: null, folder: true, name: Wiring file location, validators: null,
-    value: 'C:\Users\Jonathan Kwon'}
+  Wiring file location: !!robotbuilder.data.properties.FileProperty {default: 'C:\Users\admin\',
+    extension: null, folder: true, name: Wiring file location, validators: null, value: 'C:\Users\Jonathan
+      Kwon'}
   Autonomous Command: !!robotbuilder.data.properties.TypeSelectionProperty {default: None,
     name: Autonomous Command, type: Command, validators: null, value: Autonomous Command}
 Base: Robot
