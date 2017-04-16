@@ -65,6 +65,8 @@ public class EventLogging extends Instrumentation {
 	private static boolean        logAvailable = false;
 	private static DebugTextFile  eventLogFile = new DebugTextFile("Events", false, "", 30000);
 
+	private static EventLogging   eventsObj;
+	
 	// Constructor
 	public EventLogging () {
 
@@ -75,7 +77,7 @@ public class EventLogging extends Instrumentation {
 
 	// Invoke the constructor to set up the instrumentation file structure.
 	static {
- 	    new EventLogging();
+		eventsObj = new EventLogging();
 	}	
 
 	/***************************************************************************
