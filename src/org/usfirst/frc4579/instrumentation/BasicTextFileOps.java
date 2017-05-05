@@ -18,9 +18,7 @@
  * 		...
  * 		myFile.close();
  * 
- * If these conventions are violated this class throws exceptions and handles
- * them internally.  The intent is to not allow the caller to handle them (or
- * have to).
+ * If these conventions are violated this class throws a runtime exception.
  *****************************************************************************/
 
 package org.usfirst.frc4579.instrumentation;
@@ -59,52 +57,17 @@ public class BasicTextFileOps {
 	}
 
 	/******************************************************************************
-	* Internal exception definition.
-	******************************************************************************/
-	private class BasicTextFileOpsException extends Exception 
-	{
-
-		private String theError;
-
-		public BasicTextFileOpsException(String error)
-		{
-			this.theError = error;
-		}
-
-		public String getError()
-		{
-			return this.theError;
-		}
-	}
-
-	/******************************************************************************
-	* When opening a file for reading, enforce that it is not already open, and that 
-	* the file exists.
-	******************************************************************************/
-	private void validateOpenForRead () throws BasicTextFileOpsException {
-
-		// Enforce that file is not already open.
-		if (isOpenForRead)  throw new BasicTextFileOpsException("ERROR: " + this.fileName + " is already open for read.");
-
-		if (isOpenForWrite) throw new BasicTextFileOpsException("ERROR: " + this.fileName + " is open for write.");
-
-		// Enforce that the file must exist.
-		if (!file.exists()) throw new BasicTextFileOpsException("ERROR: " + this.fileName + " does not exist to read.");
-	}
-
-	/******************************************************************************
 	* Opens a file for reading.
 	******************************************************************************/
 	public void openForRead() {
 		
-		// Validate the request.
-		try {
-			validateOpenForRead();
-		} catch (BasicTextFileOpsException e1) {
-			System.out.println(e1.getError());
-			e1.printStackTrace();
-			return;
-		}
+		// Enforce that file is not already open.
+		if (isOpenForRead)  throw new RuntimeException("ERROR: " + this.fileName + " is already open for read.");
+
+		if (isOpenForWrite) throw new RuntimeException("ERROR: " + this.fileName + " is open for write.");
+
+		// Enforce that the file must exist.
+		if (!file.exists()) throw new RuntimeException("ERROR: " + this.fileName + " does not exist to read.");
 		
 		// Created the BufferedReader object.
 		try {
@@ -119,30 +82,22 @@ public class BasicTextFileOps {
 	}
 	
 	/******************************************************************************
-	* When opening a file for writing make sure that the file is not already open.
+	* Returns "true" if the file is open for reading.
 	******************************************************************************/
-	private void validateOpenForWrite () throws BasicTextFileOpsException {
-
-		// Enforce that file is not already open.
-		if (isOpenForWrite) throw new BasicTextFileOpsException("ERROR: " + this.fileName + " is already open for write.");
-
-		if (isOpenForRead ) throw new BasicTextFileOpsException("ERROR: " + this.fileName + " is already open for read.");
-
+	public boolean isOpenForRead() {
+		return this.isOpenForRead;
 	}
 	
 	/******************************************************************************
-	* Opens a file for writing.
+	* Opens a file for writing.  If it already exists, it is deleted and re-
+	* created.
 	******************************************************************************/
 	public void openForWrite() {
 
-		// Validate the request.
-		try {
-			validateOpenForWrite();
-		} catch (BasicTextFileOpsException e1) {
-			System.out.println(e1.getError());
-			e1.printStackTrace();
-			return;
-		}
+		// Enforce that file is not already open.
+		if (isOpenForWrite) throw new RuntimeException("ERROR: " + this.fileName + " is already open for write.");
+
+		if (isOpenForRead ) throw new RuntimeException("ERROR: " + this.fileName + " is already open for read.");
 		
 		// if the file already exists, delete it.
 		if (file.exists()) delete();
@@ -172,28 +127,12 @@ public class BasicTextFileOps {
 	}
 	
 	/******************************************************************************
-	* Make sure that the file is open for reading before attempting a read.
-	******************************************************************************/
-	private void validateReadLine () throws BasicTextFileOpsException {
-
-		// Enforce that file is open for read.
-		if (!isOpenForRead) throw new BasicTextFileOpsException("ERROR: " + this.fileName + " is not open for read.");
-
-	}
-	
-	/******************************************************************************
 	* Read a line from the file.  A null string is returned if at the end of file.
 	******************************************************************************/
 	public String readLine() {
 		
-		// Validate the request.
-		try {
-			validateReadLine();
-		} catch (BasicTextFileOpsException e1) {
-			System.out.println(e1.getError());
-			e1.printStackTrace();
-			return null;
-		}
+		// Enforce that file is open for read.
+		if (!isOpenForRead) throw new RuntimeException("ERROR: " + this.fileName + " is not open for read.");
 		
 		String str = null;
 		
@@ -208,28 +147,12 @@ public class BasicTextFileOps {
 	}
 	
 	/******************************************************************************
-	* Make sure that the file is open for writing before attempting a write.
-	******************************************************************************/
-	private void validateWriteLine () throws BasicTextFileOpsException {
-
-		// Enforce that file must be open for write.
-		if (!isOpenForWrite) throw new BasicTextFileOpsException("ERROR: " + this.fileName + " is not open for write.");
-
-	}
-	
-	/******************************************************************************
 	* Writes a line of text to the file.
 	******************************************************************************/
 	public void writeLine(String str) {
 		
-		// Validate the request.
-		try {
-			validateWriteLine();
-		} catch (BasicTextFileOpsException e1) {
-			System.out.println(e1.getError());
-			e1.printStackTrace();
-			return;
-		}
+		// Enforce that file must be open for write.
+		if (!isOpenForWrite) throw new RuntimeException("ERROR: " + this.fileName + " is not open for write.");
 		
 		try {
 			bw.write(str + "\r\n");
@@ -239,28 +162,12 @@ public class BasicTextFileOps {
 	}
 	
 	/******************************************************************************
-	* Make sure that the file is open before attempting to close it.
-	******************************************************************************/
-	private void validateClose () throws BasicTextFileOpsException {
-
-		// Enforce that file is open.
-		if (!isOpenForRead && !isOpenForWrite) throw new BasicTextFileOpsException("ERROR: " + this.fileName + " is not open.");
-
-	}
-	
-	/******************************************************************************
 	* Closes an open file.
 	******************************************************************************/
 	public void close() {
 
-		// Validate the request.
-		try {
-			validateClose();
-		} catch (BasicTextFileOpsException e1) {
-			System.out.println(e1.getError());
-			e1.printStackTrace();
-			return;
-		}
+		// Enforce that file is open.
+		if (!isOpenForRead && !isOpenForWrite) throw new RuntimeException("ERROR: " + this.fileName + " is not open.");
 	
 		if (isOpenForRead) {
 			try {
@@ -284,29 +191,13 @@ public class BasicTextFileOps {
 	}
 	
 	/******************************************************************************
-	* Make sure that the file is closed before deleting it.
-	******************************************************************************/
-	private void validateDelete () throws BasicTextFileOpsException {
-
-		// Enforce that file is open.
-		if (isOpenForRead || isOpenForWrite) 
-			throw new BasicTextFileOpsException("ERROR: " + this.fileName + "  must be closed before deleting..");
-
-	}
-	
-	/******************************************************************************
 	* Deletes the file.
 	******************************************************************************/
 	public void delete() {
-		
-		// Validate the request.
-		try {
-			validateDelete();
-		} catch (BasicTextFileOpsException e1) {
-			System.out.println(e1.getError());
-			e1.printStackTrace();
-			return;
-		}
+
+		// Enforce that file is open.
+		if (isOpenForRead || isOpenForWrite) 
+			throw new RuntimeException("ERROR: " + this.fileName + "  must be closed before deleting..");
 	
 		file.delete();
 	}

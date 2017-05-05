@@ -59,29 +59,45 @@ public class DebugTextFile extends Instrumentation {
 	private ArrayList<String> fileData;
 	
 	// List of all DebugTextFile objects that have been created.
-	private static List<DebugTextFile> fileList = new ArrayList<DebugTextFile>(20);
+	private static ArrayList<DebugTextFile> fileList = new ArrayList<DebugTextFile>(20);
 	
 	// Constructor
 	public DebugTextFile (String baseFileName, boolean addTimeStamp, String header, int anticipatedMaxLinesInFile) {
 
-		// Create the directory to hold the events file.
 		super();
-		instrAvailable = instrumentationAvailable();
-		
-		// if successful
-		if (instrAvailable) {
 
-			// Save the file name and header.
-			this.fileName     = baseFileName;
-			this.header       = header;
-			this.addTimeStamp = addTimeStamp;
-			this.initialAlloc = anticipatedMaxLinesInFile;
+		synchronized(this) {
+
+			// Some users of the this class can be instantiated twice (e.g., a child of the Command class).
+			// This will create two DebugTextFile objects with the same file name.  This is not supported
+			// by this class.  The DebugTextFile object for the offending class can be created in Robot.java
+			// and accessed from there.
 			
-			// Allocate the file data (number of lines in file) based on initial worst-case estimate.
-			this.fileData     = new ArrayList<String>(this.initialAlloc);
+			// Don't allow multiple class objects of the same class to create a debug text file.
+			for (DebugTextFile aDebugFile : fileList)
+				if (baseFileName.equals(aDebugFile.fileName))
+					throw new RuntimeException(baseFileName + ": Multiple instantiations of the same using class not supported (e.g. Command class).  Declare the DebugTextFile in Robot.java?");
+			
+			// Create the directory to hold the events file.
+			instrAvailable = instrumentationAvailable();
 
-			// Add this object to the list of file objects.
-			fileList.add(this);
+			// if successful
+			if (instrAvailable) {
+
+				// Save the file name and header.
+				this.fileName     = baseFileName;
+				this.header       = header;
+				this.addTimeStamp = addTimeStamp;
+				this.initialAlloc = anticipatedMaxLinesInFile;
+
+				// Allocate the file data (number of lines in file) based on initial worst-case estimate.
+				this.fileData     = new ArrayList<String>(this.initialAlloc);
+
+				// Add this object to the list of file objects.
+				fileList.add(this);
+
+			}
+
 		}
 
 	}
@@ -113,6 +129,8 @@ public class DebugTextFile extends Instrumentation {
 			isFirstSave = false;
 			return;
 		}
+
+		System.out.println("Writing " + fileList.size() + " files...");	
 		
 		// for each debug file
 		for (DebugTextFile aDebugFile : fileList) {

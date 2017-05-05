@@ -34,41 +34,43 @@ public abstract class Instrumentation {
 	
 	// Constructor
 	Instrumentation () {
-		
-		// Has this run's instrumentation directory already been created?
-		instrAvailable = !runDataDir.isEmpty();
-		
-		// if not
-		if (!instrAvailable) {
 
-			// Try to create a "runs" directory file object.
-			String mainPath = System.getProperty("user.home");
-			
-			//System.out.println(mainPath);
-			
-			instrAvailable  = true;
+		synchronized(this) {
 
-			runsPath = mainPath + "/runs";
-					
-			File fileDir1 = new File(runsPath);
+			// Has this run's instrumentation directory already been created?
+			instrAvailable = !runDataDir.isEmpty();
 
-			// if the directory doesn't already exist try to create it
-			if (!fileDir1.exists()) 
-				instrAvailable = fileDir1.mkdirs();
+			// if not
+			if (!instrAvailable) {
 
-			// if the "runs" directory exists
-			if (instrAvailable) {
+				// Try to create a "runs" directory file object.
+				String mainPath = System.getProperty("user.home");
 
-				// Try to create the unique directory for this run
-				SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy.MM.dd__hh.mm");
-				Date date                   = new Date();
-				runDataDir                  = fileDir1.getAbsolutePath() + "/" + dateFormat.format(date);
-				File fileDir2               = new File(runDataDir);
+				//System.out.println(mainPath);
 
-				instrAvailable = fileDir2.mkdir();
+				instrAvailable  = true;
+
+				runsPath = mainPath + "/runs";
+
+				File fileDir1 = new File(runsPath);
+
+				// if the directory doesn't already exist try to create it
+				if (!fileDir1.exists()) 
+					instrAvailable = fileDir1.mkdirs();
+
+				// if the "runs" directory exists
+				if (instrAvailable) {
+
+					// Try to create the unique directory for this run
+					SimpleDateFormat dateFormat = new SimpleDateFormat ("yyyy.MM.dd__hh.mm");
+					Date date                   = new Date();
+					runDataDir                  = fileDir1.getAbsolutePath() + "/" + dateFormat.format(date);
+					File fileDir2               = new File(runDataDir);
+
+					instrAvailable = fileDir2.mkdir();
+				}
 			}
 		}
-
 	}
 	
 	// Recursive method to delete the contents of a file directory and then the
