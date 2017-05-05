@@ -52,7 +52,7 @@ public class EventLogging extends Instrumentation {
 	 *********************************************************************************/
 	public enum INTERESTINGEVENTS {
 						
-						TBD
+						MEASUREMENT_DATA
 	};
 
 	/*********************************************************************************
