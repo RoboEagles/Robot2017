@@ -177,12 +177,13 @@ public class Cam extends Subsystem {
     		System.out.println("Setting camera to teleop");
         	camObject.setResolution(RESOLUTION_X, RESOLUTION_Y);
         	camObject.setFPS(24);
-        	camObject.setBrightness(45);
-        	camObject.setWhiteBalanceAuto();
-        	camObject.setExposureManual(33);
+        	camObject.setBrightness(55);
+        	camObject.setExposureManual(35);
+        	camObject.setWhiteBalanceAuto();        	//camObject.setExposureManual(33);
     	} else System.out.println("Camera is already tele");
     }
     public void changeCameraToAuto() {
+    	/*
     	if (cameraState != "auto") {
     		cameraState = "auto";
     		System.out.println("Setting camera to auto");
@@ -192,6 +193,7 @@ public class Cam extends Subsystem {
         	camObject.setWhiteBalanceManual(0);
         	camObject.setExposureManual(-10);
     	} else System.out.println("Camera is already auto");
+    	*/
     }
     public void setPrimaryContours(ArrayList<MatOfPoint> list) {
     	primaryContourList = list;

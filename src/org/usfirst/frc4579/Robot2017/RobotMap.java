@@ -40,7 +40,7 @@ public class RobotMap {
     public static SpeedController camLightController;
     public static SpeedController driveTraincontrollerLeft;
     public static SpeedController driveTraincontrollerRight;
-    public static RobotDrive driveTrainRobotDrive;
+    //public static RobotDrive driveTrainRobotDrive;
     public static Encoder driveTrainencoder;
     public static DigitalInput switchesmiddle;
     public static DigitalInput switchesrightSwitch;
@@ -68,15 +68,18 @@ public class RobotMap {
         
         driveTraincontrollerRight = new VictorSP(8);
         LiveWindow.addActuator("DriveTrain", "controllerRight", (VictorSP) driveTraincontrollerRight);
-        
+        /*
         driveTrainRobotDrive = new RobotDrive(driveTraincontrollerLeft, driveTraincontrollerRight);
         
         driveTrainRobotDrive.setSafetyEnabled(true);
         driveTrainRobotDrive.setExpiration(0.1);
         driveTrainRobotDrive.setSensitivity(0.5);
         driveTrainRobotDrive.setMaxOutput(1.0);
-
+		
         driveTrainRobotDrive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);
+        */
+        driveTraincontrollerRight.setInverted(true);
+        
         driveTrainencoder = new Encoder(3, 4, false, EncodingType.k4X);
         LiveWindow.addSensor("DriveTrain", "encoder", driveTrainencoder);
         driveTrainencoder.setDistancePerPulse(1.0);

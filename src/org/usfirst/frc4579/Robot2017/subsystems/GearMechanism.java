@@ -47,6 +47,7 @@ public class GearMechanism extends Subsystem {
     	rightServo.setAngle(90);
     	leftServo.setAngle(90);
     }
+    
     public void closeSesame() {
     	rightServo.setAngle(180);
     	leftServo.setAngle(0);
