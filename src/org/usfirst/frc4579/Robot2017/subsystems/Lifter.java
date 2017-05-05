@@ -42,8 +42,9 @@ public class Lifter extends Subsystem {
     	 * Do NOT implement anything that sets the liftMotor to -1(backwards). Setting the liftMotor will break the ratchet.
     	 */
     	double pov = Robot.oi.getLiftJoystick().getPOV();
-    	if (pov == 0) {
-    		liftMotor.set(.75);
+    	//System.out.println(pov);
+    	if (pov == 0 || pov == 315.0 || pov == 45.0) {
+    		liftMotor.set(.9);
     	} else if (pov == 180) {
     		liftMotor.set(-.25);
     	} else {

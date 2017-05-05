@@ -101,7 +101,7 @@ public class DriveTrain extends PIDSubsystem {
 		
 		//Limit the control amount at high and low speeds, to avoid spinouts.
 		double maxSens = 0.55;
-		double minSens = 0.15;
+		double minSens = 0.2;
 		double sensitivity = maxSens - Math.abs(frwd2) * (maxSens - minSens);
 		turn2 = turn2 * sensitivity;
 		

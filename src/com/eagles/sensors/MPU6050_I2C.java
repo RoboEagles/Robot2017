@@ -218,7 +218,7 @@ public class MPU6050_I2C {
 									 yGyroData.axisScaledValue()  + "\t" +
 									 zGyroData.axisScaledValue()  + "\t" +
 									 tempF);
-
+			
 			//SmartDashboard.putString ("MPU6050 Temp:"     , String.format("%5.1f", getTemp()));
 			SmartDashboard.putString ("MPU6050 Read Time:", String.format("%7.4f", readTimer.get()));
 
